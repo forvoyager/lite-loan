@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="global">
+
+  <sql id="globalSort">
+    <if test="sort != null">
+      <![CDATA[ order by ${sort} ]]>
+    </if>
+    <if test="order != null">
+      <![CDATA[ ${order} ]]>
+    </if>
+  </sql>
+
+  <!-- 分页前缀，目前支持三种数据库，mysql，oracle，sqlserver -->
+  <sql id="pageStart">
+    <if test="dbType != null and dbType.toUpperCase()=='MYSQL'">
+      <include refid="global.mysqlPageStart"/>
+    </if>
+    <if test="dbType != null and dbType.toUpperCase()=='ORACLE'">
+    </if>
+    <if test="dbType != null and dbType.toUpperCase()=='SQLSERVER'">
+    </if>
+  </sql>
+
+  <!-- 分页后缀，目前支持三种数据库，mysql，oracle，sqlserver -->
+  <sql id="pageEnd">
+    <if test="dbType != null and dbType.toUpperCase()=='MYSQL'">
+      <include refid="global.mysqlPageEnd"/>
+    </if>
+    <if test="dbType != null and dbType.toUpperCase()=='ORACLE'">
+    </if>
+    <if test="dbType != null and dbType.toUpperCase()=='SQLSERVER'">
+    </if>
+  </sql>
+
+  <!-- mysql分页加前缀以及后缀 -->
+  <sql id="mysqlPageStart">
+        <![CDATA[]]>
+    </sql>
+  <sql id="mysqlPageEnd">
+    <if test="pagestartindex !=null and pagesize != null">
+      <![CDATA[ LIMIT #{pagestartindex},#{pagesize} ]]>
+    </if>
+  </sql>
+
+  <!-- oracle分页加前缀以及后缀 -->
+
+  <!-- sqlserver分页加前缀以及后缀 -->
+
+</mapper>
