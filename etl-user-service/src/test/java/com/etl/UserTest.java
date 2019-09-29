@@ -1,6 +1,9 @@
 package com.etl;
 
+import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.common.enums.Cluster;
+import com.etl.base.common.util.JsonUtil;
+import com.etl.base.common.util.Utils;
 import com.etl.user.UserServiceApplication;
 import com.etl.user.common.model.UserModel;
 import com.etl.user.service.IUserService;
@@ -28,4 +31,15 @@ public class UserTest {
     System.out.println(user);
   }
   
+  @Test
+  public void test_signUp() throws Exception {
+    UserModel user = userService.signUp(0, 15870180319L, Utils.md5("123456"), AccessChannel.PC);
+    System.out.println(user);
+  }
+
+  @Test
+  public void test_signIn() throws Exception {
+    UserModel user = userService.signIn(15870180319L, Utils.md5("123456"));
+    System.out.println(JsonUtil.parseJson(user));
+  }
 }

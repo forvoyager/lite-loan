@@ -1,5 +1,6 @@
 package com.etl.user.service;
 
+import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.jdbc.service.IBaseService;
 import com.etl.user.common.model.UserModel;
 
@@ -9,4 +10,32 @@ import com.etl.user.common.model.UserModel;
  * <b>description</b>: 用户 服务定义 <br>
  */
 public interface IUserService extends IBaseService<UserModel> {
+
+  /**
+   * 注册
+   * @param user_role
+   * @param mobileNumber
+   * @param pwd
+   * @param channel
+   * @return
+   * @throws Exception
+   */
+  UserModel signUp(int user_role, long mobileNumber, String pwd, AccessChannel channel) throws Exception;
+
+  /**
+   * 登录
+   * @param mobileNumber
+   * @param pwd
+   * @return
+   * @throws Exception
+   */
+  UserModel signIn(long mobileNumber, String pwd) throws Exception;
+
+  /**
+   * 退出
+   * @param user_id
+   * @throws Exception
+   */
+  void signOut(long user_id) throws Exception;
+  
 }

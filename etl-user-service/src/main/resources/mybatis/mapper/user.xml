@@ -6,7 +6,7 @@
 <mapper namespace="com.etl.user.mapper.UserMapper">
 
   <sql id="Base_Column_List">
-    `user_id`, `user_name`, `email`, `mobile_number`, `encrypt_salt`, `password`, `pay_password`, `user_role`, `registry_time`, `registry_channel`, `portrait`, `create_time`, `update_time`, `version`
+    `user_id`, `user_name`, `email`, `mobile_number`, `encrypt_salt`, `password`, `pay_password`, `user_role`, `registry_channel`, `portrait`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -48,9 +48,6 @@
     </if>
     <if test="user_role != null">
       <![CDATA[ AND t.`user_role` = #{user_role} ]]>
-    </if>
-    <if test="registry_time != null">
-      <![CDATA[ AND t.`registry_time` = #{registry_time} ]]>
     </if>
     <if test="registry_channel != null">
       <![CDATA[ AND t.`registry_channel` = #{registry_channel} ]]>
@@ -101,9 +98,6 @@
       <if test="user_role != null">
         <![CDATA[ `user_role`, ]]>
       </if>
-      <if test="registry_time != null">
-        <![CDATA[ `registry_time`, ]]>
-      </if>
       <if test="registry_channel != null">
         <![CDATA[ `registry_channel`, ]]>
       </if>
@@ -146,9 +140,6 @@
       <if test="user_role != null">
         <![CDATA[ #{user_role}, ]]>
       </if>
-      <if test="registry_time != null">
-        <![CDATA[ #{registry_time}, ]]>
-      </if>
       <if test="registry_channel != null">
         <![CDATA[ #{registry_channel}, ]]>
       </if>
@@ -169,9 +160,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.user.common.model.UserModel">
-    <![CDATA[ INSERT INTO `etl_user` (`user_id`, `user_name`, `email`, `mobile_number`, `encrypt_salt`, `password`, `pay_password`, `user_role`, `registry_time`, `registry_channel`, `portrait`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO `etl_user` (`user_id`, `user_name`, `email`, `mobile_number`, `encrypt_salt`, `password`, `pay_password`, `user_role`, `registry_channel`, `portrait`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.user_id}, #{item.user_name}, #{item.email}, #{item.mobile_number}, #{item.encrypt_salt}, #{item.password}, #{item.pay_password}, #{item.user_role}, #{item.registry_time}, #{item.registry_channel}, #{item.portrait}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.user_id}, #{item.user_name}, #{item.email}, #{item.mobile_number}, #{item.encrypt_salt}, #{item.password}, #{item.pay_password}, #{item.user_role}, #{item.registry_channel}, #{item.portrait}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -199,9 +190,6 @@
       </if>
       <if test="user_role != null">
         <![CDATA[ t.`user_role` = #{user_role}, ]]>
-      </if>
-      <if test="registry_time != null">
-        <![CDATA[ t.`registry_time` = #{registry_time}, ]]>
       </if>
       <if test="registry_channel != null">
         <![CDATA[ t.`registry_channel` = #{registry_channel}, ]]>

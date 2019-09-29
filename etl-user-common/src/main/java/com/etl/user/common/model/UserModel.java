@@ -17,7 +17,6 @@ public class UserModel extends BaseModel {
   public static final String PASSWORD = "password";
   public static final String PAY_PASSWORD = "pay_password";
   public static final String USER_ROLE = "user_role";
-  public static final String REGISTRY_TIME = "registry_time";
   public static final String REGISTRY_CHANNEL = "registry_channel";
   public static final String PORTRAIT = "portrait";
 
@@ -36,7 +35,7 @@ public class UserModel extends BaseModel {
   /**
    * 手机号
    */
-  private String mobile_number;
+  private Long mobile_number;
   /**
    * 加密盐
    */
@@ -50,13 +49,9 @@ public class UserModel extends BaseModel {
    */
   private String pay_password;
   /**
-   * 用户角色 1-出借人 2-借款人 3-担保人
+   * 用户角色 0-出借人 1-借款人 2-担保人
    */
   private Integer user_role;
-  /**
-   * 注册时间
-   */
-  private Integer registry_time;
   /**
    * 注册渠道
    */
@@ -90,10 +85,10 @@ public class UserModel extends BaseModel {
     return this;
   }
 
-  public String getMobile_number() {
+  public Long getMobile_number() {
     return this.mobile_number;
   }
-  public UserModel setMobile_number(String mobile_number) {
+  public UserModel setMobile_number(Long mobile_number) {
     this.mobile_number = mobile_number;
     return this;
   }
@@ -127,14 +122,6 @@ public class UserModel extends BaseModel {
   }
   public UserModel setUser_role(Integer user_role) {
     this.user_role = user_role;
-    return this;
-  }
-
-  public Integer getRegistry_time() {
-    return this.registry_time;
-  }
-  public UserModel setRegistry_time(Integer registry_time) {
-    this.registry_time = registry_time;
     return this;
   }
 

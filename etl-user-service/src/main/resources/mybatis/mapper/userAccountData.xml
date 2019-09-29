@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- author: forvoyager@outlook.com -->
+<!-- time: 2019-09-29 17:46:22 -->
+<!-- description: 账户流水 数据库操作mapper -->
+<mapper namespace="com.etl.user.mapper.UserAccountDataMapper">
+
+  <sql id="Base_Column_List">
+    `id`, `user_id`, `amount`, `balance`, `income`, `type`, `ref_id`, `ref_table`, `create_time`, `update_time`, `version`
+  </sql>
+
+  <!-- 自定义查询条件 -->
+  <sql id="Custom_Where_Sql">
+
+  </sql>
+
+  <!-- 基础查询条件，不允许修改，自定义条件在Custom_Where_Sql中添加 -->
+  <sql id="Base_Where_Sql">
+    <if test="idList != null and idList.size() > 0">
+      <![CDATA[ AND t.`id` IN ]]>
+      <foreach collection="idList" item="item" open="(" separator="," close=")">
+        <![CDATA[ #{item} ]]>
+      </foreach>
+    </if>
+    <if test="where_version != null">
+      <![CDATA[ AND t.`version` = #{where_version} ]]>
+    </if>
+    <if test="id != null">
+      <![CDATA[ AND t.`id` = #{id} ]]>
+    </if>
+    <if test="user_id != null">
+      <![CDATA[ AND t.`user_id` = #{user_id} ]]>
+    </if>
+    <if test="amount != null">
+      <![CDATA[ AND t.`amount` = #{amount} ]]>
+    </if>
+    <if test="balance != null">
+      <![CDATA[ AND t.`balance` = #{balance} ]]>
+    </if>
+    <if test="income != null">
+      <![CDATA[ AND t.`income` = #{income} ]]>
+    </if>
+    <if test="type != null">
+      <![CDATA[ AND t.`type` = #{type} ]]>
+    </if>
+    <if test="ref_id != null">
+      <![CDATA[ AND t.`ref_id` = #{ref_id} ]]>
+    </if>
+    <if test="ref_table != null">
+      <![CDATA[ AND t.`ref_table` = #{ref_table} ]]>
+    </if>
+    <if test="create_time != null">
+      <![CDATA[ AND t.`create_time` = #{create_time} ]]>
+    </if>
+    <if test="update_time != null">
+      <![CDATA[ AND t.`update_time` = #{update_time} ]]>
+    </if>
+  </sql>
+
+  <sql id="Where_Sql">
+    <where>
+      <include refid="Base_Where_Sql"/>
+      <include refid="Custom_Where_Sql"/>
+    </where>
+  </sql>
+
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.etl.user.common.model.UserAccountDataModel" keyProperty="user_id">
+    <![CDATA[ INSERT INTO `etl_user_account_data` ]]>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        <![CDATA[ `id`, ]]>
+      </if>
+      <if test="user_id != null">
+        <![CDATA[ `user_id`, ]]>
+      </if>
+      <if test="amount != null">
+        <![CDATA[ `amount`, ]]>
+      </if>
+      <if test="balance != null">
+        <![CDATA[ `balance`, ]]>
+      </if>
+      <if test="income != null">
+        <![CDATA[ `income`, ]]>
+      </if>
+      <if test="type != null">
+        <![CDATA[ `type`, ]]>
+      </if>
+      <if test="ref_id != null">
+        <![CDATA[ `ref_id`, ]]>
+      </if>
+      <if test="ref_table != null">
+        <![CDATA[ `ref_table`, ]]>
+      </if>
+      <if test="create_time != null">
+        <![CDATA[ `create_time`, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ `update_time`, ]]>
+      </if>
+      <if test="version != null">
+        <![CDATA[ `version`, ]]>
+      </if>
+    </trim>
+    <![CDATA[ VALUES ]]>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        <![CDATA[ #{id}, ]]>
+      </if>
+      <if test="user_id != null">
+        <![CDATA[ #{user_id}, ]]>
+      </if>
+      <if test="amount != null">
+        <![CDATA[ #{amount}, ]]>
+      </if>
+      <if test="balance != null">
+        <![CDATA[ #{balance}, ]]>
+      </if>
+      <if test="income != null">
+        <![CDATA[ #{income}, ]]>
+      </if>
+      <if test="type != null">
+        <![CDATA[ #{type}, ]]>
+      </if>
+      <if test="ref_id != null">
+        <![CDATA[ #{ref_id}, ]]>
+      </if>
+      <if test="ref_table != null">
+        <![CDATA[ #{ref_table}, ]]>
+      </if>
+      <if test="create_time != null">
+        <![CDATA[ #{create_time}, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ #{update_time}, ]]>
+      </if>
+      <if test="version != null">
+        <![CDATA[ #{version}, ]]>
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 批量插入 -->
+  <insert id="insertBatch" parameterType="com.etl.user.common.model.UserAccountDataModel">
+    <![CDATA[ INSERT INTO `etl_user_account_data` (`id`, `user_id`, `amount`, `balance`, `income`, `type`, `ref_id`, `ref_table`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <foreach collection="list" separator="," item="item">
+      (#{item.id}, #{item.user_id}, #{item.amount}, #{item.balance}, #{item.income}, #{item.type}, #{item.ref_id}, #{item.ref_table}, #{item.create_time}, #{item.update_time}, #{item.version})
+    </foreach>
+  </insert>
+
+  <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
+  <update id="update" parameterType="map">
+    <![CDATA[ UPDATE `etl_user_account_data` t SET t.`version` = t.`version` + 1, ]]>
+    <trim suffixOverrides=",">
+      <if test="user_id != null">
+        <![CDATA[ t.`user_id` = #{user_id}, ]]>
+      </if>
+      <if test="amount != null">
+        <![CDATA[ t.`amount` = #{amount}, ]]>
+      </if>
+      <if test="balance != null">
+        <![CDATA[ t.`balance` = #{balance}, ]]>
+      </if>
+      <if test="income != null">
+        <![CDATA[ t.`income` = #{income}, ]]>
+      </if>
+      <if test="type != null">
+        <![CDATA[ t.`type` = #{type}, ]]>
+      </if>
+      <if test="ref_id != null">
+        <![CDATA[ t.`ref_id` = #{ref_id}, ]]>
+      </if>
+      <if test="ref_table != null">
+        <![CDATA[ t.`ref_table` = #{ref_table}, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ t.`update_time` = #{update_time}, ]]>
+      </if>
+    </trim>
+    <where>
+      <if test="id != null">
+        <![CDATA[ AND t.`id` = #{id} ]]>
+      </if>
+      <if test="where_version != null">
+        <![CDATA[ AND t.`version` = #{where_version} ]]>
+      </if>
+    </where>
+  </update>
+
+  <!-- 删除 -->
+  <delete id="delete" parameterType="map">
+    <![CDATA[ DELETE t FROM `etl_user_account_data` t ]]>
+    <include refid="Where_Sql"/>
+  </delete>
+
+  <!-- 查询行数 -->
+  <select id="selectCount" parameterType="map" resultType="long">
+    <![CDATA[ SELECT COUNT(*) FROM `etl_user_account_data` t ]]>
+    <include refid="Where_Sql"/>
+  </select>
+
+  <!-- 查询记录 -->
+  <select id="selectList" parameterType="map" resultType="com.etl.user.common.model.UserAccountDataModel">
+    <include refid="global.pageStart"/>
+    <![CDATA[ SELECT ]]>
+    <include refid="Base_Column_List"/>
+    <![CDATA[ FROM `etl_user_account_data` t ]]>
+    <include refid="Where_Sql"/>
+    <include refid="global.globalSort"/>
+    <include refid="global.pageEnd"/>
+  </select>
+
+</mapper>
