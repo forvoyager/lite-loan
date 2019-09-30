@@ -56,7 +56,7 @@
   </sql>
 
   <!-- 插入 -->
-  <insert id="insert" parameterType="com.etl.user.common.model.UserAccountModel" keyProperty="user_id">
+  <insert id="insert" parameterType="com.etl.user.common.model.UserAccountModel" keyProperty="user_id" useGeneratedKeys="true">
     <![CDATA[ INSERT INTO `etl_user_account` ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="user_id != null">

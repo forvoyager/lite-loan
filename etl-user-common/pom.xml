@@ -18,12 +18,6 @@
       <artifactId>etl-base-common</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
-    
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
 
   <build>
