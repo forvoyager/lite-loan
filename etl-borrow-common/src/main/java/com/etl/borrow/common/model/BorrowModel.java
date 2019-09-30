@@ -56,7 +56,7 @@ public class BorrowModel extends BaseModel {
   /**
    * 还款方式
    */
-  private Integer repayment_type;
+  private Integer repayment_mode;
   /**
    * 投标开始时间（秒）
    */
@@ -130,11 +130,11 @@ public class BorrowModel extends BaseModel {
     return this;
   }
 
-  public Integer getRepayment_type() {
-    return this.repayment_type;
+  public Integer getRepayment_mode() {
+    return this.repayment_mode;
   }
-  public BorrowModel setRepayment_type(Integer repayment_type) {
-    this.repayment_type = repayment_type;
+  public BorrowModel setRepayment_mode(Integer repayment_mode) {
+    this.repayment_mode = repayment_mode;
     return this;
   }
 

@@ -34,7 +34,7 @@ public class BorrowTest {
     borrowModel.setPeriod(12);
     borrowModel.setApr(10.2);
     borrowModel.setPartion_amount(100*100); // 分
-    borrowModel.setRepayment_type(RepaymentMode.LAST_CAPITAL.getCode());
+    borrowModel.setRepayment_mode(RepaymentMode.LAST_CAPITAL.getCode());
     borrowModel.setCreate_time(current);
     borrowModel.setUpdate_time(current);
     borrowModel = borrowService.insert(borrowModel);
