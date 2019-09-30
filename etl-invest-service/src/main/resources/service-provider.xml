@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+  <dubbo:application name="${spring.application.name}_provider"/>
+  <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+  <dubbo:protocol name="hessian" server="servlet" port="${server.port}"/>
+
+  <!--export service-->
+  <dubbo:service ref="creditorService" interface="com.etl.invest.service.ICreditorService" version="${invest.service.version}" group="${invest.service.group}" filter="remoteServiceFilter" retries="0" />
+  <dubbo:service ref="investRecordService" interface="com.etl.invest.service.IInvestRecordService" version="${invest.service.version}" group="${invest.service.group}" filter="remoteServiceFilter" retries="0" />
+  <dubbo:service ref="profitFormService" interface="com.etl.invest.service.IProfitFormService" version="${invest.service.version}" group="${invest.service.group}" filter="remoteServiceFilter" retries="0" />
+
+</beans>

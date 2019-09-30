@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- author: forvoyager@outlook.com -->
+<!-- time: 2019-09-30 11:51:35 -->
+<!-- description: 债权信息 数据库操作mapper -->
+<mapper namespace="com.etl.invest.mapper.CreditorMapper">
+
+  <sql id="Base_Column_List">
+    `creditor_id`, `parent_creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `surplus_period`, `unpaid_capital`, `unpaid_interest`, `start_time`, `end_time`, `partion`, `create_time`, `update_time`, `version`
+  </sql>
+
+  <!-- 自定义查询条件 -->
+  <sql id="Custom_Where_Sql">
+
+  </sql>
+
+  <!-- 基础查询条件，不允许修改，自定义条件在Custom_Where_Sql中添加 -->
+  <sql id="Base_Where_Sql">
+    <if test="idList != null and idList.size() > 0">
+      <![CDATA[ AND t.`creditor_id` IN ]]>
+      <foreach collection="idList" item="item" open="(" separator="," close=")">
+        <![CDATA[ #{item} ]]>
+      </foreach>
+    </if>
+    <if test="where_version != null">
+      <![CDATA[ AND t.`version` = #{where_version} ]]>
+    </if>
+    <if test="creditor_id != null">
+      <![CDATA[ AND t.`creditor_id` = #{creditor_id} ]]>
+    </if>
+    <if test="parent_creditor_id != null">
+      <![CDATA[ AND t.`parent_creditor_id` = #{parent_creditor_id} ]]>
+    </if>
+    <if test="user_id != null">
+      <![CDATA[ AND t.`user_id` = #{user_id} ]]>
+    </if>
+    <if test="borrow_id != null">
+      <![CDATA[ AND t.`borrow_id` = #{borrow_id} ]]>
+    </if>
+    <if test="status != null">
+      <![CDATA[ AND t.`status` = #{status} ]]>
+    </if>
+    <if test="capital != null">
+      <![CDATA[ AND t.`capital` = #{capital} ]]>
+    </if>
+    <if test="interest != null">
+      <![CDATA[ AND t.`interest` = #{interest} ]]>
+    </if>
+    <if test="period != null">
+      <![CDATA[ AND t.`period` = #{period} ]]>
+    </if>
+    <if test="surplus_period != null">
+      <![CDATA[ AND t.`surplus_period` = #{surplus_period} ]]>
+    </if>
+    <if test="unpaid_capital != null">
+      <![CDATA[ AND t.`unpaid_capital` = #{unpaid_capital} ]]>
+    </if>
+    <if test="unpaid_interest != null">
+      <![CDATA[ AND t.`unpaid_interest` = #{unpaid_interest} ]]>
+    </if>
+    <if test="start_time != null">
+      <![CDATA[ AND t.`start_time` = #{start_time} ]]>
+    </if>
+    <if test="end_time != null">
+      <![CDATA[ AND t.`end_time` = #{end_time} ]]>
+    </if>
+    <if test="partion != null">
+      <![CDATA[ AND t.`partion` = #{partion} ]]>
+    </if>
+    <if test="create_time != null">
+      <![CDATA[ AND t.`create_time` = #{create_time} ]]>
+    </if>
+    <if test="update_time != null">
+      <![CDATA[ AND t.`update_time` = #{update_time} ]]>
+    </if>
+  </sql>
+
+  <sql id="Where_Sql">
+    <where>
+      <include refid="Base_Where_Sql"/>
+      <include refid="Custom_Where_Sql"/>
+    </where>
+  </sql>
+
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.etl.invest.common.model.CreditorModel" keyProperty="creditor_id" useGeneratedKeys="true">
+    <![CDATA[ INSERT INTO `etl_creditor` ]]>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="creditor_id != null">
+        <![CDATA[ `creditor_id`, ]]>
+      </if>
+      <if test="parent_creditor_id != null">
+        <![CDATA[ `parent_creditor_id`, ]]>
+      </if>
+      <if test="user_id != null">
+        <![CDATA[ `user_id`, ]]>
+      </if>
+      <if test="borrow_id != null">
+        <![CDATA[ `borrow_id`, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ `status`, ]]>
+      </if>
+      <if test="capital != null">
+        <![CDATA[ `capital`, ]]>
+      </if>
+      <if test="interest != null">
+        <![CDATA[ `interest`, ]]>
+      </if>
+      <if test="period != null">
+        <![CDATA[ `period`, ]]>
+      </if>
+      <if test="surplus_period != null">
+        <![CDATA[ `surplus_period`, ]]>
+      </if>
+      <if test="unpaid_capital != null">
+        <![CDATA[ `unpaid_capital`, ]]>
+      </if>
+      <if test="unpaid_interest != null">
+        <![CDATA[ `unpaid_interest`, ]]>
+      </if>
+      <if test="start_time != null">
+        <![CDATA[ `start_time`, ]]>
+      </if>
+      <if test="end_time != null">
+        <![CDATA[ `end_time`, ]]>
+      </if>
+      <if test="partion != null">
+        <![CDATA[ `partion`, ]]>
+      </if>
+      <if test="create_time != null">
+        <![CDATA[ `create_time`, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ `update_time`, ]]>
+      </if>
+      <if test="version != null">
+        <![CDATA[ `version`, ]]>
+      </if>
+    </trim>
+    <![CDATA[ VALUES ]]>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="creditor_id != null">
+        <![CDATA[ #{creditor_id}, ]]>
+      </if>
+      <if test="parent_creditor_id != null">
+        <![CDATA[ #{parent_creditor_id}, ]]>
+      </if>
+      <if test="user_id != null">
+        <![CDATA[ #{user_id}, ]]>
+      </if>
+      <if test="borrow_id != null">
+        <![CDATA[ #{borrow_id}, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ #{status}, ]]>
+      </if>
+      <if test="capital != null">
+        <![CDATA[ #{capital}, ]]>
+      </if>
+      <if test="interest != null">
+        <![CDATA[ #{interest}, ]]>
+      </if>
+      <if test="period != null">
+        <![CDATA[ #{period}, ]]>
+      </if>
+      <if test="surplus_period != null">
+        <![CDATA[ #{surplus_period}, ]]>
+      </if>
+      <if test="unpaid_capital != null">
+        <![CDATA[ #{unpaid_capital}, ]]>
+      </if>
+      <if test="unpaid_interest != null">
+        <![CDATA[ #{unpaid_interest}, ]]>
+      </if>
+      <if test="start_time != null">
+        <![CDATA[ #{start_time}, ]]>
+      </if>
+      <if test="end_time != null">
+        <![CDATA[ #{end_time}, ]]>
+      </if>
+      <if test="partion != null">
+        <![CDATA[ #{partion}, ]]>
+      </if>
+      <if test="create_time != null">
+        <![CDATA[ #{create_time}, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ #{update_time}, ]]>
+      </if>
+      <if test="version != null">
+        <![CDATA[ #{version}, ]]>
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 批量插入 -->
+  <insert id="insertBatch" parameterType="com.etl.invest.common.model.CreditorModel">
+    <![CDATA[ INSERT INTO `etl_creditor` (`creditor_id`, `parent_creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `surplus_period`, `unpaid_capital`, `unpaid_interest`, `start_time`, `end_time`, `partion`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <foreach collection="list" separator="," item="item">
+      (#{item.creditor_id}, #{item.parent_creditor_id}, #{item.user_id}, #{item.borrow_id}, #{item.status}, #{item.capital}, #{item.interest}, #{item.period}, #{item.surplus_period}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.start_time}, #{item.end_time}, #{item.partion}, #{item.create_time}, #{item.update_time}, #{item.version})
+    </foreach>
+  </insert>
+
+  <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
+  <update id="update" parameterType="map">
+    <![CDATA[ UPDATE `etl_creditor` t SET t.`version` = t.`version` + 1, ]]>
+    <trim suffixOverrides=",">
+      <if test="parent_creditor_id != null">
+        <![CDATA[ t.`parent_creditor_id` = #{parent_creditor_id}, ]]>
+      </if>
+      <if test="user_id != null">
+        <![CDATA[ t.`user_id` = #{user_id}, ]]>
+      </if>
+      <if test="borrow_id != null">
+        <![CDATA[ t.`borrow_id` = #{borrow_id}, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ t.`status` = #{status}, ]]>
+      </if>
+      <if test="capital != null">
+        <![CDATA[ t.`capital` = #{capital}, ]]>
+      </if>
+      <if test="interest != null">
+        <![CDATA[ t.`interest` = #{interest}, ]]>
+      </if>
+      <if test="period != null">
+        <![CDATA[ t.`period` = #{period}, ]]>
+      </if>
+      <if test="surplus_period != null">
+        <![CDATA[ t.`surplus_period` = #{surplus_period}, ]]>
+      </if>
+      <if test="unpaid_capital != null">
+        <![CDATA[ t.`unpaid_capital` = #{unpaid_capital}, ]]>
+      </if>
+      <if test="unpaid_interest != null">
+        <![CDATA[ t.`unpaid_interest` = #{unpaid_interest}, ]]>
+      </if>
+      <if test="start_time != null">
+        <![CDATA[ t.`start_time` = #{start_time}, ]]>
+      </if>
+      <if test="end_time != null">
+        <![CDATA[ t.`end_time` = #{end_time}, ]]>
+      </if>
+      <if test="partion != null">
+        <![CDATA[ t.`partion` = #{partion}, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ t.`update_time` = #{update_time}, ]]>
+      </if>
+    </trim>
+    <where>
+      <if test="creditor_id != null">
+        <![CDATA[ AND t.`creditor_id` = #{creditor_id} ]]>
+      </if>
+      <if test="where_version != null">
+        <![CDATA[ AND t.`version` = #{where_version} ]]>
+      </if>
+    </where>
+  </update>
+
+  <!-- 删除 -->
+  <delete id="delete" parameterType="map">
+    <![CDATA[ DELETE t FROM `etl_creditor` t ]]>
+    <include refid="Where_Sql"/>
+  </delete>
+
+  <!-- 查询行数 -->
+  <select id="selectCount" parameterType="map" resultType="long">
+    <![CDATA[ SELECT COUNT(*) FROM `etl_creditor` t ]]>
+    <include refid="Where_Sql"/>
+  </select>
+
+  <!-- 查询记录 -->
+  <select id="selectList" parameterType="map" resultType="com.etl.invest.common.model.CreditorModel">
+    <include refid="global.pageStart"/>
+    <![CDATA[ SELECT ]]>
+    <include refid="Base_Column_List"/>
+    <![CDATA[ FROM `etl_creditor` t ]]>
+    <include refid="Where_Sql"/>
+    <include refid="global.globalSort"/>
+    <include refid="global.pageEnd"/>
+  </select>
+
+</mapper>
