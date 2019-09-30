@@ -3,7 +3,7 @@ package com.etl.user.service.impl;
 import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.common.enums.Cluster;
 import com.etl.base.common.util.AssertUtils;
-import com.etl.base.common.util.DateUtil;
+import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.RandomUtils;
 import com.etl.base.common.util.Utils;
 import com.etl.base.jdbc.service.impl.BaseServiceImpl;
@@ -34,7 +34,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> impl
     UserModel user = this.selectOne(Utils.newHashMap(UserModel.MOBILE_NUMBER, mobileNumber), Cluster.master);
     AssertUtils.isNull(user, "手机号已被注册");
 
-    long current = DateUtil.currentTimeInSecond();
+    long current = DateUtils.currentTimeInSecond();
     
     user = new UserModel();
     user.setRegistry_channel(channel.getCode());

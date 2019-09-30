@@ -4,7 +4,7 @@ import com.etl.base.common.enums.Cluster;
 import com.etl.base.common.model.BaseModel;
 import com.etl.base.common.page.PageData;
 import com.etl.base.common.util.AssertUtils;
-import com.etl.base.common.util.DateUtil;
+import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.ReflectUtils;
 import com.etl.base.common.util.Utils;
 import com.etl.base.jdbc.mapper.IBaseMapper;
@@ -43,7 +43,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     AssertUtils.notNull(entity, "insert failed, with invalid param value.");
     BaseModel baseModel = (BaseModel)entity;
     if(baseModel.getCreate_time() == null){
-      baseModel.setCreate_time(DateUtil.currentTimeInSecond());
+      baseModel.setCreate_time(DateUtils.currentTimeInSecond());
     }
     baseModel.setVersion(0);
     baseModel.setUpdate_time(baseModel.getCreate_time());
@@ -110,7 +110,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     AssertUtils.notNull(entity, "update failed, with invalid param value.");
     BaseModel baseModel = (BaseModel)entity;
     if(baseModel.getUpdate_time() == null){
-      baseModel.setUpdate_time(DateUtil.currentTimeInSecond());
+      baseModel.setUpdate_time(DateUtils.currentTimeInSecond());
     }
 
     return this.updateByMap(ReflectUtils.javaBeanToMap(entity));

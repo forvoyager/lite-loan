@@ -2,7 +2,7 @@ package com.etl;
 
 import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.common.enums.Cluster;
-import com.etl.base.common.util.JsonUtil;
+import com.etl.base.common.util.JsonUtils;
 import com.etl.base.common.util.Utils;
 import com.etl.user.UserServiceApplication;
 import com.etl.user.common.model.UserModel;
@@ -40,6 +40,6 @@ public class UserTest {
   @Test
   public void test_signIn() throws Exception {
     UserModel user = userService.signIn(15870180319L, Utils.md5("123456"));
-    System.out.println(JsonUtil.parseJson(user));
+    System.out.println(JsonUtils.parseJson(user));
   }
 }

@@ -1,7 +1,7 @@
 package com.etl.base.common.dto;
 
 import com.etl.base.common.enums.ResultCodeEnum;
-import com.etl.base.common.util.DateUtil;
+import com.etl.base.common.util.DateUtils;
 
 import java.beans.Transient;
 import java.io.Serializable;
@@ -46,7 +46,7 @@ public class ResultDto<T> implements Serializable{
     ResultDto result = new ResultDto();
     result.setCode(ResultCodeEnum.SUCCESS.getCode());
     result.setMessage(msg);
-    result.setTime(DateUtil.currentTimeInSecond());
+    result.setTime(DateUtils.currentTimeInSecond());
     result.setData(data);
     return result;
   }
@@ -63,7 +63,7 @@ public class ResultDto<T> implements Serializable{
     ResultDto result = new ResultDto();
     result.setCode(ResultCodeEnum.SYSTEM_ERROR.getCode());
     result.setMessage(msg);
-    result.setTime(DateUtil.currentTimeInSecond());
+    result.setTime(DateUtils.currentTimeInSecond());
     result.setData(data);
     return result;
   }

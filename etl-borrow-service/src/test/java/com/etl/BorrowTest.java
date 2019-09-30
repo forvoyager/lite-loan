@@ -1,8 +1,9 @@
 package com.etl;
 
-import com.etl.base.common.util.DateUtil;
-import com.etl.base.common.util.JsonUtil;
+import com.etl.base.common.util.DateUtils;
+import com.etl.base.common.util.JsonUtils;
 import com.etl.borrow.BorrowServiceApplication;
+import com.etl.borrow.common.enums.BorrowStatus;
 import com.etl.borrow.common.enums.RepaymentMode;
 import com.etl.borrow.common.model.BorrowModel;
 import com.etl.borrow.service.IBorrowService;
@@ -26,7 +27,7 @@ public class BorrowTest {
   
   @Test
   public void test_insert() throws Exception{
-    long current = DateUtil.currentTimeInSecond();
+    long current = DateUtils.currentTimeInSecond();
     BorrowModel borrowModel = new BorrowModel();
     borrowModel.setUser_id(1L);
     borrowModel.setTitle("借款测试_"+System.currentTimeMillis());
@@ -35,10 +36,11 @@ public class BorrowTest {
     borrowModel.setApr(10.2);
     borrowModel.setPartion_amount(100*100); // 分
     borrowModel.setRepayment_mode(RepaymentMode.LAST_CAPITAL.getCode());
+    borrowModel.setStatus(BorrowStatus.CHECK.getCode());
     borrowModel.setCreate_time(current);
     borrowModel.setUpdate_time(current);
     borrowModel = borrowService.insert(borrowModel);
-    System.out.println(JsonUtil.parseJson(borrowModel));
+    System.out.println(JsonUtils.parseJson(borrowModel));
   }
   
 }

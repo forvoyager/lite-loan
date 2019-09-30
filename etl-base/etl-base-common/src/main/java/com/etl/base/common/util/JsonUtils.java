@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * json operation.
  */
-public class JsonUtil {
+public class JsonUtils {
 
   private static class ObjectMapperHolder {
     private static ObjectMapper JACKSON_OBJECT_MAPPER = new ObjectMapper(); // thread-safe

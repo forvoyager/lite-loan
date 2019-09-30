@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * @summary 日期工具类
  */
-public class DateUtil {
+public class DateUtils {
 
   /**
    * ZoneId: 时区ID，用来确定Instant和LocalDateTime互相转换的规则
@@ -87,5 +87,5 @@ public class DateUtil {
     return true;
   }
 
-  private DateUtil(){}
+  private DateUtils(){}
 }

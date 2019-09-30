@@ -1,7 +1,7 @@
 package com.etl;
 
-import com.etl.base.common.util.DateUtil;
-import com.etl.base.common.util.JsonUtil;
+import com.etl.base.common.util.DateUtils;
+import com.etl.base.common.util.JsonUtils;
 import com.etl.user.UserServiceApplication;
 import com.etl.user.common.model.UserAccountModel;
 import com.etl.user.service.IUserAccountService;
@@ -25,13 +25,13 @@ public class UserAccountTest {
   
   @Test
   public void test_init() throws Exception{
-    long current = DateUtil.currentTimeInSecond();
+    long current = DateUtils.currentTimeInSecond();
     UserAccountModel userAccount = new UserAccountModel();
     userAccount.setUser_id(1L);
     userAccount.setCreate_time(current);
     userAccount.setUpdate_time(current);
     userAccount = userAccountService.insert(userAccount);
-    System.out.println(JsonUtil.parseJson(userAccount));
+    System.out.println(JsonUtils.parseJson(userAccount));
   }
   
 }

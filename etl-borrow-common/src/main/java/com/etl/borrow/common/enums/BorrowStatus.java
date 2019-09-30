@@ -3,30 +3,36 @@ package com.etl.borrow.common.enums;
 /**
  * @Author: forvoyager@outlook.com
  * @Time: 2019-09-30 13:08
- * @Description:
+ * @Description: 标的状态
  */
-public enum RepaymentMode {
+public enum BorrowStatus {
 
-  AVERGE_CAPITAL_PLUS_INEREST(1, "等额本息"),
-  AVERGE_CAPITAL(2, "等额本金"),
-  AVERGE_INEREST(3, "每月付息到期还本"),
+  REFUSE(100, "拒绝申请"),
+  CHECK(200, "初审"),
+  RECHECK(210, "复审"),
+  CHECKED_BID(220, "等待发标"),
+  IN_BID(300, "投标中"),
+  FULL_BID(310, "已满标"),
+  IN_REPAYMENT(400, "还款中"),
+  REPAYMENTED(410, "还款结束"),
+  FAILURE_BID(500, "流标"),
   ;
 
   private int code;
   private String label;
 
-  private RepaymentMode(int code, String label) {
+  private BorrowStatus(int code, String label) {
     this.code = code;
     this.label = label;
   }
 
-  public static RepaymentMode parse(int code) {
-    for (RepaymentMode v : RepaymentMode.values()) {
+  public BorrowStatus parse(int code) {
+    for (BorrowStatus v : BorrowStatus.values()) {
       if (v.code == code) {
         return v;
       }
     }
-    return AVERGE_INEREST;
+    return REFUSE;
   }
 
   public int getCode() {
@@ -44,5 +50,5 @@ public enum RepaymentMode {
   public void setLabel(String label) {
     this.label = label;
   }
-  
+
 }

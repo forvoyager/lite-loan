@@ -1,7 +1,7 @@
 package com.etl;
 
 import com.etl.base.common.enums.AccessChannel;
-import com.etl.base.common.util.JsonUtil;
+import com.etl.base.common.util.JsonUtils;
 import com.etl.invest.InvestServiceApplication;
 import com.etl.invest.common.model.InvestRecordModel;
 import com.etl.invest.service.IInvestRecordService;
@@ -33,7 +33,7 @@ public class InvestTest {
     investRecord.setStatus(0);
     investRecord.setChannel(AccessChannel.PC.getCode());
     investRecord = investRecordService.insert(investRecord);
-    System.out.println(JsonUtil.parseJson(investRecord));
+    System.out.println(JsonUtils.parseJson(investRecord));
   }
   
 }
