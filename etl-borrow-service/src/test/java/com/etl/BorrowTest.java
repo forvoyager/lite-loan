@@ -24,23 +24,36 @@ public class BorrowTest {
   
   @Autowired
   private IBorrowService borrowService;
-  
+
   @Test
-  public void test_insert() throws Exception{
-    long current = DateUtils.currentTimeInSecond();
+  public void test_apply() throws Exception{
+    // 申请借款
     BorrowModel borrowModel = new BorrowModel();
     borrowModel.setUser_id(1L);
     borrowModel.setTitle("借款测试_"+System.currentTimeMillis());
     borrowModel.setAmount(1000000L*100); // 分
     borrowModel.setPeriod(12);
     borrowModel.setApr(10.2);
-    borrowModel.setPartion_amount(100*100); // 分
-    borrowModel.setRepayment_mode(RepaymentMode.LAST_CAPITAL.getCode());
-    borrowModel.setStatus(BorrowStatus.CHECK.getCode());
-    borrowModel.setCreate_time(current);
-    borrowModel.setUpdate_time(current);
-    borrowModel = borrowService.insert(borrowModel);
+    borrowModel.setRepayment_mode(RepaymentMode.AVERGE_INEREST.getCode());
+    borrowModel = borrowService.apply(borrowModel);
     System.out.println(JsonUtils.parseJson(borrowModel));
   }
-  
+
+  @Test
+  public void test_check() throws Exception{
+    // 借款审核
+    borrowService.check(1);
+  }
+
+  @Test
+  public void test_release() throws Exception{
+    // 发布标的
+    borrowService.release(1);
+  }
+
+  @Test
+  public void test_verify() throws Exception{
+    // 满标终审
+    borrowService.verify(1);
+  }
 }

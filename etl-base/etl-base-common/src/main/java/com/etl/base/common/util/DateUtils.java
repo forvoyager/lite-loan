@@ -55,6 +55,17 @@ public class DateUtils {
     return date.getTimeInMillis() / 1000;
   }
 
+  public static long addDay(int term){
+    return addDay(currentTimeInSecond(), term);
+  }
+
+  public static long addDay(long timeInSecond, int term){
+    Calendar date = Calendar.getInstance();
+    date.setTimeInMillis(timeInSecond * 1000);
+    date.add(Calendar.DATE, term);
+    return date.getTimeInMillis() / 1000;
+  }
+
   public static String parseTimestamp(long timeInSecond, String pattern){
     return new SimpleDateFormat(pattern).format(new Date(timeInSecond * 1000));
   }

@@ -8,14 +8,13 @@ package com.etl.borrow.common.enums;
 public enum BorrowStatus {
 
   REFUSE(100, "拒绝申请"),
-  CHECK(200, "初审"),
-  RECHECK(210, "复审"),
-  CHECKED_BID(220, "等待发标"),
-  IN_BID(300, "投标中"),
-  FULL_BID(310, "已满标"),
-  IN_REPAYMENT(400, "还款中"),
-  REPAYMENTED(410, "还款结束"),
-  FAILURE_BID(500, "流标"),
+  CHECK(200, "待审核"),
+  CHECKED(300, "等待发标"),
+  IN_BID(400, "投标中"),
+  FULL_BID(500, "已满标"),
+  IN_REPAYMENT(600, "还款中"),
+  REPAYMENTED(700, "还款结束"),
+  FAILURE_BID(800, "流标"),
   ;
 
   private int code;
@@ -26,7 +25,7 @@ public enum BorrowStatus {
     this.label = label;
   }
 
-  public BorrowStatus parse(int code) {
+  public static BorrowStatus parse(int code) {
     for (BorrowStatus v : BorrowStatus.values()) {
       if (v.code == code) {
         return v;

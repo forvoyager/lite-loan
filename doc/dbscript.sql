@@ -66,7 +66,7 @@ CREATE TABLE `etl_borrow` (
   `period` tinyint(4) NOT NULL DEFAULT '0' COMMENT '借款期数',
   `apr` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '利率',
   `partion_amount` int(11) NOT NULL DEFAULT '0' COMMENT '每份金额（分）',
-  `repayment_type` int(11) NOT NULL DEFAULT '0' COMMENT '还款方式',
+  `repayment_mode` int(11) NOT NULL DEFAULT '0' COMMENT '还款方式',
   `invest_start_time` int(11) NOT NULL DEFAULT '0' COMMENT '投标开始时间（秒）',
   `invest_end_time` int(11) NOT NULL DEFAULT '0' COMMENT '投标结束时间（秒）',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
