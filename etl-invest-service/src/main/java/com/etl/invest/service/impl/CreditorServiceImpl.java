@@ -3,7 +3,7 @@ package com.etl.invest.service.impl;
 import com.etl.base.jdbc.service.impl.BaseServiceImpl;
 import com.etl.invest.common.model.CreditorModel;
 import com.etl.invest.mapper.CreditorMapper;
-import com.etl.invest.service.ICreditorService;
+import com.etl.invest.common.service.ICreditorService;
 import org.springframework.stereotype.Service;
 
 /**

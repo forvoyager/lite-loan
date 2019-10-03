@@ -4,7 +4,8 @@ import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.common.util.JsonUtils;
 import com.etl.invest.InvestServiceApplication;
 import com.etl.invest.common.model.InvestRecordModel;
-import com.etl.invest.service.IInvestRecordService;
+import com.etl.invest.common.service.IInvestRecordService;
+import com.etl.invest.common.service.IInvestService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class InvestTest {
   
   @Autowired
   private IInvestRecordService investRecordService;
+
+  @Autowired
+  private IInvestService investService;
   
   @Test
   public void test_investRecord() throws Exception{
@@ -35,5 +39,9 @@ public class InvestTest {
     investRecord = investRecordService.insert(investRecord);
     System.out.println(JsonUtils.parseJson(investRecord));
   }
-  
+
+  @Test
+  public void test_verifyInitInvestorForm() throws Exception{
+    investService.verifyInitInvestorForm(1L);
+  }
 }

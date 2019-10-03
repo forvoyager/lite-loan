@@ -41,7 +41,7 @@ public class CreditorModel extends BaseModel {
    */
   private Long borrow_id;
   /**
-   * 状态
+   * 状态 0正常 1已结束 2已转让
    */
   private Integer status;
   /**

@@ -1,4 +1,4 @@
-package com.etl.invest.service;
+package com.etl.invest.common.service;
 
 import com.etl.base.jdbc.service.IBaseService;
 import com.etl.invest.common.model.InvestRecordModel;

@@ -3,7 +3,7 @@ package com.etl.user.service.impl;
 import com.etl.base.jdbc.service.impl.BaseServiceImpl;
 import com.etl.user.common.model.UserAccountDataModel;
 import com.etl.user.mapper.UserAccountDataMapper;
-import com.etl.user.service.IUserAccountDataService;
+import com.etl.user.common.service.IUserAccountDataService;
 import org.springframework.stereotype.Service;
 
 /**

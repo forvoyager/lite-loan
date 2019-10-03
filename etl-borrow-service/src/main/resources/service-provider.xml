@@ -9,7 +9,7 @@
   <dubbo:protocol name="hessian" server="servlet" port="${server.port}"/>
 
   <!--export service-->
-  <dubbo:service ref="borrowService" interface="com.etl.borrow.service.IBorrowService" version="${borrow.service.version}" group="${borrow.service.group}" filter="remoteServiceFilter" retries="0" />
-  <dubbo:service ref="repaymentFormService" interface="com.etl.borrow.service.IRepaymentFormService" version="${borrow.service.version}" group="${borrow.service.group}" filter="remoteServiceFilter" retries="0" />
+  <dubbo:service ref="borrowService" interface="com.etl.borrow.common.service.IBorrowService" version="${borrow.service.version}" group="${borrow.service.group}" filter="remoteServiceFilter" retries="0" />
+  <dubbo:service ref="repaymentFormService" interface="com.etl.borrow.common.service.IRepaymentFormService" version="${borrow.service.version}" group="${borrow.service.group}" filter="remoteServiceFilter" retries="0" />
 
 </beans>

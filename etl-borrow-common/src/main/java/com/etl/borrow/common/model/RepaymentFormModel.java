@@ -80,9 +80,9 @@ public class RepaymentFormModel extends BaseModel {
   /**
    * 垫付时间
    */
-  private Integer advance_time;
+  private Long advance_time;
   /**
-   * 状态
+   * 状态 0未还 1已还
    */
   private Integer status;
 
@@ -190,10 +190,10 @@ public class RepaymentFormModel extends BaseModel {
     return this;
   }
 
-  public Integer getAdvance_time() {
+  public Long getAdvance_time() {
     return this.advance_time;
   }
-  public RepaymentFormModel setAdvance_time(Integer advance_time) {
+  public RepaymentFormModel setAdvance_time(Long advance_time) {
     this.advance_time = advance_time;
     return this;
   }

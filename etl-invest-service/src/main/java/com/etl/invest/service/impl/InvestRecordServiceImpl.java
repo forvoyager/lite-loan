@@ -3,7 +3,7 @@ package com.etl.invest.service.impl;
 import com.etl.base.jdbc.service.impl.BaseServiceImpl;
 import com.etl.invest.common.model.InvestRecordModel;
 import com.etl.invest.mapper.InvestRecordMapper;
-import com.etl.invest.service.IInvestRecordService;
+import com.etl.invest.common.service.IInvestRecordService;
 import org.springframework.stereotype.Service;
 
 /**

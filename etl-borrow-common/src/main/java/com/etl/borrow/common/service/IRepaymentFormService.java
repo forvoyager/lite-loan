@@ -1,4 +1,4 @@
-package com.etl.borrow.service;
+package com.etl.borrow.common.service;
 
 import com.etl.base.jdbc.service.IBaseService;
 import com.etl.borrow.common.model.RepaymentFormModel;

@@ -8,9 +8,15 @@ import com.etl.base.jdbc.service.impl.BaseServiceImpl;
 import com.etl.borrow.common.enums.BorrowStatus;
 import com.etl.borrow.common.enums.RepaymentMode;
 import com.etl.borrow.common.model.BorrowModel;
+import com.etl.borrow.common.model.RepaymentFormModel;
 import com.etl.borrow.mapper.BorrowMapper;
-import com.etl.borrow.service.IBorrowService;
+import com.etl.borrow.common.service.IBorrowService;
+import com.etl.borrow.common.service.IRepaymentFormService;
+import com.etl.borrow.common.util.BorrowUtils;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
@@ -94,8 +100,25 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
     // todo 各种验证
 
     // 生成 借款人 还款报表
-    // 生成 投资人 债权信息
-    // 生成 投资人 收益报表
+    List<RepaymentFormModel> repaymentFormModels = BorrowUtils.buildRepaymentForm(borrowModel);
+    repaymentFormService.insertBatch(repaymentFormModels);
+
+    // 标的更新为还款中
+    BorrowModel updateModel = new BorrowModel();
+    updateModel.setBorrow_id(borrow_id);
+    updateModel.setStatus(BorrowStatus.IN_REPAYMENT.getCode());
+    updateModel.setUpdate_time(DateUtils.currentTimeInSecond());
+    updateModel.setWhere_version(borrowModel.getVersion());
+    if( 1 != this.update(updateModel)){
+      Utils.throwsBizException("标的审核失败，请稍后重试。");
+    }
+
+    // 生成投资人债权信息（消息异步处理）
+    // 生成投资人收益报表（消息异步处理）
+
     // 发送满标终审消息
   }
+
+  @Resource
+  private IRepaymentFormService repaymentFormService;
 }

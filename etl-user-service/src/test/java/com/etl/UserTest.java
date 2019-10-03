@@ -6,7 +6,7 @@ import com.etl.base.common.util.JsonUtils;
 import com.etl.base.common.util.Utils;
 import com.etl.user.UserServiceApplication;
 import com.etl.user.common.model.UserModel;
-import com.etl.user.service.IUserService;
+import com.etl.user.common.service.IUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.etl.user.service;
+package com.etl.user.common.service;
 
 import com.etl.base.jdbc.service.IBaseService;
 import com.etl.user.common.model.UserAccountDataModel;

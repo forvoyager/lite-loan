@@ -9,7 +9,7 @@ import com.etl.base.common.util.Utils;
 import com.etl.base.jdbc.service.impl.BaseServiceImpl;
 import com.etl.user.common.model.UserModel;
 import com.etl.user.mapper.UserMapper;
-import com.etl.user.service.IUserService;
+import com.etl.user.common.service.IUserService;
 import org.springframework.stereotype.Service;
 
 /**

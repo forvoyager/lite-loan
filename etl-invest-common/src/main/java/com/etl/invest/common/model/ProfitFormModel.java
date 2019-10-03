@@ -50,6 +50,10 @@ public class ProfitFormModel extends BaseModel {
    * 期数
    */
   private Integer period;
+  /**
+   * 应还款日期
+   */
+  private Long plan_repayment_time;
 
   public Long getId() {
     return this.id;
@@ -115,5 +119,13 @@ public class ProfitFormModel extends BaseModel {
     return this;
   }
 
+  public Long getPlan_repayment_time() {
+    return plan_repayment_time;
+  }
+
+  public ProfitFormModel setPlan_repayment_time(Long plan_repayment_time) {
+    this.plan_repayment_time = plan_repayment_time;
+    return this;
+  }
 }
 

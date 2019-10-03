@@ -4,7 +4,7 @@ import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.JsonUtils;
 import com.etl.user.UserServiceApplication;
 import com.etl.user.common.model.UserAccountModel;
-import com.etl.user.service.IUserAccountService;
+import com.etl.user.common.service.IUserAccountService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

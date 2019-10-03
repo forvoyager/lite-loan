@@ -3,7 +3,7 @@ package com.etl.invest.service.impl;
 import com.etl.base.jdbc.service.impl.BaseServiceImpl;
 import com.etl.invest.common.model.ProfitFormModel;
 import com.etl.invest.mapper.ProfitFormMapper;
-import com.etl.invest.service.IProfitFormService;
+import com.etl.invest.common.service.IProfitFormService;
 import org.springframework.stereotype.Service;
 
 /**

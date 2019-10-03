@@ -3,7 +3,7 @@ package com.etl.borrow.service.impl;
 import com.etl.base.jdbc.service.impl.BaseServiceImpl;
 import com.etl.borrow.common.model.RepaymentFormModel;
 import com.etl.borrow.mapper.RepaymentFormMapper;
-import com.etl.borrow.service.IRepaymentFormService;
+import com.etl.borrow.common.service.IRepaymentFormService;
 import org.springframework.stereotype.Service;
 
 /**

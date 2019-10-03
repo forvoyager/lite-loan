@@ -1,12 +1,10 @@
 package com.etl;
 
-import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.JsonUtils;
 import com.etl.borrow.BorrowServiceApplication;
-import com.etl.borrow.common.enums.BorrowStatus;
 import com.etl.borrow.common.enums.RepaymentMode;
 import com.etl.borrow.common.model.BorrowModel;
-import com.etl.borrow.service.IBorrowService;
+import com.etl.borrow.common.service.IBorrowService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

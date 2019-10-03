@@ -72,6 +72,20 @@ public class FeeCalcUtils {
   }
 
   /**
+   * 每月付息到期还本
+   * 前面每个月支付利息
+   * 最后一个月支付最后一期的利息和本金
+   *
+   * @param capital  本金（贷款本金）
+   * @param yearRate 年利率
+   * @param period   期数（还款总月数）
+   * @return 根据本金、利率和期数计算的还款资金详细信息（包含每月还款计划）
+   */
+  public static RepaymentDetailDto averageInterest(double capital, double yearRate, int period, long startDate) {
+    return new AverageInterest().setCapital(capital).setYearRate(yearRate).setPeriod(period).setStartDate(startDate).calc();
+  }
+
+  /**
    * 等额本金还款
    * 在还款期内把贷款数总额等分，每月偿还同等数额的本金和剩余贷款在该月所产生的利息，这样由于每月的还款本金额固定，
    * 而利息越来越少，借款人起初还款压力较大，但是随时间的推移每月还款数也越来越少。
