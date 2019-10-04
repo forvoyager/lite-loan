@@ -126,8 +126,8 @@ public class InvestServiceImpl implements IInvestService {
       creditorModel.setUser_id(user_id);
       creditorModel.setBorrow_id(borrow_id);
       creditorModel.setStatus(0);
-      creditorModel.setCapital((long)repaymentDetailDto.getCapital()*100);
-      creditorModel.setInterest((long)repaymentDetailDto.getInterest()*100);
+      creditorModel.setCapital((long)(repaymentDetailDto.getCapital()*100));
+      creditorModel.setInterest((long)(repaymentDetailDto.getInterest()*100));
       creditorModel.setPeriod(repaymentDetailDto.getPeriod());
       creditorModel.setSurplus_period(0);
       creditorModel.setUnpaid_capital(creditorModel.getCapital());
@@ -137,6 +137,7 @@ public class InvestServiceImpl implements IInvestService {
       creditorModel.setPartion((int)(invest_amount/100/100));
       creditorModel.setCreate_time(current);
       creditorModel.setUpdate_time(current);
+      creditorModel.setVersion(0);
       creditorModelList.add(creditorModel);
 
       for(RepaymentPerMonthDto plan : repaymentDetailDto.getRepaymentPlan()){
@@ -144,12 +145,13 @@ public class InvestServiceImpl implements IInvestService {
         profitFormModel.setUser_id(user_id);
         profitFormModel.setBorrow_id(borrow_id);
         profitFormModel.setStatus(0);
-        profitFormModel.setCapital((long)plan.getCapital()*100);
-        profitFormModel.setInterest((long)plan.getInterest()*100);
+        profitFormModel.setCapital((long)(plan.getCapital()*100));
+        profitFormModel.setInterest((long)(plan.getInterest()*100));
         profitFormModel.setPeriod(plan.getPeriod());
         profitFormModel.setPlan_repayment_time(plan.getRepaymentDate());
         profitFormModel.setCreate_time(current);
         profitFormModel.setUpdate_time(current);
+        profitFormModel.setVersion(0);
         profitFormModelList.add(profitFormModel);
       }
 
