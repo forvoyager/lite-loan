@@ -4,7 +4,7 @@
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="${spring.application.name}_consumer"/>
+    <!--<dubbo:application name="${spring.application.name}_consumer"/>-->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
     <dubbo:reference id="borrowService" interface="com.etl.borrow.common.service.IBorrowService" version="${borrow.service.version}" group="${borrow.service.group}" />
