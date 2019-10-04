@@ -307,6 +307,7 @@ abstract class CapitalCalc {
     double sumInterest = 0.0;
     double sumTotalAmount = 0.0;
     this.startDate = DateUtils.dateInSecond(this.startDate);
+    rpmtDto.setStart_time(this.startDate);
     for (Integer i = 1; i < this.period + 1; i++) {
       plan = new RepaymentPerMonthDto();
       plan.setPeriod(i);
@@ -331,6 +332,7 @@ abstract class CapitalCalc {
         plan.setTotalAmount(ArithUtils.add(plan.getTotalAmount(), totalAmountError));
       }
 
+      rpmtDto.setEnd_time(plan.getRepaymentDate());
       rpmtDto.addRepaymentPlan(plan);
     }
 

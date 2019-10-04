@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2019-09-30 11:51:35 -->
+<!-- time: 2019-10-04 21:17:30 -->
 <!-- description: 投资人收益报表 数据库操作mapper -->
 <mapper namespace="com.etl.invest.mapper.ProfitFormMapper">
 
   <sql id="Base_Column_List">
-    `id`, `creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `create_time`, `update_time`, `version`
+    `id`, `creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `plan_repayment_time`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -48,6 +48,9 @@
     </if>
     <if test="period != null">
       <![CDATA[ AND t.`period` = #{period} ]]>
+    </if>
+    <if test="plan_repayment_time != null">
+      <![CDATA[ AND t.`plan_repayment_time` = #{plan_repayment_time} ]]>
     </if>
     <if test="create_time != null">
       <![CDATA[ AND t.`create_time` = #{create_time} ]]>
@@ -92,6 +95,9 @@
       <if test="period != null">
         <![CDATA[ `period`, ]]>
       </if>
+      <if test="plan_repayment_time != null">
+        <![CDATA[ `plan_repayment_time`, ]]>
+      </if>
       <if test="create_time != null">
         <![CDATA[ `create_time`, ]]>
       </if>
@@ -128,6 +134,9 @@
       <if test="period != null">
         <![CDATA[ #{period}, ]]>
       </if>
+      <if test="plan_repayment_time != null">
+        <![CDATA[ #{plan_repayment_time}, ]]>
+      </if>
       <if test="create_time != null">
         <![CDATA[ #{create_time}, ]]>
       </if>
@@ -142,9 +151,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.invest.common.model.ProfitFormModel">
-    <![CDATA[ INSERT INTO `etl_profit_form` (`id`, `creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO `etl_profit_form` (`id`, `creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `plan_repayment_time`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.creditor_id}, #{item.user_id}, #{item.borrow_id}, #{item.status}, #{item.capital}, #{item.interest}, #{item.period}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.id}, #{item.creditor_id}, #{item.user_id}, #{item.borrow_id}, #{item.status}, #{item.capital}, #{item.interest}, #{item.period}, #{item.plan_repayment_time}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -172,6 +181,9 @@
       </if>
       <if test="period != null">
         <![CDATA[ t.`period` = #{period}, ]]>
+      </if>
+      <if test="plan_repayment_time != null">
+        <![CDATA[ t.`plan_repayment_time` = #{plan_repayment_time}, ]]>
       </if>
       <if test="update_time != null">
         <![CDATA[ t.`update_time` = #{update_time}, ]]>

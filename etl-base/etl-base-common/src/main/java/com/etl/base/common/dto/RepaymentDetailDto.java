@@ -34,6 +34,14 @@ public class RepaymentDetailDto implements Serializable {
    */
   private double yearRate;
   /**
+   * 计息开始时间
+   */
+  private long start_time;
+  /**
+   * 计息结束时间
+   */
+  private long end_time;
+  /**
    * 每月还款计划
    */
   private List<RepaymentPerMonthDto> repaymentPlan = new ArrayList<RepaymentPerMonthDto>();
@@ -110,4 +118,19 @@ public class RepaymentDetailDto implements Serializable {
     this.repaymentPlan.add(plan);
   }
 
+  public long getStart_time() {
+    return start_time;
+  }
+
+  public void setStart_time(long start_time) {
+    this.start_time = start_time;
+  }
+
+  public long getEnd_time() {
+    return end_time;
+  }
+
+  public void setEnd_time(long end_time) {
+    this.end_time = end_time;
+  }
 }

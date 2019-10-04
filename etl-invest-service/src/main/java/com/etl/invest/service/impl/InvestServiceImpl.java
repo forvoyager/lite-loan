@@ -129,11 +129,11 @@ public class InvestServiceImpl implements IInvestService {
       creditorModel.setCapital((long)(repaymentDetailDto.getCapital()*100));
       creditorModel.setInterest((long)(repaymentDetailDto.getInterest()*100));
       creditorModel.setPeriod(repaymentDetailDto.getPeriod());
-      creditorModel.setSurplus_period(0);
+      creditorModel.setSurplus_period(repaymentDetailDto.getPeriod());
       creditorModel.setUnpaid_capital(creditorModel.getCapital());
       creditorModel.setUnpaid_interest(creditorModel.getInterest());
-      creditorModel.setStart_time(DateUtils.currentDateInSecond());
-      creditorModel.setEnd_time(0L);
+      creditorModel.setStart_time(repaymentDetailDto.getStart_time());
+      creditorModel.setEnd_time(repaymentDetailDto.getEnd_time());
       creditorModel.setPartion((int)(invest_amount/100/100));
       creditorModel.setCreate_time(current);
       creditorModel.setUpdate_time(current);
