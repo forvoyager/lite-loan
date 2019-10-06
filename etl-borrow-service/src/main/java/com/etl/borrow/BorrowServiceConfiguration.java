@@ -1,6 +1,6 @@
 package com.etl.borrow;
 
-import com.alibaba.dubbo.remoting.http.servlet.DispatcherServlet;
+import org.apache.dubbo.remoting.http.servlet.DispatcherServlet;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;

@@ -37,7 +37,7 @@
 
     <!--dubbo start-->
     <dependency>
-      <groupId>com.alibaba</groupId>
+      <groupId>org.apache.dubbo</groupId>
       <artifactId>dubbo</artifactId>
     </dependency>
 
@@ -52,8 +52,13 @@
     </dependency>
 
     <dependency>
-      <groupId>com.101tec</groupId>
-      <artifactId>zkclient</artifactId>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-framework</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-recipes</artifactId>
     </dependency>
     <!--dubbo end-->
 
