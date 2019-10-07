@@ -27,7 +27,6 @@ import java.util.Map;
 /**
  * 数据基础操作实现
  */
-@Transactional(propagation = Propagation.REQUIRED)
 public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IBaseService<T> {
 
   protected Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -37,6 +36,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
   @Autowired
   protected M baseMapper;
 
+  @Transactional(propagation = Propagation.REQUIRED)
   @Override
   public T insert(T entity) throws Exception {
 
@@ -52,6 +52,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     return entity;
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   @Override
   public int insertBatch(List<T> entityList) throws Exception {
 
@@ -61,6 +62,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     return entityList.size();
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   @Override
   public T insertOrUpdate(T entity) throws Exception {
 
@@ -80,6 +82,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     return entity;
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   @Override
   public int deleteById(Serializable id) throws Exception {
 
@@ -88,6 +91,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     return (int)this.deleteByMap(Utils.newHashMap(this.getPrimaryKeyName(), id));
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   @Override
   public long deleteByIds(Collection<? extends Serializable> idList) throws Exception {
 
@@ -96,6 +100,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     return this.deleteByMap(Utils.newHashMap("idList", idList));
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   @Override
   public long deleteByMap(Map<String, Object> condition) throws Exception {
 
@@ -104,6 +109,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     return this.baseMapper.delete(condition);
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   @Override
   public long update(T entity) throws Exception {
 
@@ -116,6 +122,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
     return this.updateByMap(ReflectUtils.javaBeanToMap(entity));
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   @Override
   public long updateByMap(Map<String, Object> columnMap) throws Exception {
 
