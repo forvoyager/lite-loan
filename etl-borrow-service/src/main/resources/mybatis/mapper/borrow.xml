@@ -75,7 +75,7 @@
 
   <!-- 插入 -->
   <insert id="insert" parameterType="com.etl.borrow.common.model.BorrowModel" keyProperty="borrow_id" useGeneratedKeys="true">
-    <![CDATA[ INSERT INTO `etl_borrow` ]]>
+    <![CDATA[ INSERT INTO etl_borrow ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="borrow_id != null">
         <![CDATA[ `borrow_id`, ]]>
@@ -169,7 +169,7 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.borrow.common.model.BorrowModel">
-    <![CDATA[ INSERT INTO `etl_borrow` (`borrow_id`, `user_id`, `title`, `status`, `amount`, `period`, `apr`, `partion_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_borrow (`borrow_id`, `user_id`, `title`, `status`, `amount`, `period`, `apr`, `partion_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
       (#{item.borrow_id}, #{item.user_id}, #{item.title}, #{item.status}, #{item.amount}, #{item.period}, #{item.apr}, #{item.partion_amount}, #{item.repayment_mode}, #{item.invest_start_time}, #{item.invest_end_time}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
@@ -177,7 +177,7 @@
 
   <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
   <update id="update" parameterType="map">
-    <![CDATA[ UPDATE `etl_borrow` t SET t.`version` = t.`version` + 1, ]]>
+    <![CDATA[ UPDATE etl_borrow t SET t.`version` = t.`version` + 1, ]]>
     <trim suffixOverrides=",">
       <if test="user_id != null">
         <![CDATA[ t.`user_id` = #{user_id}, ]]>
@@ -225,13 +225,13 @@
 
   <!-- 删除 -->
   <delete id="delete" parameterType="map">
-    <![CDATA[ DELETE t FROM `etl_borrow` t ]]>
+    <![CDATA[ DELETE t FROM etl_borrow t ]]>
     <include refid="Where_Sql"/>
   </delete>
 
   <!-- 查询行数 -->
   <select id="selectCount" parameterType="map" resultType="long">
-    <![CDATA[ SELECT COUNT(*) FROM `etl_borrow` t ]]>
+    <![CDATA[ SELECT COUNT(*) FROM etl_borrow t ]]>
     <include refid="Where_Sql"/>
   </select>
 
@@ -240,7 +240,7 @@
     <include refid="global.pageStart"/>
     <![CDATA[ SELECT ]]>
     <include refid="Base_Column_List"/>
-    <![CDATA[ FROM `etl_borrow` t ]]>
+    <![CDATA[ FROM etl_borrow t ]]>
     <include refid="Where_Sql"/>
     <include refid="global.globalSort"/>
     <include refid="global.pageEnd"/>

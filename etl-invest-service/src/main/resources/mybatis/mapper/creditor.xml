@@ -84,7 +84,7 @@
 
   <!-- 插入 -->
   <insert id="insert" parameterType="com.etl.invest.common.model.CreditorModel" keyProperty="creditor_id" useGeneratedKeys="true">
-    <![CDATA[ INSERT INTO `etl_creditor` ]]>
+    <![CDATA[ INSERT INTO etl_creditor ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="creditor_id != null">
         <![CDATA[ `creditor_id`, ]]>
@@ -196,7 +196,7 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.invest.common.model.CreditorModel">
-    <![CDATA[ INSERT INTO `etl_creditor` (`creditor_id`, `parent_creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `surplus_period`, `unpaid_capital`, `unpaid_interest`, `start_time`, `end_time`, `partion`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_creditor (`creditor_id`, `parent_creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `surplus_period`, `unpaid_capital`, `unpaid_interest`, `start_time`, `end_time`, `partion`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
       (#{item.creditor_id}, #{item.parent_creditor_id}, #{item.user_id}, #{item.borrow_id}, #{item.status}, #{item.capital}, #{item.interest}, #{item.period}, #{item.surplus_period}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.start_time}, #{item.end_time}, #{item.partion}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
@@ -204,7 +204,7 @@
 
   <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
   <update id="update" parameterType="map">
-    <![CDATA[ UPDATE `etl_creditor` t SET t.`version` = t.`version` + 1, ]]>
+    <![CDATA[ UPDATE etl_creditor t SET t.`version` = t.`version` + 1, ]]>
     <trim suffixOverrides=",">
       <if test="parent_creditor_id != null">
         <![CDATA[ t.`parent_creditor_id` = #{parent_creditor_id}, ]]>
@@ -261,13 +261,13 @@
 
   <!-- 删除 -->
   <delete id="delete" parameterType="map">
-    <![CDATA[ DELETE t FROM `etl_creditor` t ]]>
+    <![CDATA[ DELETE t FROM etl_creditor t ]]>
     <include refid="Where_Sql"/>
   </delete>
 
   <!-- 查询行数 -->
   <select id="selectCount" parameterType="map" resultType="long">
-    <![CDATA[ SELECT COUNT(*) FROM `etl_creditor` t ]]>
+    <![CDATA[ SELECT COUNT(*) FROM etl_creditor t ]]>
     <include refid="Where_Sql"/>
   </select>
 
@@ -276,7 +276,7 @@
     <include refid="global.pageStart"/>
     <![CDATA[ SELECT ]]>
     <include refid="Base_Column_List"/>
-    <![CDATA[ FROM `etl_creditor` t ]]>
+    <![CDATA[ FROM etl_creditor t ]]>
     <include refid="Where_Sql"/>
     <include refid="global.globalSort"/>
     <include refid="global.pageEnd"/>

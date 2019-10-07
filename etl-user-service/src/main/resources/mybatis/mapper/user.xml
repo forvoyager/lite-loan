@@ -72,7 +72,7 @@
 
   <!-- 插入 -->
   <insert id="insert" parameterType="com.etl.user.common.model.UserModel" keyProperty="user_id" useGeneratedKeys="true">
-    <![CDATA[ INSERT INTO `etl_user` ]]>
+    <![CDATA[ INSERT INTO etl_user ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="user_id != null">
         <![CDATA[ `user_id`, ]]>
@@ -160,7 +160,7 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.user.common.model.UserModel">
-    <![CDATA[ INSERT INTO `etl_user` (`user_id`, `user_name`, `email`, `mobile_number`, `encrypt_salt`, `password`, `pay_password`, `user_role`, `registry_channel`, `portrait`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_user (`user_id`, `user_name`, `email`, `mobile_number`, `encrypt_salt`, `password`, `pay_password`, `user_role`, `registry_channel`, `portrait`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
       (#{item.user_id}, #{item.user_name}, #{item.email}, #{item.mobile_number}, #{item.encrypt_salt}, #{item.password}, #{item.pay_password}, #{item.user_role}, #{item.registry_channel}, #{item.portrait}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
@@ -168,7 +168,7 @@
 
   <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
   <update id="update" parameterType="map">
-    <![CDATA[ UPDATE `etl_user` t SET t.`version` = t.`version` + 1, ]]>
+    <![CDATA[ UPDATE etl_user t SET t.`version` = t.`version` + 1, ]]>
     <trim suffixOverrides=",">
       <if test="user_name != null">
         <![CDATA[ t.`user_name` = #{user_name}, ]]>
@@ -213,13 +213,13 @@
 
   <!-- 删除 -->
   <delete id="delete" parameterType="map">
-    <![CDATA[ DELETE t FROM `etl_user` t ]]>
+    <![CDATA[ DELETE t FROM etl_user t ]]>
     <include refid="Where_Sql"/>
   </delete>
 
   <!-- 查询行数 -->
   <select id="selectCount" parameterType="map" resultType="long">
-    <![CDATA[ SELECT COUNT(*) FROM `etl_user` t ]]>
+    <![CDATA[ SELECT COUNT(*) FROM etl_user t ]]>
     <include refid="Where_Sql"/>
   </select>
 
@@ -228,7 +228,7 @@
     <include refid="global.pageStart"/>
     <![CDATA[ SELECT ]]>
     <include refid="Base_Column_List"/>
-    <![CDATA[ FROM `etl_user` t ]]>
+    <![CDATA[ FROM etl_user t ]]>
     <include refid="Where_Sql"/>
     <include refid="global.globalSort"/>
     <include refid="global.pageEnd"/>

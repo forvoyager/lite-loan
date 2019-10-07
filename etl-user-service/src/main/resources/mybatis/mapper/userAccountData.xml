@@ -66,7 +66,7 @@
 
   <!-- 插入 -->
   <insert id="insert" parameterType="com.etl.user.common.model.UserAccountDataModel" keyProperty="user_id" useGeneratedKeys="true">
-    <![CDATA[ INSERT INTO `etl_user_account_data` ]]>
+    <![CDATA[ INSERT INTO etl_user_account_data ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         <![CDATA[ `id`, ]]>
@@ -142,7 +142,7 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.user.common.model.UserAccountDataModel">
-    <![CDATA[ INSERT INTO `etl_user_account_data` (`id`, `user_id`, `amount`, `balance`, `income`, `type`, `ref_id`, `ref_table`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_user_account_data (`id`, `user_id`, `amount`, `balance`, `income`, `type`, `ref_id`, `ref_table`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
       (#{item.id}, #{item.user_id}, #{item.amount}, #{item.balance}, #{item.income}, #{item.type}, #{item.ref_id}, #{item.ref_table}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
@@ -150,7 +150,7 @@
 
   <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
   <update id="update" parameterType="map">
-    <![CDATA[ UPDATE `etl_user_account_data` t SET t.`version` = t.`version` + 1, ]]>
+    <![CDATA[ UPDATE etl_user_account_data t SET t.`version` = t.`version` + 1, ]]>
     <trim suffixOverrides=",">
       <if test="user_id != null">
         <![CDATA[ t.`user_id` = #{user_id}, ]]>
@@ -189,13 +189,13 @@
 
   <!-- 删除 -->
   <delete id="delete" parameterType="map">
-    <![CDATA[ DELETE t FROM `etl_user_account_data` t ]]>
+    <![CDATA[ DELETE t FROM etl_user_account_data t ]]>
     <include refid="Where_Sql"/>
   </delete>
 
   <!-- 查询行数 -->
   <select id="selectCount" parameterType="map" resultType="long">
-    <![CDATA[ SELECT COUNT(*) FROM `etl_user_account_data` t ]]>
+    <![CDATA[ SELECT COUNT(*) FROM etl_user_account_data t ]]>
     <include refid="Where_Sql"/>
   </select>
 
@@ -204,7 +204,7 @@
     <include refid="global.pageStart"/>
     <![CDATA[ SELECT ]]>
     <include refid="Base_Column_List"/>
-    <![CDATA[ FROM `etl_user_account_data` t ]]>
+    <![CDATA[ FROM etl_user_account_data t ]]>
     <include refid="Where_Sql"/>
     <include refid="global.globalSort"/>
     <include refid="global.pageEnd"/>

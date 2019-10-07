@@ -57,7 +57,7 @@
 
   <!-- 插入 -->
   <insert id="insert" parameterType="com.etl.user.common.model.UserAccountModel" keyProperty="user_id" useGeneratedKeys="true">
-    <![CDATA[ INSERT INTO `etl_user_account` ]]>
+    <![CDATA[ INSERT INTO etl_user_account ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="user_id != null">
         <![CDATA[ `user_id`, ]]>
@@ -115,7 +115,7 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.user.common.model.UserAccountModel">
-    <![CDATA[ INSERT INTO `etl_user_account` (`user_id`, `available`, `frozen`, `id_name`, `id_card`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_user_account (`user_id`, `available`, `frozen`, `id_name`, `id_card`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
       (#{item.user_id}, #{item.available}, #{item.frozen}, #{item.id_name}, #{item.id_card}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
@@ -123,7 +123,7 @@
 
   <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
   <update id="update" parameterType="map">
-    <![CDATA[ UPDATE `etl_user_account` t SET t.`version` = t.`version` + 1, ]]>
+    <![CDATA[ UPDATE etl_user_account t SET t.`version` = t.`version` + 1, ]]>
     <trim suffixOverrides=",">
       <if test="available != null">
         <![CDATA[ t.`available` = #{available}, ]]>
@@ -153,13 +153,13 @@
 
   <!-- 删除 -->
   <delete id="delete" parameterType="map">
-    <![CDATA[ DELETE t FROM `etl_user_account` t ]]>
+    <![CDATA[ DELETE t FROM etl_user_account t ]]>
     <include refid="Where_Sql"/>
   </delete>
 
   <!-- 查询行数 -->
   <select id="selectCount" parameterType="map" resultType="long">
-    <![CDATA[ SELECT COUNT(*) FROM `etl_user_account` t ]]>
+    <![CDATA[ SELECT COUNT(*) FROM etl_user_account t ]]>
     <include refid="Where_Sql"/>
   </select>
 
@@ -168,7 +168,7 @@
     <include refid="global.pageStart"/>
     <![CDATA[ SELECT ]]>
     <include refid="Base_Column_List"/>
-    <![CDATA[ FROM `etl_user_account` t ]]>
+    <![CDATA[ FROM etl_user_account t ]]>
     <include refid="Where_Sql"/>
     <include refid="global.globalSort"/>
     <include refid="global.pageEnd"/>

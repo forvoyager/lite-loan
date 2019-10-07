@@ -87,7 +87,7 @@
 
   <!-- 插入 -->
   <insert id="insert" parameterType="com.etl.borrow.common.model.RepaymentFormModel" keyProperty="id" useGeneratedKeys="true">
-    <![CDATA[ INSERT INTO `etl_repayment_form` ]]>
+    <![CDATA[ INSERT INTO etl_repayment_form ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         <![CDATA[ `id`, ]]>
@@ -205,7 +205,7 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.borrow.common.model.RepaymentFormModel">
-    <![CDATA[ INSERT INTO `etl_repayment_form` (`id`, `borrow_id`, `user_id`, `period`, `capital`, `interest`, `manage_fee`, `plan_repayment_time`, `actual_repayment_time`, `overdue_days`, `overdue_penalty`, `reduction_amount`, `advance`, `advance_time`, `status`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_repayment_form (`id`, `borrow_id`, `user_id`, `period`, `capital`, `interest`, `manage_fee`, `plan_repayment_time`, `actual_repayment_time`, `overdue_days`, `overdue_penalty`, `reduction_amount`, `advance`, `advance_time`, `status`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
       (#{item.id}, #{item.borrow_id}, #{item.user_id}, #{item.period}, #{item.capital}, #{item.interest}, #{item.manage_fee}, #{item.plan_repayment_time}, #{item.actual_repayment_time}, #{item.overdue_days}, #{item.overdue_penalty}, #{item.reduction_amount}, #{item.advance}, #{item.advance_time}, #{item.status}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
@@ -213,7 +213,7 @@
 
   <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
   <update id="update" parameterType="map">
-    <![CDATA[ UPDATE `etl_repayment_form` t SET t.`version` = t.`version` + 1, ]]>
+    <![CDATA[ UPDATE etl_repayment_form t SET t.`version` = t.`version` + 1, ]]>
     <trim suffixOverrides=",">
       <if test="borrow_id != null">
         <![CDATA[ t.`borrow_id` = #{borrow_id}, ]]>
@@ -273,13 +273,13 @@
 
   <!-- 删除 -->
   <delete id="delete" parameterType="map">
-    <![CDATA[ DELETE t FROM `etl_repayment_form` t ]]>
+    <![CDATA[ DELETE t FROM etl_repayment_form t ]]>
     <include refid="Where_Sql"/>
   </delete>
 
   <!-- 查询行数 -->
   <select id="selectCount" parameterType="map" resultType="long">
-    <![CDATA[ SELECT COUNT(*) FROM `etl_repayment_form` t ]]>
+    <![CDATA[ SELECT COUNT(*) FROM etl_repayment_form t ]]>
     <include refid="Where_Sql"/>
   </select>
 
@@ -288,7 +288,7 @@
     <include refid="global.pageStart"/>
     <![CDATA[ SELECT ]]>
     <include refid="Base_Column_List"/>
-    <![CDATA[ FROM `etl_repayment_form` t ]]>
+    <![CDATA[ FROM etl_repayment_form t ]]>
     <include refid="Where_Sql"/>
     <include refid="global.globalSort"/>
     <include refid="global.pageEnd"/>
