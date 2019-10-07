@@ -18,5 +18,7 @@
        default-lazy-init="true">
 
   <import resource="classpath*:service-provider.xml" />
-  
+
+  <import resource="classpath*:service-consumer.xml" />
+
 </beans>

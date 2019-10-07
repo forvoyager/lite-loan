@@ -13,7 +13,9 @@ import com.etl.borrow.mapper.BorrowMapper;
 import com.etl.borrow.common.service.IBorrowService;
 import com.etl.borrow.common.service.IRepaymentFormService;
 import com.etl.borrow.common.util.BorrowUtils;
+import io.seata.core.context.RootContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -88,8 +90,10 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
     }
   }
 
+  @Transactional
   @Override
-  public void verify(long borrow_id) throws Exception {
+  public void verifyInitBorrowerForm(long borrow_id) throws Exception {
+    logger.info("global tx id:{}", RootContext.getXID());
     BorrowModel borrowModel = this.selectById(borrow_id, Cluster.master);
     AssertUtils.notNull(borrowModel, "标的不存在");
 
@@ -113,10 +117,6 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
       Utils.throwsBizException("标的审核失败，请稍后重试。");
     }
 
-    // 生成投资人债权信息（消息异步处理）
-    // 生成投资人收益报表（消息异步处理）
-
-    // 发送满标终审消息
   }
 
   @Resource

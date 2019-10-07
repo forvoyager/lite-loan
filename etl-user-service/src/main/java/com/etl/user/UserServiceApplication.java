@@ -2,6 +2,7 @@ package com.etl.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ImportResource;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.ImportResource;
  * @Time: 2019-09-27 14:17
  * @Description:
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @ImportResource("classpath:spring.xml")
 public class UserServiceApplication {
 

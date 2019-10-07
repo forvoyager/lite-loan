@@ -142,7 +142,13 @@
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
-        <version>5.1.8</version>
+        <version>8.0.17</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>1.1.12</version>
       </dependency>
 
       <dependency>
@@ -171,7 +177,34 @@
         <version>2.9.9</version>
       </dependency>
       <!--jackson end-->
-      
+
+
+      <!--seata start-->
+      <dependency>
+        <groupId>io.seata</groupId>
+        <artifactId>seata-all</artifactId>
+        <version>0.8.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-all</artifactId>
+        <version>4.1.24.Final</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.101tec</groupId>
+        <artifactId>zkclient</artifactId>
+        <version>0.10</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <!--seata end-->
+
     </dependencies>
   </dependencyManagement>
 

@@ -4,12 +4,14 @@ import com.etl.base.common.util.JsonUtils;
 import com.etl.borrow.BorrowServiceApplication;
 import com.etl.borrow.common.enums.RepaymentMode;
 import com.etl.borrow.common.model.BorrowModel;
+import com.etl.borrow.common.service.IBorrowBiz;
 import com.etl.borrow.common.service.IBorrowService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
 
 /**
  * @Author: forvoyager@outlook.com
@@ -20,8 +22,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = BorrowServiceApplication.class)
 public class BorrowTest {
   
-  @Autowired
+  @Resource
   private IBorrowService borrowService;
+
+  @Resource
+  private IBorrowBiz borrowBiz;
 
   @Test
   public void test_apply() throws Exception{
@@ -52,6 +57,6 @@ public class BorrowTest {
   @Test
   public void test_verify() throws Exception{
     // 满标终审
-    borrowService.verify(1);
+    borrowBiz.verify(1);
   }
 }

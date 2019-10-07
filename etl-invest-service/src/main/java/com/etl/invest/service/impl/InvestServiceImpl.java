@@ -18,6 +18,7 @@ import com.etl.invest.common.service.ICreditorService;
 import com.etl.invest.common.service.IInvestRecordService;
 import com.etl.invest.common.service.IInvestService;
 import com.etl.invest.common.service.IProfitFormService;
+import io.seata.core.context.RootContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,6 +80,7 @@ public class InvestServiceImpl implements IInvestService {
   @Override
   public void verifyInitInvestorForm(long borrow_id) throws Exception {
 
+    System.out.println("global tx id:{}" + RootContext.getXID());
     List<InvestRecordModel> allInvestRecords = investRecordService.selectList(Utils.newHashMap(
             InvestRecordModel.BORROW_ID, borrow_id,
             InvestRecordModel.STATUS, 1

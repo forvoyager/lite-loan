@@ -56,19 +56,11 @@ public interface IBorrowService extends IBaseService<BorrowModel> {
   void release(long borrow_id) throws Exception;
 
   /**
-   * 借款项目 已满标，执行满标终审。
-   *
-   * 满标终审主要操作内容如下：
-   * 生成 借款人 还款报表
-   * 生成 投资人 债权信息
-   * 生成 投资人 收益报表
-   * 发送满标终审消息
-   *
-   * 进入还款流程，状态变为 com.etl.borrow.common.enums.BorrowStatus#IN_REPAYMENT
+   * 满标终审 初始化 借款人 的还款报表，更新标的信息
    *
    * @param borrow_id
    * @throws Exception
    */
-  void verify(long borrow_id) throws Exception;
+  void verifyInitBorrowerForm(long borrow_id) throws Exception;
 
 }
