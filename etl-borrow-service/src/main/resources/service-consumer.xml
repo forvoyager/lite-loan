@@ -4,7 +4,7 @@
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <!--<dubbo:application name="${spring.application.name}_consumer"/>-->
+    <!--<dubbo:application name="${spring.application.name}"/>-->
     <dubbo:registry address="zookeeper://127.0.0.1:2181" client="curator"/>
 
     <dubbo:reference id="investService" interface="com.etl.invest.common.service.IInvestService" version="${invest.service.version}" group="${invest.service.group}" check="false" />

@@ -6,7 +6,8 @@
 
   <dubbo:application name="${spring.application.name}_provider"/>
   <dubbo:registry address="zookeeper://127.0.0.1:2181" client="curator"/>
-  <dubbo:protocol name="hessian" server="servlet" port="${server.port}"/>
+  <!--<dubbo:protocol name="hessian" server="servlet" port="${server.port}"/>-->
+  <dubbo:protocol name="dubbo" server="netty" port="10001"/>
 
   <!--export service-->
   <dubbo:service ref="userService" interface="com.etl.user.common.service.IUserService" version="${user.service.version}" group="${user.service.group}" filter="remoteServiceFilter" retries="0" />

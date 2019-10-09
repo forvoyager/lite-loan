@@ -9,10 +9,10 @@ import com.etl.borrow.common.enums.BorrowStatus;
 import com.etl.borrow.common.enums.RepaymentMode;
 import com.etl.borrow.common.model.BorrowModel;
 import com.etl.borrow.common.model.RepaymentFormModel;
-import com.etl.borrow.mapper.BorrowMapper;
 import com.etl.borrow.common.service.IBorrowService;
 import com.etl.borrow.common.service.IRepaymentFormService;
 import com.etl.borrow.common.util.BorrowUtils;
+import com.etl.borrow.mapper.BorrowMapper;
 import io.seata.core.context.RootContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,7 +93,9 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
   @Transactional
   @Override
   public void verifyInitBorrowerForm(long borrow_id) throws Exception {
-    logger.info("global tx id:{}", RootContext.getXID());
+
+    logger.info("tx_xid:{}", RootContext.getXID());
+    
     BorrowModel borrowModel = this.selectById(borrow_id, Cluster.master);
     AssertUtils.notNull(borrowModel, "标的不存在");
 

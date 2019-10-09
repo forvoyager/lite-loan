@@ -5,6 +5,8 @@ import com.etl.borrow.common.service.IBorrowService;
 import com.etl.invest.common.service.IInvestService;
 import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import javax.annotation.Resource;
 @Service("borrowBiz")
 public class BorrowBizImpl implements IBorrowBiz {
 
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
+  
   @Resource
   private IBorrowService borrowService;
 
@@ -28,7 +32,7 @@ public class BorrowBizImpl implements IBorrowBiz {
   @Override
   public void verify(long borrow_id) throws Exception {
 
-    System.out.println("--------------:"+RootContext.getXID());
+    logger.info("tx_xid:{}", RootContext.getXID());
 
     // 生成 借款人 还款报表
     borrowService.verifyInitBorrowerForm(borrow_id);

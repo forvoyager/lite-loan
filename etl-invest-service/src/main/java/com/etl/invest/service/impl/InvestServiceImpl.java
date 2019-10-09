@@ -19,6 +19,8 @@ import com.etl.invest.common.service.IInvestRecordService;
 import com.etl.invest.common.service.IInvestService;
 import com.etl.invest.common.service.IProfitFormService;
 import io.seata.core.context.RootContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,8 @@ import java.util.Map.Entry;
 @Service("investService")
 public class InvestServiceImpl implements IInvestService {
 
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
+  
   @Resource
   private ICreditorService creditorService;
 
@@ -80,10 +84,11 @@ public class InvestServiceImpl implements IInvestService {
   @Override
   public void verifyInitInvestorForm(long borrow_id) throws Exception {
 
-    System.out.println("global tx id:{}" + RootContext.getXID());
+    logger.info("tx_xid:{}", RootContext.getXID());
+    
     List<InvestRecordModel> allInvestRecords = investRecordService.selectList(Utils.newHashMap(
             InvestRecordModel.BORROW_ID, borrow_id,
-            InvestRecordModel.STATUS, 1
+            InvestRecordModel.STATUS, 0
     ), Cluster.master);
     AssertUtils.notEmpty(allInvestRecords, "投资记录不正确，标的："+borrow_id);
 

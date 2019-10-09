@@ -68,6 +68,18 @@
     </dependency>
     <!--dubbo end-->
 
+    <!--seata start-->
+    <dependency>
+      <groupId>io.seata</groupId>
+      <artifactId>seata-all</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.101tec</groupId>
+      <artifactId>zkclient</artifactId>
+    </dependency>
+    <!--seata end-->
+
   </dependencies>
 
   <build>

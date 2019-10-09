@@ -17,7 +17,7 @@ public class BorrowModel extends BaseModel {
   public static final String PERIOD = "period";
   public static final String APR = "apr";
   public static final String PARTION_AMOUNT = "partion_amount";
-  public static final String REPAYMENT_TYPE = "repayment_type";
+  public static final String REPAYMENT_MODE = "repayment_mode";
   public static final String INVEST_START_TIME = "invest_start_time";
   public static final String INVEST_END_TIME = "invest_end_time";
 
