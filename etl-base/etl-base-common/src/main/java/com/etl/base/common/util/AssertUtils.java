@@ -42,16 +42,14 @@ public final class AssertUtils {
     }
 
     public static void largeThanZero(double a, String message) {
-        notNull(a, "data must not be null");
         if( a <= 0){
-            throw new BaseException(ResultCodeEnum.ILLEGAL_ARGUMENT, message);
+            throw new BaseException(ResultCodeEnum.ILLEGAL_STATUS, message);
         }
     }
 
     public static void largeThanZero(long a, String message) {
-        notNull(a, "data must not be null");
         if( a <= 0){
-            throw new BaseException(ResultCodeEnum.ILLEGAL_ARGUMENT, message);
+            throw new BaseException(ResultCodeEnum.ILLEGAL_STATUS, message);
         }
     }
 
@@ -60,8 +58,13 @@ public final class AssertUtils {
         try {
             Double.valueOf(obj.toString());
         } catch (NumberFormatException nfe){
-            throw new BaseException(ResultCodeEnum.ILLEGAL_ARGUMENT, message);
+            throw new BaseException(ResultCodeEnum.ILLEGAL_STATUS, message);
         }
+    }
+
+    public static void isTrue(boolean isTrue, String message) {
+        if(isTrue){ return; }
+        throw new BaseException(ResultCodeEnum.ILLEGAL_STATUS, message);
     }
     
     private AssertUtils(){}

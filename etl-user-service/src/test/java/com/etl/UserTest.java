@@ -33,7 +33,7 @@ public class UserTest {
   
   @Test
   public void test_signUp() throws Exception {
-    UserModel user = userService.signUp(0, 15870180319L, Utils.md5("123456"), AccessChannel.PC);
+    UserModel user = userService.signUp(0, Long.valueOf("158"+String.valueOf(System.currentTimeMillis()/100000)), Utils.md5("123456"), AccessChannel.PC);
     System.out.println(user);
   }
 

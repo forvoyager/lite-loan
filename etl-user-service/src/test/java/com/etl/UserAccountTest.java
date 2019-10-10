@@ -1,8 +1,10 @@
 package com.etl;
 
+import com.etl.base.common.enums.RefTable;
 import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.JsonUtils;
 import com.etl.user.UserServiceApplication;
+import com.etl.user.common.enums.FundsOperateType;
 import com.etl.user.common.model.UserAccountModel;
 import com.etl.user.common.service.IUserAccountService;
 import org.junit.Test;
@@ -34,4 +36,24 @@ public class UserAccountTest {
     System.out.println(JsonUtils.parseJson(userAccount));
   }
   
+  @Test
+  public void test_frozen() throws Exception{
+
+    userAccountService.frozen(11, 100*100, FundsOperateType.invest_frozen, RefTable.invest_record, 10);
+    
+  }
+
+  @Test
+  public void test_unfrozen() throws Exception{
+
+    userAccountService.unfrozen(11, 100*100, FundsOperateType.invest_unfrozen, RefTable.invest_record, 10);
+
+  }
+
+  @Test
+  public void test_pay() throws Exception{
+
+    userAccountService.pay(11, 100*100, FundsOperateType.invest_pay, RefTable.invest_record, 10);
+
+  }
 }

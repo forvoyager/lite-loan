@@ -57,10 +57,17 @@ public class InvestServiceImpl implements IInvestService {
   @Transactional
   @Override
   public void apply(long user_id, long borrow_id, long amount, AccessChannel channel) throws Exception {
-    long current = DateUtils.currentTimeInSecond();
-
+    
+    // 默认
+    if (channel == null) { channel = AccessChannel.PC; }
+    
     // 信息验证
+    AssertUtils.isTrue(amount > 0, "金额不合法");
 
+    long current = DateUtils.currentTimeInSecond();
+    
+    // 减少标的可投金额
+    
     // 资金冻结
 
     // 记录投资信息
@@ -69,7 +76,6 @@ public class InvestServiceImpl implements IInvestService {
     investRecord.setBorrow_id(borrow_id);
     investRecord.setInvest_amount(amount);
     investRecord.setPartion((int)amount/100);
-
     investRecord.setChannel(channel.getCode());
     investRecord.setStatus(0);
     investRecord.setCreate_time(current);

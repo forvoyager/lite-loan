@@ -14,6 +14,7 @@ public class BorrowModel extends BaseModel {
   public static final String TITLE = "title";
   public static final String STATUS = "status";
   public static final String AMOUNT = "amount";
+  public static final String AVAILABLE_AMOUNT = "available_amount";
   public static final String PERIOD = "period";
   public static final String APR = "apr";
   public static final String PARTION_AMOUNT = "partion_amount";
@@ -41,6 +42,10 @@ public class BorrowModel extends BaseModel {
    * 借款金额（分）
    */
   private Long amount;
+  /**
+   * 剩余可投金额（分）
+   */
+  private Long available_amount;
   /**
    * 借款期数
    */
@@ -103,6 +108,14 @@ public class BorrowModel extends BaseModel {
   }
   public BorrowModel setAmount(Long amount) {
     this.amount = amount;
+    return this;
+  }
+
+  public Long getAvailable_amount() {
+    return this.available_amount;
+  }
+  public BorrowModel setAvailable_amount(Long available_amount) {
+    this.available_amount = available_amount;
     return this;
   }
 

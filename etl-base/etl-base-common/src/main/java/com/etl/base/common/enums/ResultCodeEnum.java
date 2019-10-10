@@ -6,8 +6,7 @@ package com.etl.base.common.enums;
 public enum ResultCodeEnum {
 
   SUCCESS("200", "成功"),
-  ILLEGAL_ARGUMENT("300", "不合法的参数"),
-  ILLEGAL_STATUS("400", "不合法的状态"),
+  ILLEGAL_STATUS("400", "不合法的参数"),
   SYSTEM_ERROR("500", "系统错误"),
   ;
 

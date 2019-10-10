@@ -51,8 +51,6 @@ CREATE TABLE `etl_user_account_data` (
   `ref_id` int(11) NOT NULL DEFAULT '0' COMMENT '关联ID',
   `ref_table` smallint(3) NOT NULL DEFAULT '0' COMMENT '关联表',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
-  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
-  `version` smallint(6) DEFAULT '0' COMMENT '版本号，每次更新+1',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='账户流水';
@@ -64,6 +62,7 @@ CREATE TABLE `etl_borrow` (
   `title` varchar(100) NOT NULL COMMENT '标题',
   `status` smallint(4) NOT NULL DEFAULT '0' COMMENT '状态 0未还 1已还',
   `amount` int(11) NOT NULL DEFAULT '0' COMMENT '借款金额（分）',
+  `available_amount` int(11) NOT NULL DEFAULT '0' COMMENT '剩余可投金额（分）',
   `period` tinyint(4) NOT NULL DEFAULT '0' COMMENT '借款期数',
   `apr` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '利率',
   `partion_amount` int(11) NOT NULL DEFAULT '0' COMMENT '每份金额（分）',

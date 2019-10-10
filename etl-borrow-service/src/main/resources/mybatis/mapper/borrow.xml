@@ -6,7 +6,7 @@
 <mapper namespace="com.etl.borrow.mapper.BorrowMapper">
 
   <sql id="Base_Column_List">
-    `borrow_id`, `user_id`, `title`, `status`, `amount`, `period`, `apr`, `partion_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`
+    `borrow_id`, `user_id`, `title`, `status`, `amount`, `available_amount`, `period`, `apr`, `partion_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -39,6 +39,9 @@
     </if>
     <if test="amount != null">
       <![CDATA[ AND t.`amount` = #{amount} ]]>
+    </if>
+    <if test="available_amount != null">
+      <![CDATA[ AND t.`available_amount` = #{available_amount} ]]>
     </if>
     <if test="period != null">
       <![CDATA[ AND t.`period` = #{period} ]]>
@@ -92,6 +95,9 @@
       <if test="amount != null">
         <![CDATA[ `amount`, ]]>
       </if>
+      <if test="available_amount != null">
+        <![CDATA[ `available_amount`, ]]>
+      </if>
       <if test="period != null">
         <![CDATA[ `period`, ]]>
       </if>
@@ -137,6 +143,9 @@
       <if test="amount != null">
         <![CDATA[ #{amount}, ]]>
       </if>
+      <if test="available_amount != null">
+        <![CDATA[ #{available_amount}, ]]>
+      </if>
       <if test="period != null">
         <![CDATA[ #{period}, ]]>
       </if>
@@ -169,9 +178,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.borrow.common.model.BorrowModel">
-    <![CDATA[ INSERT INTO etl_borrow (`borrow_id`, `user_id`, `title`, `status`, `amount`, `period`, `apr`, `partion_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_borrow (`borrow_id`, `user_id`, `title`, `status`, `amount`, `available_amount`, `period`, `apr`, `partion_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.borrow_id}, #{item.user_id}, #{item.title}, #{item.status}, #{item.amount}, #{item.period}, #{item.apr}, #{item.partion_amount}, #{item.repayment_mode}, #{item.invest_start_time}, #{item.invest_end_time}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.borrow_id}, #{item.user_id}, #{item.title}, #{item.status}, #{item.amount}, #{item.available_amount}, #{item.period}, #{item.apr}, #{item.partion_amount}, #{item.repayment_mode}, #{item.invest_start_time}, #{item.invest_end_time}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -190,6 +199,9 @@
       </if>
       <if test="amount != null">
         <![CDATA[ t.`amount` = #{amount}, ]]>
+      </if>
+      <if test="available_amount != null">
+        <![CDATA[ t.`available_amount` = #{available_amount}, ]]>
       </if>
       <if test="period != null">
         <![CDATA[ t.`period` = #{period}, ]]>
