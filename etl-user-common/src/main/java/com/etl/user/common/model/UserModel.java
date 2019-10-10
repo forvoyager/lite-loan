@@ -19,11 +19,12 @@ public class UserModel extends BaseModel {
   public static final String USER_ROLE = "user_role";
   public static final String REGISTRY_CHANNEL = "registry_channel";
   public static final String PORTRAIT = "portrait";
+  public static final String LAST_SIGNIN_TIME = "last_signin_time";
 
   /**
    * 用户ID
    */
-  private Integer user_id;
+  private Long user_id;
   /**
    * 用户名
    */
@@ -60,11 +61,15 @@ public class UserModel extends BaseModel {
    * 头像
    */
   private String portrait;
+  /**
+   * 最后登陆时间（秒）
+   */
+  private Long last_signin_time;
 
-  public Integer getUser_id() {
+  public Long getUser_id() {
     return this.user_id;
   }
-  public UserModel setUser_id(Integer user_id) {
+  public UserModel setUser_id(Long user_id) {
     this.user_id = user_id;
     return this;
   }
@@ -138,6 +143,14 @@ public class UserModel extends BaseModel {
   }
   public UserModel setPortrait(String portrait) {
     this.portrait = portrait;
+    return this;
+  }
+
+  public Long getLast_signin_time() {
+    return this.last_signin_time;
+  }
+  public UserModel setLast_signin_time(Long last_signin_time) {
+    this.last_signin_time = last_signin_time;
     return this;
   }
 

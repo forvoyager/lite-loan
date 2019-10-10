@@ -22,11 +22,11 @@ public class UserAccountModel extends BaseModel {
   /**
    * 可用余额（分）
    */
-  private Integer available;
+  private Long available;
   /**
    * 冻结金额（分）
    */
-  private Integer frozen;
+  private Long frozen;
   /**
    * 真实姓名
    */
@@ -44,18 +44,18 @@ public class UserAccountModel extends BaseModel {
     return this;
   }
 
-  public Integer getAvailable() {
+  public Long getAvailable() {
     return this.available;
   }
-  public UserAccountModel setAvailable(Integer available) {
+  public UserAccountModel setAvailable(Long available) {
     this.available = available;
     return this;
   }
 
-  public Integer getFrozen() {
+  public Long getFrozen() {
     return this.frozen;
   }
-  public UserAccountModel setFrozen(Integer frozen) {
+  public UserAccountModel setFrozen(Long frozen) {
     this.frozen = frozen;
     return this;
   }
