@@ -161,7 +161,7 @@
         <![CDATA[ AND t.`frozen` >= #{unfrozen_amount} ]]>
       </if>
       <if test="pay_amount != null">
-        <![CDATA[ AND t.`frozen` >= #{pay_amount} ]]>
+        <![CDATA[ AND t.`available` >= #{pay_amount} ]]>
       </if>
       <if test="where_version != null">
         <![CDATA[ AND t.`version` = #{where_version} ]]>

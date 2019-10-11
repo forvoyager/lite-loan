@@ -203,6 +203,9 @@
       <if test="available_amount != null">
         <![CDATA[ t.`available_amount` = #{available_amount}, ]]>
       </if>
+      <if test="reduce_available_amount != null">
+        <![CDATA[ t.`available_amount` = t.`available_amount` - #{reduce_available_amount}, ]]>
+      </if>
       <if test="period != null">
         <![CDATA[ t.`period` = #{period}, ]]>
       </if>
@@ -228,6 +231,9 @@
     <where>
       <if test="borrow_id != null">
         <![CDATA[ AND t.`borrow_id` = #{borrow_id} ]]>
+      </if>
+      <if test="reduce_available_amount != null">
+        <![CDATA[ AND t.`available_amount` >= #{reduce_available_amount} ]]>
       </if>
       <if test="where_version != null">
         <![CDATA[ AND t.`version` = #{where_version} ]]>

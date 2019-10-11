@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
@@ -119,6 +120,19 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
       Utils.throwsBizException("标的审核失败，请稍后重试。");
     }
 
+  }
+
+  @Override
+  public void reduceAvailableAmount(long borrow_id, long amount) throws Exception {
+    // 更新标的可投金额
+    Map updateModel = Utils.newHashMap(
+            BorrowModel.BORROW_ID, borrow_id,
+            "reduce_available_amount", amount,
+            BorrowModel.UPDATE_TIME, DateUtils.currentTimeInSecond()
+    );
+    if( 1 != this.updateByMap(updateModel)){
+      Utils.throwsBizException("可投金额不足，稍后重试。");
+    }
   }
 
   @Resource

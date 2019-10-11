@@ -4,6 +4,7 @@ import com.etl.base.common.dto.RepaymentDetailDto;
 import com.etl.base.common.dto.RepaymentPerMonthDto;
 import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.common.enums.Cluster;
+import com.etl.base.common.enums.RefTable;
 import com.etl.base.common.util.AssertUtils;
 import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.FeeCalcUtils;
@@ -18,6 +19,8 @@ import com.etl.invest.common.service.ICreditorService;
 import com.etl.invest.common.service.IInvestRecordService;
 import com.etl.invest.common.service.IInvestService;
 import com.etl.invest.common.service.IProfitFormService;
+import com.etl.user.common.enums.FundsOperateType;
+import com.etl.user.common.service.IUserAccountService;
 import io.seata.core.context.RootContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +57,9 @@ public class InvestServiceImpl implements IInvestService {
   @Autowired
   private IBorrowService borrowService;
 
+  @Autowired
+  private IUserAccountService userAccountService;
+
   @Transactional
   @Override
   public void apply(long user_id, long borrow_id, long amount, AccessChannel channel) throws Exception {
@@ -65,12 +71,8 @@ public class InvestServiceImpl implements IInvestService {
     AssertUtils.isTrue(amount > 0, "金额不合法");
 
     long current = DateUtils.currentTimeInSecond();
-    
-    // 减少标的可投金额
-    
-    // 资金冻结
 
-    // 记录投资信息
+    // 生成投资记录信息
     InvestRecordModel investRecord = new InvestRecordModel();
     investRecord.setUser_id(user_id);
     investRecord.setBorrow_id(borrow_id);
@@ -81,9 +83,15 @@ public class InvestServiceImpl implements IInvestService {
     investRecord.setCreate_time(current);
     investRecord.setUpdate_time(current);
     investRecord.setVersion(0);
-    investRecordService.insert(investRecord);
+    investRecord = investRecordService.insert(investRecord);
 
-    // 发送投资成功消息
+    // 减少标的可投金额
+    borrowService.reduceAvailableAmount(borrow_id, amount);
+    
+    // 资金冻结
+    userAccountService.frozen(user_id, amount, FundsOperateType.invest_frozen, RefTable.invest_record, investRecord.getInvest_id());
+
+    // TODO 发送投资成功消息
   }
 
   @Transactional
