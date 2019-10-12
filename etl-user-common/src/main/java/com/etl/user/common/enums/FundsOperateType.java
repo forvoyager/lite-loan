@@ -18,9 +18,14 @@ public enum FundsOperateType {
   
   invest_frozen(100, -1, "投标冻结"),
   invest_unfrozen(101, 1, "投标解冻"),
-  invest_pay(102, 0, "投标支出"),
+  invest_pay(102, -1, "投标支出"),
 
   recharge_online(103, 1, "在线充值"),
+
+  repayment_frozen(104, -1, "还款冻结"),
+  repayment_unfrozen(105, 1, "还款解冻"),
+  repayment_pay(106, -1, "还款支出"),
+  
   ;
 
   private int code; // 类型代码

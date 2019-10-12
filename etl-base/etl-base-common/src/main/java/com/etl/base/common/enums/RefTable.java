@@ -10,6 +10,7 @@ public enum RefTable {
   invest_record(1, "投资记录"),
   recharge_order(2, "用户充值订单"),
   borrow(3, "借款标的"),
+  repayment_form(4, "借款项目还款报表"),
   ;
   
   private int code; // 类型代码
