@@ -45,13 +45,13 @@ public class BorrowTest {
   @Test
   public void test_check() throws Exception{
     // 借款审核
-    borrowService.check(1);
+    borrowService.check(3);
   }
 
   @Test
   public void test_release() throws Exception{
     // 发布标的
-    borrowService.release(1);
+    borrowService.release(3);
   }
 
   @Test

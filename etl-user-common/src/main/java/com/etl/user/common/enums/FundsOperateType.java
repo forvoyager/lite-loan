@@ -14,6 +14,8 @@ package com.etl.user.common.enums;
  */
 public enum FundsOperateType {
 
+  loan_entry(99, 1, "借款入账"),
+  
   invest_frozen(100, -1, "投标冻结"),
   invest_unfrozen(101, 1, "投标解冻"),
   invest_pay(102, 0, "投标支出"),

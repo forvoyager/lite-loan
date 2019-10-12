@@ -29,6 +29,11 @@
       <artifactId>jackson-databind</artifactId>
     </dependency>
     <!--jackson end-->
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

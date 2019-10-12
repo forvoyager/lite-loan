@@ -82,6 +82,7 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
     BorrowModel updateModel = new BorrowModel();
     updateModel.setBorrow_id(borrow_id);
     updateModel.setStatus(BorrowStatus.IN_BID.getCode());
+    updateModel.setAvailable_amount(borrowModel.getAmount());
     updateModel.setPartion_amount(100*100); // 每份100元
     updateModel.setInvest_start_time(DateUtils.addDay(1)); // 下一日开始可以投标
     updateModel.setUpdate_time(DateUtils.currentTimeInSecond());
@@ -123,16 +124,45 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
   }
 
   @Override
-  public void reduceAvailableAmount(long borrow_id, long amount) throws Exception {
+  public void changeAvailableAmount(long borrow_id, long amount) throws Exception {
+    
+    if(amount == 0){
+      return;
+    }
+    
     // 更新标的可投金额
     Map updateModel = Utils.newHashMap(
             BorrowModel.BORROW_ID, borrow_id,
-            "reduce_available_amount", amount,
+            "change_available_amount", amount,
             BorrowModel.UPDATE_TIME, DateUtils.currentTimeInSecond()
     );
     if( 1 != this.updateByMap(updateModel)){
-      Utils.throwsBizException("可投金额不足，稍后重试。");
+      Utils.throwsBizException("可投金额不正确，稍后重试。");
     }
+
+    // 更新标的状态
+    BorrowModel borrowModel = this.selectById(borrow_id, Cluster.master);
+    updateModel = Utils.newHashMap(
+            BorrowModel.BORROW_ID, borrow_id,
+            BorrowModel.WHERE_VERSION, borrowModel.getVersion()
+    );
+    
+    // 如果是减少金额，在可投金额为0时，标的置为 已满标
+    if(borrowModel.getAvailable_amount().longValue() == 0 && BorrowStatus.parse(borrowModel.getStatus()) != BorrowStatus.FULL_BID){
+      updateModel.put(BorrowModel.STATUS, BorrowStatus.FULL_BID.getCode());
+      if( 1 != this.updateByMap(updateModel)){
+        Utils.throwsBizException("更新标的状态失败，稍后重试。");
+      }
+    }
+    
+    // 如果是增加金额，可能是满标后部分标的投资处理失败，释放出可投金额，需将标的置为 投标中
+    if(borrowModel.getAvailable_amount().longValue() > 0 && BorrowStatus.parse(borrowModel.getStatus()) == BorrowStatus.FULL_BID){
+      updateModel.put(BorrowModel.STATUS, BorrowStatus.IN_BID.getCode());
+      if( 1 != this.updateByMap(updateModel)){
+        Utils.throwsBizException("更新标的状态失败，稍后重试。");
+      }
+    }
+    
   }
 
   @Resource

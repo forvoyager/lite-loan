@@ -44,4 +44,9 @@ public class InvestTest {
   public void test_verifyInitInvestorForm() throws Exception{
     investService.verifyInitInvestorForm(1L);
   }
+
+  @Test
+  public void test_apply() throws Exception{
+    investService.apply(11, 1, 930000, AccessChannel.ANDROID);
+  }
 }

@@ -64,12 +64,14 @@ public interface IBorrowService extends IBaseService<BorrowModel> {
   void verifyInitBorrowerForm(long borrow_id) throws Exception;
 
   /**
-   * 减少标的可投金额
-   * 最后没有可投金额后，将标的置为 已满标
+   * 修改标的可投金额
+   * 
+   * 减少可投金额时：如果没有可投金额后，将标的置为 已满标
+   * 增加可投金额时：将标的置为 投标中
    *
    * @param borrow_id
-   * @param amount
+   * @param amount 大于0表示增加可投金额 小于0表示减少可投金额
    * @throws Exception
    */
-  void reduceAvailableAmount(long borrow_id, long amount) throws Exception;
+  void changeAvailableAmount(long borrow_id, long amount) throws Exception;
 }

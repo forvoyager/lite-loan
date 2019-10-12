@@ -138,7 +138,7 @@
         <![CDATA[ t.`available` = t.`available` + #{unfrozen_amount}, t.`frozen` = t.`frozen` - #{unfrozen_amount}, ]]>
       </if>
       <if test="pay_amount != null">
-        <![CDATA[ t.`frozen` = t.`frozen` - #{pay_amount}, ]]>
+        <![CDATA[ t.`available` = t.`available` - #{pay_amount}, ]]>
       </if>
       <if test="id_name != null">
         <![CDATA[ t.`id_name` = #{id_name}, ]]>

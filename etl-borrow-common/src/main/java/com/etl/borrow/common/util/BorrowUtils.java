@@ -34,8 +34,8 @@ public final class BorrowUtils {
       repaymentForm.setBorrow_id(borrow.getBorrow_id());
       repaymentForm.setUser_id(borrow.getUser_id());
       repaymentForm.setPeriod(plan.getPeriod());
-      repaymentForm.setCapital((long)plan.getCapital()*100);
-      repaymentForm.setInterest((long)plan.getInterest()*100);
+      repaymentForm.setCapital((long)(plan.getCapital()*100));
+      repaymentForm.setInterest((long)(plan.getInterest()*100));
       repaymentForm.setManage_fee(0L); // 管理费暂不收取
       repaymentForm.setPlan_repayment_time(plan.getRepaymentDate());
       repaymentForm.setActual_repayment_time(0L);

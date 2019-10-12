@@ -20,8 +20,10 @@ import com.etl.invest.common.service.IInvestRecordService;
 import com.etl.invest.common.service.IInvestService;
 import com.etl.invest.common.service.IProfitFormService;
 import com.etl.user.common.enums.FundsOperateType;
+import com.etl.user.common.model.UserAccountModel;
 import com.etl.user.common.service.IUserAccountService;
 import io.seata.core.context.RootContext;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,16 +62,29 @@ public class InvestServiceImpl implements IInvestService {
   @Autowired
   private IUserAccountService userAccountService;
 
-  @Transactional
+  @GlobalTransactional
   @Override
   public void apply(long user_id, long borrow_id, long amount, AccessChannel channel) throws Exception {
+
+    // 信息验证
+    AssertUtils.isTrue(amount > 0, "金额不合法");
+    
+    BorrowModel borrow = borrowService.selectById(borrow_id, Cluster.master);
+    if(BorrowStatus.parse(borrow.getStatus()) != BorrowStatus.IN_BID || borrow.getAvailable_amount().longValue() == 0){
+      Utils.throwsBizException("当前标的不可投");
+    }
+    if(amount > borrow.getAvailable_amount()){
+      Utils.throwsBizException("剩余最大可投金额"+borrow.getAvailable_amount()/100);
+    }
+
+    UserAccountModel userAccount = userAccountService.selectById(user_id, Cluster.master);
+    if(userAccount.getAvailable() < amount){
+      Utils.throwsBizException("账户余额不足");
+    }
     
     // 默认
     if (channel == null) { channel = AccessChannel.PC; }
     
-    // 信息验证
-    AssertUtils.isTrue(amount > 0, "金额不合法");
-
     long current = DateUtils.currentTimeInSecond();
 
     // 生成投资记录信息
@@ -77,7 +92,7 @@ public class InvestServiceImpl implements IInvestService {
     investRecord.setUser_id(user_id);
     investRecord.setBorrow_id(borrow_id);
     investRecord.setInvest_amount(amount);
-    investRecord.setPartion((int)amount/100);
+    investRecord.setPartion((int)amount/10000); // ((amount/100)元/100)份
     investRecord.setChannel(channel.getCode());
     investRecord.setStatus(0);
     investRecord.setCreate_time(current);
@@ -86,8 +101,8 @@ public class InvestServiceImpl implements IInvestService {
     investRecord = investRecordService.insert(investRecord);
 
     // 减少标的可投金额
-    borrowService.reduceAvailableAmount(borrow_id, amount);
-    
+    borrowService.changeAvailableAmount(borrow_id, -amount);
+
     // 资金冻结
     userAccountService.frozen(user_id, amount, FundsOperateType.invest_frozen, RefTable.invest_record, investRecord.getInvest_id());
 
@@ -193,5 +208,38 @@ public class InvestServiceImpl implements IInvestService {
     }
     profitFormService.insertBatch(profitFormModelList);
 
+  }
+
+  @GlobalTransactional
+  @Override
+  public void verifyInvestorPayment(long borrow_id) throws Exception {
+    List<InvestRecordModel> investRecords = this.investRecordService.selectList(Utils.newHashMap(
+            InvestRecordModel.BORROW_ID, borrow_id,
+            InvestRecordModel.STATUS, 0
+    ), Cluster.master);
+    AssertUtils.notEmpty(investRecords, "投资记录不完整");
+    
+    long current = DateUtils.currentTimeInSecond();
+    InvestRecordModel updateInvestRecord = null;
+    for(InvestRecordModel irm : investRecords){
+      
+      if(irm.getStatus().intValue() != 0) { continue; }
+      
+      // 投资人资金 解冻
+      userAccountService.unfrozen(irm.getUser_id(), irm.getInvest_amount(), FundsOperateType.invest_unfrozen, RefTable.invest_record, irm.getInvest_id());
+      // 投资人资金 支出
+      userAccountService.pay(irm.getUser_id(), irm.getInvest_amount(), FundsOperateType.invest_pay, RefTable.invest_record, irm.getInvest_id());
+
+      // 投资记录置为 成功
+      updateInvestRecord = new InvestRecordModel();
+      updateInvestRecord.setInvest_id(irm.getInvest_id());
+      updateInvestRecord.setWhere_version(irm.getVersion());
+      updateInvestRecord.setUpdate_time(current);
+      updateInvestRecord.setStatus(1);
+      if( 1 != investRecordService.update(updateInvestRecord)){
+        Utils.throwsBizException("账户["+irm.getUser_id()+"]，投标支出失败。");
+      }
+    }
+    
   }
 }

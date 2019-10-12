@@ -119,8 +119,8 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountMapper, U
 
     UserAccountModel userAccount = this.selectById(user_id, Cluster.master);
     AssertUtils.notNull(userAccount, "账户不存在");
-    if(userAccount.getFrozen() < amount){
-      Utils.throwsBizException("冻结金额不足，支出失败。");
+    if(userAccount.getAvailable() < amount){
+      Utils.throwsBizException("可用不足，支出失败。");
     }
 
     long current = DateUtils.currentTimeInSecond();
@@ -140,7 +140,7 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountMapper, U
     UserAccountDataModel accountData = new UserAccountDataModel();
     accountData.setUser_id(user_id);
     accountData.setAmount(amount);
-    accountData.setBalance(userAccount.getAvailable()); // 可用余额不变，从冻结金额里支出
+    accountData.setBalance(userAccount.getAvailable() - amount); // 可用余额不变，从冻结金额里支出
     accountData.setIncome(biz_type.getFlag());
     accountData.setType(biz_type.getCode());
     accountData.setRef_table(ref_table.getCode());

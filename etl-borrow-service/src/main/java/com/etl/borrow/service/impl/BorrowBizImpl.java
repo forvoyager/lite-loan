@@ -1,8 +1,15 @@
 package com.etl.borrow.service.impl;
 
+import com.etl.base.common.enums.Cluster;
+import com.etl.base.common.enums.RefTable;
+import com.etl.base.common.util.Utils;
+import com.etl.borrow.common.enums.BorrowStatus;
+import com.etl.borrow.common.model.BorrowModel;
 import com.etl.borrow.common.service.IBorrowBiz;
 import com.etl.borrow.common.service.IBorrowService;
 import com.etl.invest.common.service.IInvestService;
+import com.etl.user.common.enums.FundsOperateType;
+import com.etl.user.common.service.IUserAccountService;
 import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
@@ -27,12 +34,20 @@ public class BorrowBizImpl implements IBorrowBiz {
 
   @Autowired
   private IInvestService investService;
+  
+  @Autowired
+  private IUserAccountService userAccountService;
 
-  @GlobalTransactional
+  @GlobalTransactional(timeoutMills = 10*1000)
   @Override
   public void verify(long borrow_id) throws Exception {
 
     logger.info("tx_xid:{}", RootContext.getXID());
+    
+    BorrowModel borrow = borrowService.selectById(borrow_id, Cluster.master);
+    if(BorrowStatus.parse(borrow.getStatus()) != BorrowStatus.FULL_BID){
+      Utils.throwsBizException("未满标，不可发起终审。");
+    }
 
     // 生成 借款人 还款报表
     borrowService.verifyInitBorrowerForm(borrow_id);
@@ -41,7 +56,12 @@ public class BorrowBizImpl implements IBorrowBiz {
     // 生成 投资人 收益报表
     investService.verifyInitInvestorForm(borrow_id);
 
-    // 发送满标终审消息
-    System.out.println("--------------:"+RootContext.getXID());
+    // 投资人账户资金支出
+    investService.verifyInvestorPayment(borrow_id);
+
+    // 借款人账户资金入账
+    userAccountService.changeAvailable(borrow.getUser_id(), borrow.getAmount(), FundsOperateType.loan_entry, RefTable.borrow, borrow_id);
+
+    // TODO 发送满标终审消息
   }
 }

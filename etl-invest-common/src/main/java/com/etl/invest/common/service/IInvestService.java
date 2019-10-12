@@ -27,4 +27,10 @@ public interface IInvestService {
    */
   void verifyInitInvestorForm(long borrow_id) throws Exception;
 
+  /**
+   * 满标终审 投资人账户支出
+   * @param borrow_id
+   * @throws Exception
+   */
+  void verifyInvestorPayment(long borrow_id) throws Exception;
 }
