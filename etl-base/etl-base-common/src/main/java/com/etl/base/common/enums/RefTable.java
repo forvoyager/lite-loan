@@ -8,6 +8,7 @@ package com.etl.base.common.enums;
 public enum RefTable {
 
   invest_record(1, "投资记录"),
+  recharge_order(2, "用户充值订单"),
   ;
   
   private int code; // 类型代码

@@ -55,6 +55,19 @@ CREATE TABLE `etl_user_account_data` (
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='账户流水';
 
+CREATE TABLE `etl_recharge_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `amount` int(11) NOT NULL DEFAULT '0' COMMENT '充值余额（分）',
+  `status` smallint(4) NOT NULL DEFAULT '0' COMMENT '状态 0待处理 1成功 2失败',
+  `channel` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '充值渠道',
+  `trace_id` varchar(100) NOT NULL DEFAULT '' COMMENT '第三方交易流水ID',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
+  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
+  `version` smallint(6) NOT NULL DEFAULT '0' COMMENT '版本号，每次更新+1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户充值订单';
+
 -- borrow
 CREATE TABLE `etl_borrow` (
   `borrow_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标的id',

@@ -149,7 +149,52 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountMapper, U
     accountData.setUpdate_time(current);
     userAccountDataService.insert(accountData);
   }
-  
+
+  @Transactional
+  @Override
+  public void changeAvailable(long user_id, long amount, FundsOperateType biz_type, RefTable ref_table, long ref_id) throws Exception {
+
+    AssertUtils.notNull(biz_type, "非法的业务操作");
+    AssertUtils.notNull(ref_table, "非法的业务关联");
+    
+    if(amount == 0){
+      return;
+    }
+    
+    UserAccountModel userAccount = this.selectById(user_id, Cluster.master);
+    AssertUtils.notNull(userAccount, "账户不存在");
+    
+    long current = DateUtils.currentTimeInSecond();
+
+    // 修改可用余额
+    long current_available = userAccount.getAvailable() + amount;
+    if(current_available < 0){
+      Utils.throwsBizException("可用余额不足，扣减失败。");
+    }
+    Map updateData =  Utils.newHashMap(
+            UserAccountModel.USER_ID, user_id,
+            UserAccountModel.AVAILABLE, current_available,
+            UserAccountModel.UPDATE_TIME, current,
+            UserAccountModel.WHERE_VERSION, userAccount.getVersion()
+    );
+    if( 1 != this.updateByMap(updateData)){
+      Utils.throwsBizException("增加可用资金失败，稍后重试。");
+    }
+
+    // 记录流水
+    UserAccountDataModel accountData = new UserAccountDataModel();
+    accountData.setUser_id(user_id);
+    accountData.setAmount(amount);
+    accountData.setBalance(current_available);
+    accountData.setIncome(biz_type.getFlag());
+    accountData.setType(biz_type.getCode());
+    accountData.setRef_table(ref_table.getCode());
+    accountData.setRef_id(ref_id);
+    accountData.setCreate_time(current);
+    accountData.setUpdate_time(current);
+    userAccountDataService.insert(accountData);
+  }
+
   @Resource
   private IUserAccountDataService userAccountDataService;
 }

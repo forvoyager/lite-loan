@@ -47,6 +47,17 @@ public interface IUserAccountService extends IBaseService<UserAccountModel> {
    * @throws Exception
    */
   void pay(long user_id, long amount, FundsOperateType biz_type, RefTable ref_table, long ref_id) throws Exception;
-  
+
+  /**
+   * 修改用户可用余额
+   *
+   * @param user_id 用户
+   * @param amount 支出金额（分） 大于0表示增加余额 小于0表示减少余额
+   * @param biz_type 操作类型
+   * @param ref_table 关联表
+   * @param ref_id 关联表id
+   * @throws Exception
+   */
+  void changeAvailable(long user_id, long amount, FundsOperateType biz_type, RefTable ref_table, long ref_id) throws Exception;
   
 }
