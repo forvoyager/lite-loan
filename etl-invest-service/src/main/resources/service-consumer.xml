@@ -7,7 +7,11 @@
     <!--<dubbo:application name="${spring.application.name}"/>-->
     <dubbo:registry address="zookeeper://127.0.0.1:2181" client="curator"/>
 
+    <!--borrow application-->
     <dubbo:reference id="borrowService" interface="com.etl.borrow.common.service.IBorrowService" version="${borrow.service.version}" group="${borrow.service.group}" check="false" />
+    <dubbo:reference id="repaymentFormService" interface="com.etl.borrow.common.service.IRepaymentFormService" version="${borrow.service.version}" group="${borrow.service.group}" check="false" />
+
+    <!--user application-->
     <dubbo:reference id="userAccountService" interface="com.etl.user.common.service.IUserAccountService" version="${user.service.version}" group="${user.service.group}" check="false" />
 
 </beans>

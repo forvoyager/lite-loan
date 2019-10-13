@@ -15,7 +15,7 @@ package com.etl.user.common.enums;
 public enum FundsOperateType {
 
   loan_entry(99, 1, "借款入账"),
-  
+
   invest_frozen(100, -1, "投标冻结"),
   invest_unfrozen(101, 1, "投标解冻"),
   invest_pay(102, -1, "投标支出"),
@@ -25,7 +25,10 @@ public enum FundsOperateType {
   repayment_frozen(104, -1, "还款冻结"),
   repayment_unfrozen(105, 1, "还款解冻"),
   repayment_pay(106, -1, "还款支出"),
-  
+
+  repayment_capital_entry(107, 1, "还款收到本金"),
+  repayment_interest_entry(108, 1, "还款收到利息"),
+
   ;
 
   private int code; // 类型代码

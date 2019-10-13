@@ -1,4 +1,4 @@
-package com.etl.user.common.service;
+package com.etl.invest.common.service;
 
 /**
  * @Author: forvoyager@outlook.com
