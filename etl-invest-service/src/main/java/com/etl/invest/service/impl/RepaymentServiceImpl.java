@@ -1,12 +1,13 @@
 package com.etl.invest.service.impl;
 
+import com.etl.asset.common.service.IBorrowService;
 import com.etl.base.common.enums.Cluster;
 import com.etl.base.common.enums.RefTable;
 import com.etl.base.common.util.AssertUtils;
 import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.Utils;
-import com.etl.borrow.common.model.RepaymentFormModel;
-import com.etl.borrow.common.service.IRepaymentFormService;
+import com.etl.asset.common.model.RepaymentFormModel;
+import com.etl.asset.common.service.IRepaymentFormService;
 import com.etl.invest.common.model.ProfitFormModel;
 import com.etl.invest.common.service.IProfitFormService;
 import com.etl.invest.common.service.IRepaymentService;
@@ -37,6 +38,9 @@ public class RepaymentServiceImpl implements IRepaymentService {
   @Autowired
   private IRepaymentFormService repaymentFormService;
 
+  @Autowired
+  private IBorrowService borrowService;
+  
   @Autowired
   private IUserAccountService userAccountService;
   
@@ -92,6 +96,8 @@ public class RepaymentServiceImpl implements IRepaymentService {
     if(1 != repaymentFormService.update(updateRepaymentForm)){
       Utils.throwsBizException("更新回款报表失败");
     }
+    
+    // 更新标的状态为 还款结束 TODO
     
   }
 

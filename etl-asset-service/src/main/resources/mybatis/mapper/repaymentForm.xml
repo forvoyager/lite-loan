@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- author: forvoyager@outlook.com -->
+<!-- time: 2019-09-30 09:30:12 -->
+<!-- description: 借款项目还款报表 数据库操作mapper -->
+<mapper namespace="com.etl.asset.mapper.RepaymentFormMapper">
+
+  <sql id="Base_Column_List">
+    `id`, `borrow_id`, `user_id`, `period`, `capital`, `interest`, `manage_fee`, `plan_repayment_time`, `actual_repayment_time`, `overdue_days`, `overdue_penalty`, `reduction_amount`, `advance`, `advance_time`, `status`, `create_time`, `update_time`, `version`
+  </sql>
+
+  <!-- 自定义查询条件 -->
+  <sql id="Custom_Where_Sql">
+
+  </sql>
+
+  <!-- 基础查询条件，不允许修改，自定义条件在Custom_Where_Sql中添加 -->
+  <sql id="Base_Where_Sql">
+    <if test="idList != null and idList.size() > 0">
+      <![CDATA[ AND t.`id` IN ]]>
+      <foreach collection="idList" item="item" open="(" separator="," close=")">
+        <![CDATA[ #{item} ]]>
+      </foreach>
+    </if>
+    <if test="where_version != null">
+      <![CDATA[ AND t.`version` = #{where_version} ]]>
+    </if>
+    <if test="id != null">
+      <![CDATA[ AND t.`id` = #{id} ]]>
+    </if>
+    <if test="borrow_id != null">
+      <![CDATA[ AND t.`borrow_id` = #{borrow_id} ]]>
+    </if>
+    <if test="user_id != null">
+      <![CDATA[ AND t.`user_id` = #{user_id} ]]>
+    </if>
+    <if test="period != null">
+      <![CDATA[ AND t.`period` = #{period} ]]>
+    </if>
+    <if test="capital != null">
+      <![CDATA[ AND t.`capital` = #{capital} ]]>
+    </if>
+    <if test="interest != null">
+      <![CDATA[ AND t.`interest` = #{interest} ]]>
+    </if>
+    <if test="manage_fee != null">
+      <![CDATA[ AND t.`manage_fee` = #{manage_fee} ]]>
+    </if>
+    <if test="plan_repayment_time != null">
+      <![CDATA[ AND t.`plan_repayment_time` = #{plan_repayment_time} ]]>
+    </if>
+    <if test="actual_repayment_time != null">
+      <![CDATA[ AND t.`actual_repayment_time` = #{actual_repayment_time} ]]>
+    </if>
+    <if test="overdue_days != null">
+      <![CDATA[ AND t.`overdue_days` = #{overdue_days} ]]>
+    </if>
+    <if test="overdue_penalty != null">
+      <![CDATA[ AND t.`overdue_penalty` = #{overdue_penalty} ]]>
+    </if>
+    <if test="reduction_amount != null">
+      <![CDATA[ AND t.`reduction_amount` = #{reduction_amount} ]]>
+    </if>
+    <if test="advance != null">
+      <![CDATA[ AND t.`advance` = #{advance} ]]>
+    </if>
+    <if test="advance_time != null">
+      <![CDATA[ AND t.`advance_time` = #{advance_time} ]]>
+    </if>
+    <if test="status != null">
+      <![CDATA[ AND t.`status` = #{status} ]]>
+    </if>
+    <if test="create_time != null">
+      <![CDATA[ AND t.`create_time` = #{create_time} ]]>
+    </if>
+    <if test="update_time != null">
+      <![CDATA[ AND t.`update_time` = #{update_time} ]]>
+    </if>
+  </sql>
+
+  <sql id="Where_Sql">
+    <where>
+      <include refid="Base_Where_Sql"/>
+      <include refid="Custom_Where_Sql"/>
+    </where>
+  </sql>
+
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.etl.asset.common.model.RepaymentFormModel" keyProperty="id" useGeneratedKeys="true">
+    <![CDATA[ INSERT INTO etl_repayment_form ]]>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        <![CDATA[ `id`, ]]>
+      </if>
+      <if test="borrow_id != null">
+        <![CDATA[ `borrow_id`, ]]>
+      </if>
+      <if test="user_id != null">
+        <![CDATA[ `user_id`, ]]>
+      </if>
+      <if test="period != null">
+        <![CDATA[ `period`, ]]>
+      </if>
+      <if test="capital != null">
+        <![CDATA[ `capital`, ]]>
+      </if>
+      <if test="interest != null">
+        <![CDATA[ `interest`, ]]>
+      </if>
+      <if test="manage_fee != null">
+        <![CDATA[ `manage_fee`, ]]>
+      </if>
+      <if test="plan_repayment_time != null">
+        <![CDATA[ `plan_repayment_time`, ]]>
+      </if>
+      <if test="actual_repayment_time != null">
+        <![CDATA[ `actual_repayment_time`, ]]>
+      </if>
+      <if test="overdue_days != null">
+        <![CDATA[ `overdue_days`, ]]>
+      </if>
+      <if test="overdue_penalty != null">
+        <![CDATA[ `overdue_penalty`, ]]>
+      </if>
+      <if test="reduction_amount != null">
+        <![CDATA[ `reduction_amount`, ]]>
+      </if>
+      <if test="advance != null">
+        <![CDATA[ `advance`, ]]>
+      </if>
+      <if test="advance_time != null">
+        <![CDATA[ `advance_time`, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ `status`, ]]>
+      </if>
+      <if test="create_time != null">
+        <![CDATA[ `create_time`, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ `update_time`, ]]>
+      </if>
+      <if test="version != null">
+        <![CDATA[ `version`, ]]>
+      </if>
+    </trim>
+    <![CDATA[ VALUES ]]>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        <![CDATA[ #{id}, ]]>
+      </if>
+      <if test="borrow_id != null">
+        <![CDATA[ #{borrow_id}, ]]>
+      </if>
+      <if test="user_id != null">
+        <![CDATA[ #{user_id}, ]]>
+      </if>
+      <if test="period != null">
+        <![CDATA[ #{period}, ]]>
+      </if>
+      <if test="capital != null">
+        <![CDATA[ #{capital}, ]]>
+      </if>
+      <if test="interest != null">
+        <![CDATA[ #{interest}, ]]>
+      </if>
+      <if test="manage_fee != null">
+        <![CDATA[ #{manage_fee}, ]]>
+      </if>
+      <if test="plan_repayment_time != null">
+        <![CDATA[ #{plan_repayment_time}, ]]>
+      </if>
+      <if test="actual_repayment_time != null">
+        <![CDATA[ #{actual_repayment_time}, ]]>
+      </if>
+      <if test="overdue_days != null">
+        <![CDATA[ #{overdue_days}, ]]>
+      </if>
+      <if test="overdue_penalty != null">
+        <![CDATA[ #{overdue_penalty}, ]]>
+      </if>
+      <if test="reduction_amount != null">
+        <![CDATA[ #{reduction_amount}, ]]>
+      </if>
+      <if test="advance != null">
+        <![CDATA[ #{advance}, ]]>
+      </if>
+      <if test="advance_time != null">
+        <![CDATA[ #{advance_time}, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ #{status}, ]]>
+      </if>
+      <if test="create_time != null">
+        <![CDATA[ #{create_time}, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ #{update_time}, ]]>
+      </if>
+      <if test="version != null">
+        <![CDATA[ #{version}, ]]>
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 批量插入 -->
+  <insert id="insertBatch" parameterType="com.etl.asset.common.model.RepaymentFormModel">
+    <![CDATA[ INSERT INTO etl_repayment_form (`id`, `borrow_id`, `user_id`, `period`, `capital`, `interest`, `manage_fee`, `plan_repayment_time`, `actual_repayment_time`, `overdue_days`, `overdue_penalty`, `reduction_amount`, `advance`, `advance_time`, `status`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <foreach collection="list" separator="," item="item">
+      (#{item.id}, #{item.borrow_id}, #{item.user_id}, #{item.period}, #{item.capital}, #{item.interest}, #{item.manage_fee}, #{item.plan_repayment_time}, #{item.actual_repayment_time}, #{item.overdue_days}, #{item.overdue_penalty}, #{item.reduction_amount}, #{item.advance}, #{item.advance_time}, #{item.status}, #{item.create_time}, #{item.update_time}, #{item.version})
+    </foreach>
+  </insert>
+
+  <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
+  <update id="update" parameterType="map">
+    <![CDATA[ UPDATE etl_repayment_form t SET t.`version` = t.`version` + 1, ]]>
+    <trim suffixOverrides=",">
+      <if test="borrow_id != null">
+        <![CDATA[ t.`borrow_id` = #{borrow_id}, ]]>
+      </if>
+      <if test="user_id != null">
+        <![CDATA[ t.`user_id` = #{user_id}, ]]>
+      </if>
+      <if test="period != null">
+        <![CDATA[ t.`period` = #{period}, ]]>
+      </if>
+      <if test="capital != null">
+        <![CDATA[ t.`capital` = #{capital}, ]]>
+      </if>
+      <if test="interest != null">
+        <![CDATA[ t.`interest` = #{interest}, ]]>
+      </if>
+      <if test="manage_fee != null">
+        <![CDATA[ t.`manage_fee` = #{manage_fee}, ]]>
+      </if>
+      <if test="plan_repayment_time != null">
+        <![CDATA[ t.`plan_repayment_time` = #{plan_repayment_time}, ]]>
+      </if>
+      <if test="actual_repayment_time != null">
+        <![CDATA[ t.`actual_repayment_time` = #{actual_repayment_time}, ]]>
+      </if>
+      <if test="overdue_days != null">
+        <![CDATA[ t.`overdue_days` = #{overdue_days}, ]]>
+      </if>
+      <if test="overdue_penalty != null">
+        <![CDATA[ t.`overdue_penalty` = #{overdue_penalty}, ]]>
+      </if>
+      <if test="reduction_amount != null">
+        <![CDATA[ t.`reduction_amount` = #{reduction_amount}, ]]>
+      </if>
+      <if test="advance != null">
+        <![CDATA[ t.`advance` = #{advance}, ]]>
+      </if>
+      <if test="advance_time != null">
+        <![CDATA[ t.`advance_time` = #{advance_time}, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ t.`status` = #{status}, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ t.`update_time` = #{update_time}, ]]>
+      </if>
+    </trim>
+    <where>
+      <if test="id != null">
+        <![CDATA[ AND t.`id` = #{id} ]]>
+      </if>
+      <if test="where_version != null">
+        <![CDATA[ AND t.`version` = #{where_version} ]]>
+      </if>
+    </where>
+  </update>
+
+  <!-- 删除 -->
+  <delete id="delete" parameterType="map">
+    <![CDATA[ DELETE t FROM etl_repayment_form t ]]>
+    <include refid="Where_Sql"/>
+  </delete>
+
+  <!-- 查询行数 -->
+  <select id="selectCount" parameterType="map" resultType="long">
+    <![CDATA[ SELECT COUNT(*) FROM etl_repayment_form t ]]>
+    <include refid="Where_Sql"/>
+  </select>
+
+  <!-- 查询记录 -->
+  <select id="selectList" parameterType="map" resultType="com.etl.asset.common.model.RepaymentFormModel">
+    <include refid="global.pageStart"/>
+    <![CDATA[ SELECT ]]>
+    <include refid="Base_Column_List"/>
+    <![CDATA[ FROM etl_repayment_form t ]]>
+    <include refid="Where_Sql"/>
+    <include refid="global.globalSort"/>
+    <include refid="global.pageEnd"/>
+  </select>
+
+</mapper>

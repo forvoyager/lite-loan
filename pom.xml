@@ -12,8 +12,8 @@
     <module>etl-examples</module>
     <module>etl-user-common</module>
     <module>etl-user-service</module>
-    <module>etl-borrow-common</module>
-    <module>etl-borrow-service</module>
+    <module>etl-asset-common</module>
+    <module>etl-asset-service</module>
     <module>etl-invest-common</module>
     <module>etl-invest-service</module>
   </modules>
