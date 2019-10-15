@@ -12,10 +12,11 @@ import com.etl.invest.common.service.IProfitFormService;
 import com.etl.invest.common.service.IRepaymentService;
 import com.etl.user.common.enums.FundsOperateType;
 import com.etl.user.common.service.IUserAccountService;
-import io.seata.core.context.RootContext;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -25,23 +26,27 @@ import java.util.List;
  * @Time: 2019-10-12 16:20
  * @Description: 借款人还款服务 服务实现
  */
+@Service("repaymentService")
 public class RepaymentServiceImpl implements IRepaymentService {
 
   protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Resource
-  private IRepaymentFormService repaymentFormService;
-
-  @Resource
   private IProfitFormService profitFormService;
+
+  @Autowired
+  private IRepaymentFormService repaymentFormService;
 
   @Autowired
   private IUserAccountService userAccountService;
   
+  @GlobalTransactional
   @Override
-  public void repayment(long form_id) throws Exception {
+  public void repayment(long repayment_form_id) throws Exception {
 
-    RepaymentFormModel repaymentForm = repaymentFormService.selectById(form_id, Cluster.master);
+//    logger.info("tx_xid:{}", RootContext.getXID());
+
+    RepaymentFormModel repaymentForm = repaymentFormService.selectById(repayment_form_id, Cluster.master);
     if(repaymentForm == null){ return; }
     
     if(repaymentForm.getStatus().intValue() == 1){
@@ -98,7 +103,6 @@ public class RepaymentServiceImpl implements IRepaymentService {
    * @throws Exception
    */
   private void repaymentCash(long borrow_id, int period) throws Exception {
-    logger.info("tx_xid:{}", RootContext.getXID());
 
     List<ProfitFormModel> profitFormModels = profitFormService.selectList(Utils.newHashMap(
             ProfitFormModel.BORROW_ID, borrow_id,
@@ -109,6 +113,7 @@ public class RepaymentServiceImpl implements IRepaymentService {
     // 收益报表逐个兑付
     for(ProfitFormModel pfm : profitFormModels){
       profitFormService.cash(pfm);
+      logger.info("标的：{}，收益报表：{}，兑付完成。", borrow_id, pfm.getId());
     }
   }
 }

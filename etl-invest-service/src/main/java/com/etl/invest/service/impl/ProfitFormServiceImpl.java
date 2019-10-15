@@ -9,16 +9,16 @@ import com.etl.base.jdbc.service.impl.BaseServiceImpl;
 import com.etl.invest.common.model.CreditorModel;
 import com.etl.invest.common.model.ProfitFormModel;
 import com.etl.invest.common.service.ICreditorService;
-import com.etl.invest.mapper.ProfitFormMapper;
 import com.etl.invest.common.service.IProfitFormService;
+import com.etl.invest.mapper.ProfitFormMapper;
 import com.etl.user.common.enums.FundsOperateType;
 import com.etl.user.common.service.IUserAccountService;
-import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
@@ -40,8 +40,6 @@ public class ProfitFormServiceImpl extends BaseServiceImpl<ProfitFormMapper, Pro
   @GlobalTransactional
   @Override
   public void cash(ProfitFormModel profitForm) throws Exception {
-
-    logger.info("tx_xid:{}", RootContext.getXID());
 
     AssertUtils.notNull(profitForm, "收益报表不完整");
 
@@ -82,10 +80,21 @@ public class ProfitFormServiceImpl extends BaseServiceImpl<ProfitFormMapper, Pro
     }
 
     // 更新债权信息
-    CreditorModel updateCreditorModel = new CreditorModel();
-    updateCreditorModel.setCreditor_id(profitForm.getCreditor_id());
-
-    if( 1 != creditorService.update(updateCreditorModel)){
+    CreditorModel currentCreditor = creditorService.selectById(profitForm.getCreditor_id(), Cluster.master);
+    Map updateCreditor = Utils.newHashMap(
+            CreditorModel.CREDITOR_ID, profitForm.getCreditor_id(),
+            CreditorModel.WHERE_VERSION, currentCreditor.getVersion(),
+            CreditorModel.UPDATE_TIME, current,
+            CreditorModel.UNPAID_CAPITAL, currentCreditor.getUnpaid_capital() - profitForm.getCapital(),
+            CreditorModel.UNPAID_INTEREST, currentCreditor.getUnpaid_interest() - profitForm.getInterest(),
+            CreditorModel.SURPLUS_PERIOD, currentCreditor.getSurplus_period() - 1
+    );
+    // 如果是最后一期还款，债权置为 结束
+    if( profitForm.getPeriod().intValue() == currentCreditor.getPeriod().intValue() ){
+      updateCreditor.put(CreditorModel.STATUS, 1);
+      updateCreditor.put(CreditorModel.END_TIME, current);
+    }
+    if( 1 != creditorService.updateByMap(updateCreditor)){
       Utils.throwsBizException("更新债权["+profitForm.getCreditor_id()+"]失败");
     }
 

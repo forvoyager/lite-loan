@@ -6,11 +6,13 @@ import com.etl.invest.InvestServiceApplication;
 import com.etl.invest.common.model.InvestRecordModel;
 import com.etl.invest.common.service.IInvestRecordService;
 import com.etl.invest.common.service.IInvestService;
+import com.etl.invest.common.service.IRepaymentService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
 
 /**
  * @Author: forvoyager@outlook.com
@@ -21,11 +23,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = InvestServiceApplication.class)
 public class InvestTest {
   
-  @Autowired
+  @Resource
   private IInvestRecordService investRecordService;
 
-  @Autowired
+  @Resource
   private IInvestService investService;
+ 
+  @Resource
+  private IRepaymentService repaymentService;
   
   @Test
   public void test_investRecord() throws Exception{
@@ -48,5 +53,10 @@ public class InvestTest {
   @Test
   public void test_apply() throws Exception{
     investService.apply(11, 1, 930000, AccessChannel.ANDROID);
+  }
+  
+  @Test
+  public void test_repayment() throws Exception{
+    repaymentService.repayment(2031);
   }
 }

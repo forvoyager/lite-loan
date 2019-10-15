@@ -10,9 +10,9 @@ public interface IRepaymentService {
   /**
    * 还款
    * 
-   * @param form_id 借款项目还款报表ID
+   * @param repayment_form_id 借款项目还款报表ID
    * @throws Exception
    */
-  void repayment(long form_id) throws Exception;
+  void repayment(long repayment_form_id) throws Exception;
   
 }
