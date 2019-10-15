@@ -1,5 +1,7 @@
 package com.etl.invest.service.impl;
 
+import com.etl.asset.common.enums.BorrowStatus;
+import com.etl.asset.common.model.BorrowModel;
 import com.etl.asset.common.service.IBorrowService;
 import com.etl.base.common.enums.Cluster;
 import com.etl.base.common.enums.RefTable;
@@ -97,7 +99,18 @@ public class RepaymentServiceImpl implements IRepaymentService {
       Utils.throwsBizException("更新回款报表失败");
     }
     
-    // 更新标的状态为 还款结束 TODO
+    // 如果是最后一期还款 更新标的状态为 还款结束
+    BorrowModel currentBorrow = borrowService.selectById(repaymentForm.getBorrow_id(), Cluster.master);
+    if(repaymentForm.getPeriod().intValue() == currentBorrow.getPeriod().intValue()){
+      BorrowModel updateBorrow = new BorrowModel();
+      updateBorrow.setBorrow_id(currentBorrow.getBorrow_id());
+      updateBorrow.setWhere_version(currentBorrow.getVersion());
+      updateBorrow.setUpdate_time(current);
+      updateBorrow.setStatus(BorrowStatus.REPAYMENTED.getCode());
+      if( 1 != borrowService.update(updateBorrow)){
+        Utils.throwsBizException("还款，更新标的状态失败。");
+      }
+    }
     
   }
 

@@ -68,9 +68,14 @@ public class InvestServiceImpl implements IInvestService {
 
     // 信息验证
     AssertUtils.isTrue(amount > 0, "金额不合法");
+
+    long current = DateUtils.currentTimeInSecond();
     
     BorrowModel borrow = borrowService.selectById(borrow_id, Cluster.master);
-    if(BorrowStatus.parse(borrow.getStatus()) != BorrowStatus.IN_BID || borrow.getAvailable_amount().longValue() == 0){
+    if(
+            current < borrow.getInvest_start_time() ||
+            BorrowStatus.parse(borrow.getStatus()) != BorrowStatus.IN_BID || 
+            borrow.getAvailable_amount().longValue() == 0){
       Utils.throwsBizException("当前标的不可投");
     }
     if(amount > borrow.getAvailable_amount()){
@@ -85,8 +90,6 @@ public class InvestServiceImpl implements IInvestService {
     // 默认
     if (channel == null) { channel = AccessChannel.PC; }
     
-    long current = DateUtils.currentTimeInSecond();
-
     // 生成投资记录信息
     InvestRecordModel investRecord = new InvestRecordModel();
     investRecord.setUser_id(user_id);

@@ -130,11 +130,13 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
       return;
     }
     
+    long current = DateUtils.currentTimeInSecond();
+    
     // 更新标的可投金额
     Map updateModel = Utils.newHashMap(
             BorrowModel.BORROW_ID, borrow_id,
             "change_available_amount", amount,
-            BorrowModel.UPDATE_TIME, DateUtils.currentTimeInSecond()
+            BorrowModel.UPDATE_TIME, current
     );
     if( 1 != this.updateByMap(updateModel)){
       Utils.throwsBizException("可投金额不正确，稍后重试。");
@@ -150,6 +152,7 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
     // 如果是减少金额，在可投金额为0时，标的置为 已满标
     if(borrowModel.getAvailable_amount().longValue() == 0 && BorrowStatus.parse(borrowModel.getStatus()) != BorrowStatus.FULL_BID){
       updateModel.put(BorrowModel.STATUS, BorrowStatus.FULL_BID.getCode());
+      updateModel.put(BorrowModel.INVEST_END_TIME, current);
       if( 1 != this.updateByMap(updateModel)){
         Utils.throwsBizException("更新标的状态失败，稍后重试。");
       }

@@ -73,7 +73,7 @@ CREATE TABLE `etl_borrow` (
   `borrow_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标的id',
   `user_id` int(11) NOT NULL COMMENT '借款人id',
   `title` varchar(100) NOT NULL COMMENT '标题',
-  `status` smallint(4) NOT NULL DEFAULT '0' COMMENT '状态 0未还 1已还',
+  `status` smallint(4) NOT NULL DEFAULT '0' COMMENT '状态 see BorrowStatus',
   `amount` int(11) NOT NULL DEFAULT '0' COMMENT '借款金额（分）',
   `available_amount` int(11) NOT NULL DEFAULT '0' COMMENT '剩余可投金额（分）',
   `period` tinyint NOT NULL DEFAULT '0' COMMENT '借款期数',
