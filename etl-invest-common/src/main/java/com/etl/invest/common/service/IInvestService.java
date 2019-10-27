@@ -1,13 +1,15 @@
 package com.etl.invest.common.service;
 
 import com.etl.base.common.enums.AccessChannel;
+import com.etl.base.jdbc.service.IBaseService;
+import com.etl.invest.common.model.InvestModel;
 
 /**
- * <b>author</b>：forvoyager@outlook.com
- * <b>time</b>：2019/10/3 14:33 <br>
- * <b>description</b>：投资操作 服务定义
+ * <b>author</b>: forvoyager@outlook.com
+ * <b>time</b>: 2019-10-26 11:44:26 <br>
+ * <b>description</b>: 投资记录 服务定义 <br>
  */
-public interface IInvestService {
+public interface IInvestService extends IBaseService<InvestModel> {
 
   /**
    * 投标申请
@@ -33,4 +35,5 @@ public interface IInvestService {
    * @throws Exception
    */
   void verifyInvestorPayment(long borrow_id) throws Exception;
+
 }

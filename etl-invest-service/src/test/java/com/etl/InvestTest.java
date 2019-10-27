@@ -3,8 +3,7 @@ package com.etl;
 import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.common.util.JsonUtils;
 import com.etl.invest.InvestServiceApplication;
-import com.etl.invest.common.model.InvestRecordModel;
-import com.etl.invest.common.service.IInvestRecordService;
+import com.etl.invest.common.model.InvestModel;
 import com.etl.invest.common.service.IInvestService;
 import com.etl.invest.common.service.IRepaymentService;
 import org.junit.Test;
@@ -24,25 +23,23 @@ import javax.annotation.Resource;
 public class InvestTest {
   
   @Resource
-  private IInvestRecordService investRecordService;
-
-  @Resource
   private IInvestService investService;
- 
+
   @Resource
   private IRepaymentService repaymentService;
   
   @Test
-  public void test_investRecord() throws Exception{
-    InvestRecordModel investRecord = new InvestRecordModel();
-    investRecord.setUser_id(1L);
-    investRecord.setBorrow_id(2L);
-    investRecord.setPartion(5);
-    investRecord.setInvest_amount(investRecord.getPartion()*(100L*100));
-    investRecord.setStatus(0);
-    investRecord.setChannel(AccessChannel.PC.getCode());
-    investRecord = investRecordService.insert(investRecord);
-    System.out.println(JsonUtils.parseJson(investRecord));
+  public void test_invest() throws Exception{
+    InvestModel invest = new InvestModel();
+    invest.setUser_id(1L);
+    invest.setBorrow_id(2L);
+    invest.setPartion(5);
+    invest.setInvest_amount(invest.getPartion()*(100L*100));
+    invest.setInvest_status(0);
+    invest.setPay_status(0);
+    invest.setChannel(AccessChannel.PC.getCode());
+    invest = investService.insert(invest);
+    System.out.println(JsonUtils.parseJson(invest));
   }
 
   @Test
@@ -57,6 +54,6 @@ public class InvestTest {
   
   @Test
   public void test_repayment() throws Exception{
-    repaymentService.repayment(2031);
+    repaymentService.repayment(2039);
   }
 }

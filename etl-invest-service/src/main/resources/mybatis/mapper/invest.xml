@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2019-09-30 11:51:35 -->
+<!-- time: 2019-10-26 11:44:26 -->
 <!-- description: 投资记录 数据库操作mapper -->
-<mapper namespace="com.etl.invest.mapper.InvestRecordMapper">
+<mapper namespace="com.etl.invest.mapper.InvestMapper">
 
   <sql id="Base_Column_List">
-    `invest_id`, `user_id`, `borrow_id`, `invest_amount`, `partion`, `status`, `channel`, `create_time`, `update_time`, `version`
+    `id`, `user_id`, `borrow_id`, `invest_amount`, `partion`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -17,16 +17,13 @@
   <!-- 基础查询条件，不允许修改，自定义条件在Custom_Where_Sql中添加 -->
   <sql id="Base_Where_Sql">
     <if test="idList != null and idList.size() > 0">
-      <![CDATA[ AND t.`invest_id` IN ]]>
+      <![CDATA[ AND t.`id` IN ]]>
       <foreach collection="idList" item="item" open="(" separator="," close=")">
         <![CDATA[ #{item} ]]>
       </foreach>
     </if>
-    <if test="where_version != null">
-      <![CDATA[ AND t.`version` = #{where_version} ]]>
-    </if>
-    <if test="invest_id != null">
-      <![CDATA[ AND t.`invest_id` = #{invest_id} ]]>
+    <if test="id != null">
+      <![CDATA[ AND t.`id` = #{id} ]]>
     </if>
     <if test="user_id != null">
       <![CDATA[ AND t.`user_id` = #{user_id} ]]>
@@ -40,8 +37,11 @@
     <if test="partion != null">
       <![CDATA[ AND t.`partion` = #{partion} ]]>
     </if>
-    <if test="status != null">
-      <![CDATA[ AND t.`status` = #{status} ]]>
+    <if test="invest_status != null">
+      <![CDATA[ AND t.`invest_status` = #{invest_status} ]]>
+    </if>
+    <if test="pay_status != null">
+      <![CDATA[ AND t.`pay_status` = #{pay_status} ]]>
     </if>
     <if test="channel != null">
       <![CDATA[ AND t.`channel` = #{channel} ]]>
@@ -51,6 +51,9 @@
     </if>
     <if test="update_time != null">
       <![CDATA[ AND t.`update_time` = #{update_time} ]]>
+    </if>
+    <if test="where_version != null">
+      <![CDATA[ AND t.`version` = #{where_version} ]]>
     </if>
   </sql>
 
@@ -62,11 +65,11 @@
   </sql>
 
   <!-- 插入 -->
-  <insert id="insert" parameterType="com.etl.invest.common.model.InvestRecordModel" keyProperty="invest_id" useGeneratedKeys="true">
-    <![CDATA[ INSERT INTO etl_invest_record ]]>
+  <insert id="insert" parameterType="com.etl.invest.common.model.InvestModel" keyProperty="id" useGeneratedKeys="true">
+    <![CDATA[ INSERT INTO etl_invest ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="invest_id != null">
-        <![CDATA[ `invest_id`, ]]>
+      <if test="id != null">
+        <![CDATA[ `id`, ]]>
       </if>
       <if test="user_id != null">
         <![CDATA[ `user_id`, ]]>
@@ -80,8 +83,11 @@
       <if test="partion != null">
         <![CDATA[ `partion`, ]]>
       </if>
-      <if test="status != null">
-        <![CDATA[ `status`, ]]>
+      <if test="invest_status != null">
+        <![CDATA[ `invest_status`, ]]>
+      </if>
+      <if test="pay_status != null">
+        <![CDATA[ `pay_status`, ]]>
       </if>
       <if test="channel != null">
         <![CDATA[ `channel`, ]]>
@@ -98,8 +104,8 @@
     </trim>
     <![CDATA[ VALUES ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="invest_id != null">
-        <![CDATA[ #{invest_id}, ]]>
+      <if test="id != null">
+        <![CDATA[ #{id}, ]]>
       </if>
       <if test="user_id != null">
         <![CDATA[ #{user_id}, ]]>
@@ -113,8 +119,11 @@
       <if test="partion != null">
         <![CDATA[ #{partion}, ]]>
       </if>
-      <if test="status != null">
-        <![CDATA[ #{status}, ]]>
+      <if test="invest_status != null">
+        <![CDATA[ #{invest_status}, ]]>
+      </if>
+      <if test="pay_status != null">
+        <![CDATA[ #{pay_status}, ]]>
       </if>
       <if test="channel != null">
         <![CDATA[ #{channel}, ]]>
@@ -132,16 +141,16 @@
   </insert>
 
   <!-- 批量插入 -->
-  <insert id="insertBatch" parameterType="com.etl.invest.common.model.InvestRecordModel">
-    <![CDATA[ INSERT INTO etl_invest_record (`invest_id`, `user_id`, `borrow_id`, `invest_amount`, `partion`, `status`, `channel`, `create_time`, `update_time`, `version`) VALUES ]]>
+  <insert id="insertBatch" parameterType="com.etl.invest.common.model.InvestModel">
+    <![CDATA[ INSERT INTO etl_invest (`id`, `user_id`, `borrow_id`, `invest_amount`, `partion`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.invest_id}, #{item.user_id}, #{item.borrow_id}, #{item.invest_amount}, #{item.partion}, #{item.status}, #{item.channel}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.id}, #{item.user_id}, #{item.borrow_id}, #{item.invest_amount}, #{item.partion}, #{item.invest_status}, #{item.pay_status}, #{item.channel}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
   <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
   <update id="update" parameterType="map">
-    <![CDATA[ UPDATE etl_invest_record t SET t.`version` = t.`version` + 1, ]]>
+    <![CDATA[ UPDATE etl_invest t SET t.`version` = t.`version` + 1, ]]>
     <trim suffixOverrides=",">
       <if test="user_id != null">
         <![CDATA[ t.`user_id` = #{user_id}, ]]>
@@ -155,8 +164,11 @@
       <if test="partion != null">
         <![CDATA[ t.`partion` = #{partion}, ]]>
       </if>
-      <if test="status != null">
-        <![CDATA[ t.`status` = #{status}, ]]>
+      <if test="invest_status != null">
+        <![CDATA[ t.`invest_status` = #{invest_status}, ]]>
+      </if>
+      <if test="pay_status != null">
+        <![CDATA[ t.`pay_status` = #{pay_status}, ]]>
       </if>
       <if test="channel != null">
         <![CDATA[ t.`channel` = #{channel}, ]]>
@@ -166,8 +178,8 @@
       </if>
     </trim>
     <where>
-      <if test="invest_id != null">
-        <![CDATA[ AND t.`invest_id` = #{invest_id} ]]>
+      <if test="id != null">
+        <![CDATA[ AND t.`id` = #{id} ]]>
       </if>
       <if test="where_version != null">
         <![CDATA[ AND t.`version` = #{where_version} ]]>
@@ -177,22 +189,22 @@
 
   <!-- 删除 -->
   <delete id="delete" parameterType="map">
-    <![CDATA[ DELETE t FROM etl_invest_record t ]]>
+    <![CDATA[ DELETE t FROM etl_invest t ]]>
     <include refid="Where_Sql"/>
   </delete>
 
   <!-- 查询行数 -->
   <select id="selectCount" parameterType="map" resultType="long">
-    <![CDATA[ SELECT COUNT(*) FROM etl_invest_record t ]]>
+    <![CDATA[ SELECT COUNT(*) FROM etl_invest t ]]>
     <include refid="Where_Sql"/>
   </select>
 
   <!-- 查询记录 -->
-  <select id="selectList" parameterType="map" resultType="com.etl.invest.common.model.InvestRecordModel">
+  <select id="selectList" parameterType="map" resultType="com.etl.invest.common.model.InvestModel">
     <include refid="global.pageStart"/>
     <![CDATA[ SELECT ]]>
     <include refid="Base_Column_List"/>
-    <![CDATA[ FROM etl_invest_record t ]]>
+    <![CDATA[ FROM etl_invest t ]]>
     <include refid="Where_Sql"/>
     <include refid="global.globalSort"/>
     <include refid="global.pageEnd"/>

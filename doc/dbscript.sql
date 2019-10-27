@@ -114,9 +114,27 @@ CREATE TABLE `etl_repayment_form` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='借款项目还款报表';
 
 -- invest
+CREATE TABLE `etl_invest` (
+  `id` int(11) NOT NULL COMMENT '编号',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '标投人',
+  `borrow_id` int(11) NOT NULL DEFAULT '0' COMMENT '标的id',
+  `invest_amount` int(11) NOT NULL DEFAULT '0' COMMENT '标投金额（分）',
+  `partion` int(11) NOT NULL DEFAULT '0' COMMENT '份数',
+  `invest_status` tinyint NOT NULL DEFAULT '0' COMMENT '投资状态 0待处理 1成功 2失败',
+  `pay_status` tinyint NOT NULL DEFAULT '0' COMMENT '放款给借款人 0否 1是',
+  `channel` tinyint NOT NULL DEFAULT '0' COMMENT '投资渠道',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
+  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
+  `version` smallint(6) NOT NULL DEFAULT '0' COMMENT '版本号，每次更新+1',
+  PRIMARY KEY (`id`),
+  KEY `borrow_id` (`borrow_id`) USING BTREE,
+  KEY `user_id` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投资记录';
+
 CREATE TABLE `etl_creditor` (
-  `creditor_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '债权ID',
-  `parent_creditor_id` int(11) NOT NULL COMMENT '父债权ID',
+  `creditor_id` int(11) NOT NULL COMMENT '债权ID（invest_id，多个取最大）',
+  `parent_creditor_id` int(11) NOT NULL COMMENT '父债权ID，原生债权为0，承接债权大于0',
+  `creditor_transfer_id` int(11) NOT NULL DEFAULT '0' COMMENT '债转ID（承接债权）',
   `user_id` int(11) NOT NULL COMMENT '债权人',
   `borrow_id` int(11) NOT NULL COMMENT '标的id',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态 0正常 1已结束 2已转让',
@@ -156,21 +174,7 @@ CREATE TABLE `etl_profit_form` (
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投资人收益报表';
 
-CREATE TABLE `etl_invest_record` (
-  `invest_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '标投人',
-  `borrow_id` int(11) NOT NULL DEFAULT '0' COMMENT '标的id',
-  `invest_amount` int(11) NOT NULL DEFAULT '0' COMMENT '标投金额（分）',
-  `partion` int(11) NOT NULL DEFAULT '0' COMMENT '份数',
-  `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态 0待处理 1成功 2失败',
-  `channel` tinyint NOT NULL DEFAULT '0' COMMENT '投资渠道',
-  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
-  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
-  `version` smallint(6) NOT NULL DEFAULT '0' COMMENT '版本号，每次更新+1',
-  PRIMARY KEY (`invest_id`),
-  KEY `borrow_id` (`borrow_id`) USING BTREE,
-  KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投资记录';
+
 
 
 

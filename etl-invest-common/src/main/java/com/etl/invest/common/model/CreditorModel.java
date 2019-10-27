@@ -29,7 +29,7 @@ public class CreditorModel extends BaseModel {
    */
   private Long creditor_id;
   /**
-   * 父债权ID
+   * 父债权ID，原生债权为0，承接债权大于0
    */
   private Long parent_creditor_id;
   /**
