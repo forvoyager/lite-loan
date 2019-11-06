@@ -116,12 +116,13 @@ CREATE TABLE `etl_repayment_form` (
 -- invest
 CREATE TABLE `etl_invest` (
   `id` int(11) NOT NULL COMMENT '编号',
-  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '标投人',
-  `borrow_id` int(11) NOT NULL DEFAULT '0' COMMENT '标的id',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '标资人id',
+  `type` tinyint NOT NULL DEFAULT '0' COMMENT '投资类型 1投标 2买债权',
+  `biz_id` int(11) NOT NULL DEFAULT '0' COMMENT '由type确定：标的id/债转id',
   `invest_amount` int(11) NOT NULL DEFAULT '0' COMMENT '标投金额（分）',
   `partion` int(11) NOT NULL DEFAULT '0' COMMENT '份数',
   `invest_status` tinyint NOT NULL DEFAULT '0' COMMENT '投资状态 0待处理 1成功 2失败',
-  `pay_status` tinyint NOT NULL DEFAULT '0' COMMENT '放款给借款人 0否 1是',
+  `pay_status` tinyint NOT NULL DEFAULT '0' COMMENT '放款 0否 1是',
   `channel` tinyint NOT NULL DEFAULT '0' COMMENT '投资渠道',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
   `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
@@ -129,7 +130,7 @@ CREATE TABLE `etl_invest` (
   PRIMARY KEY (`id`),
   KEY `borrow_id` (`borrow_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投资记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投资记录（投标、买债权）';
 
 CREATE TABLE `etl_creditor` (
   `creditor_id` int(11) NOT NULL COMMENT '债权ID（invest_id，多个取最大）',
