@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2019-10-26 11:44:26 -->
-<!-- description: 投资记录 数据库操作mapper -->
+<!-- time: 2019-11-06 13:27:01 -->
+<!-- description: 投资记录（投标、买债权） 数据库操作mapper -->
 <mapper namespace="com.etl.invest.mapper.InvestMapper">
 
   <sql id="Base_Column_List">
-    `id`, `user_id`, `borrow_id`, `invest_amount`, `partion`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`
+    `id`, `user_id`, `type`, `biz_id`, `invest_amount`, `partion`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -28,8 +28,11 @@
     <if test="user_id != null">
       <![CDATA[ AND t.`user_id` = #{user_id} ]]>
     </if>
-    <if test="borrow_id != null">
-      <![CDATA[ AND t.`borrow_id` = #{borrow_id} ]]>
+    <if test="type != null">
+      <![CDATA[ AND t.`type` = #{type} ]]>
+    </if>
+    <if test="biz_id != null">
+      <![CDATA[ AND t.`biz_id` = #{biz_id} ]]>
     </if>
     <if test="invest_amount != null">
       <![CDATA[ AND t.`invest_amount` = #{invest_amount} ]]>
@@ -74,8 +77,11 @@
       <if test="user_id != null">
         <![CDATA[ `user_id`, ]]>
       </if>
-      <if test="borrow_id != null">
-        <![CDATA[ `borrow_id`, ]]>
+      <if test="type != null">
+        <![CDATA[ `type`, ]]>
+      </if>
+      <if test="biz_id != null">
+        <![CDATA[ `biz_id`, ]]>
       </if>
       <if test="invest_amount != null">
         <![CDATA[ `invest_amount`, ]]>
@@ -110,8 +116,11 @@
       <if test="user_id != null">
         <![CDATA[ #{user_id}, ]]>
       </if>
-      <if test="borrow_id != null">
-        <![CDATA[ #{borrow_id}, ]]>
+      <if test="type != null">
+        <![CDATA[ #{type}, ]]>
+      </if>
+      <if test="biz_id != null">
+        <![CDATA[ #{biz_id}, ]]>
       </if>
       <if test="invest_amount != null">
         <![CDATA[ #{invest_amount}, ]]>
@@ -142,9 +151,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.invest.common.model.InvestModel">
-    <![CDATA[ INSERT INTO etl_invest (`id`, `user_id`, `borrow_id`, `invest_amount`, `partion`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_invest (`id`, `user_id`, `type`, `biz_id`, `invest_amount`, `partion`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.user_id}, #{item.borrow_id}, #{item.invest_amount}, #{item.partion}, #{item.invest_status}, #{item.pay_status}, #{item.channel}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.id}, #{item.user_id}, #{item.type}, #{item.biz_id}, #{item.invest_amount}, #{item.partion}, #{item.invest_status}, #{item.pay_status}, #{item.channel}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -155,8 +164,11 @@
       <if test="user_id != null">
         <![CDATA[ t.`user_id` = #{user_id}, ]]>
       </if>
-      <if test="borrow_id != null">
-        <![CDATA[ t.`borrow_id` = #{borrow_id}, ]]>
+      <if test="type != null">
+        <![CDATA[ t.`type` = #{type}, ]]>
+      </if>
+      <if test="biz_id != null">
+        <![CDATA[ t.`biz_id` = #{biz_id}, ]]>
       </if>
       <if test="invest_amount != null">
         <![CDATA[ t.`invest_amount` = #{invest_amount}, ]]>

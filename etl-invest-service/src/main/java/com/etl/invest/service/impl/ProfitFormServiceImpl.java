@@ -82,7 +82,7 @@ public class ProfitFormServiceImpl extends BaseServiceImpl<ProfitFormMapper, Pro
     // 更新债权信息
     CreditorModel currentCreditor = creditorService.selectById(profitForm.getCreditor_id(), Cluster.master);
     Map updateCreditor = Utils.newHashMap(
-            CreditorModel.CREDITOR_ID, profitForm.getCreditor_id(),
+            CreditorModel.ID, profitForm.getCreditor_id(),
             CreditorModel.WHERE_VERSION, currentCreditor.getVersion(),
             CreditorModel.UPDATE_TIME, current,
             CreditorModel.UNPAID_CAPITAL, currentCreditor.getUnpaid_capital() - profitForm.getCapital(),

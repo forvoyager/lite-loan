@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
 public class CreditorServiceImpl extends BaseServiceImpl<CreditorMapper, CreditorModel> implements ICreditorService {
   @Override
   protected String getPrimaryKeyName() {
-    return "creditor_id";
+    return "id";
   }
 }

@@ -4,14 +4,15 @@ import com.etl.base.common.model.BaseModel;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2019-10-26 11:44:26 <br>
- * <b>description</b>: 投资记录 模型 <br>
+ * <b>time</b>: 2019-11-06 13:27:01 <br>
+ * <b>description</b>: 投资记录（投标、买债权） 模型 <br>
  */
 public class InvestModel extends BaseModel {
 
   public static final String ID = "id";
   public static final String USER_ID = "user_id";
-  public static final String BORROW_ID = "borrow_id";
+  public static final String TYPE = "type";
+  public static final String BIZ_ID = "biz_id";
   public static final String INVEST_AMOUNT = "invest_amount";
   public static final String PARTION = "partion";
   public static final String INVEST_STATUS = "invest_status";
@@ -23,13 +24,17 @@ public class InvestModel extends BaseModel {
    */
   private Long id;
   /**
-   * 标投人
+   * 标资人id
    */
   private Long user_id;
   /**
-   * 标的id
+   * 投资类型 1投标 2买债权
    */
-  private Long borrow_id;
+  private Integer type;
+  /**
+   * 由type确定：标的id/债转id
+   */
+  private Long biz_id;
   /**
    * 标投金额（分）
    */
@@ -43,7 +48,7 @@ public class InvestModel extends BaseModel {
    */
   private Integer invest_status;
   /**
-   * 放款给借款人 0否 1是
+   * 放款 0否 1是
    */
   private Integer pay_status;
   /**
@@ -52,68 +57,84 @@ public class InvestModel extends BaseModel {
   private Integer channel;
 
   public Long getId() {
-    return this.id;
+    return id;
   }
+
   public InvestModel setId(Long id) {
     this.id = id;
     return this;
   }
 
   public Long getUser_id() {
-    return this.user_id;
+    return user_id;
   }
+
   public InvestModel setUser_id(Long user_id) {
     this.user_id = user_id;
     return this;
   }
 
-  public Long getBorrow_id() {
-    return this.borrow_id;
+  public Integer getType() {
+    return type;
   }
-  public InvestModel setBorrow_id(Long borrow_id) {
-    this.borrow_id = borrow_id;
+
+  public InvestModel setType(Integer type) {
+    this.type = type;
+    return this;
+  }
+
+  public Long getBiz_id() {
+    return biz_id;
+  }
+
+  public InvestModel setBiz_id(Long biz_id) {
+    this.biz_id = biz_id;
     return this;
   }
 
   public Long getInvest_amount() {
-    return this.invest_amount;
+    return invest_amount;
   }
+
   public InvestModel setInvest_amount(Long invest_amount) {
     this.invest_amount = invest_amount;
     return this;
   }
 
   public Integer getPartion() {
-    return this.partion;
+    return partion;
   }
+
   public InvestModel setPartion(Integer partion) {
     this.partion = partion;
     return this;
   }
 
   public Integer getInvest_status() {
-    return this.invest_status;
+    return invest_status;
   }
+
   public InvestModel setInvest_status(Integer invest_status) {
     this.invest_status = invest_status;
     return this;
   }
 
   public Integer getPay_status() {
-    return this.pay_status;
+    return pay_status;
   }
+
   public InvestModel setPay_status(Integer pay_status) {
     this.pay_status = pay_status;
     return this;
   }
 
   public Integer getChannel() {
-    return this.channel;
+    return channel;
   }
+
   public InvestModel setChannel(Integer channel) {
     this.channel = channel;
     return this;
   }
-
 }
 

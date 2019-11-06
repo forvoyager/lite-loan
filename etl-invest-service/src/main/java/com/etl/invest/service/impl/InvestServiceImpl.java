@@ -78,7 +78,8 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     // 生成投资记录信息
     InvestModel invest = new InvestModel();
     invest.setUser_id(user_id);
-    invest.setBorrow_id(borrow_id);
+    invest.setType(1);
+    invest.setBiz_id(borrow_id);
     invest.setInvest_amount(amount);
     invest.setPartion((int)amount/10000); // ((amount/100)元/100)份
     invest.setChannel(channel.getCode());
@@ -105,7 +106,8 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     logger.info("tx_xid:{}", RootContext.getXID());
 
     List<InvestModel> allInvest = investService.selectList(Utils.newHashMap(
-            InvestModel.BORROW_ID, borrow_id,
+            InvestModel.TYPE, 1,
+            InvestModel.BIZ_ID, borrow_id,
             InvestModel.INVEST_STATUS, 0
     ), Cluster.master);
     AssertUtils.notEmpty(allInvest, "投资记录不正确，标的："+borrow_id);
@@ -130,7 +132,6 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     }
 
     long current = DateUtils.currentTimeInSecond();
-    Long creditor_id = null;
     Long user_id = null;
     Long invest_amount = 0L; // 标投金额（分）
     CreditorModel creditorModel = null;
@@ -138,20 +139,17 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     ProfitFormModel profitFormModel = null;
     List<ProfitFormModel> profitFormModelList = new ArrayList<>();
     for(Map.Entry<Long, List<InvestModel>> entry : userInvestMap.entrySet()){
-      creditor_id = null; // 债权id（取invest_id，多个取最大）
       user_id = entry.getKey();
       userInvestList = entry.getValue();
       invest_amount = 0L;
       for(InvestModel ir : userInvestList){
         invest_amount += ir.getInvest_amount();
-        creditor_id = ir.getId();
       }
 
       RepaymentDetailDto repaymentDetailDto = FeeCalcUtils.averageInterest(invest_amount/100, borrowModel.getApr()/100, borrowModel.getPeriod(), current);
 
       creditorModel = new CreditorModel();
-      creditorModel.setCreditor_id(creditor_id);
-      creditorModel.setParent_creditor_id(0L);
+      creditorModel.setParent_id(0L);
       creditorModel.setUser_id(user_id);
       creditorModel.setBorrow_id(borrow_id);
       creditorModel.setStatus(0);
@@ -171,7 +169,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
 
       for(RepaymentPerMonthDto plan : repaymentDetailDto.getRepaymentPlan()){
         profitFormModel = new ProfitFormModel();
-        profitFormModel.setCreditor_id(creditor_id);
+        profitFormModel.setCreditor_id(0L); // 等初始化债权有再更新债权id
         profitFormModel.setUser_id(user_id);
         profitFormModel.setBorrow_id(borrow_id);
         profitFormModel.setStatus(0);
@@ -190,7 +188,16 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     // 初始化债权信息
     creditorService.insertBatch(creditorModelList);
 
+    creditorModelList = creditorService.selectList(Utils.newHashMap(CreditorModel.BORROW_ID, borrow_id), Cluster.master);
+    Map<Long, Long> userCreditorMap = new HashMap<>();
+    for(CreditorModel cm : creditorModelList){
+      userCreditorMap.put(cm.getUser_id(), cm.getId());
+    }
+
     // 初始化收益报表
+    for(ProfitFormModel pfm : profitFormModelList){
+      pfm.setCreditor_id(userCreditorMap.get(pfm.getUser_id()));
+    }
     profitFormService.insertBatch(profitFormModelList);
 
   }
@@ -199,7 +206,8 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
   @Override
   public void verifyInvestorPayment(long borrow_id) throws Exception {
     List<InvestModel> allInvest = this.investService.selectList(Utils.newHashMap(
-            InvestModel.BORROW_ID, borrow_id,
+            InvestModel.TYPE, 1,
+            InvestModel.BIZ_ID, borrow_id,
             InvestModel.INVEST_STATUS, 0,
             InvestModel.PAY_STATUS, 0
     ), Cluster.master);

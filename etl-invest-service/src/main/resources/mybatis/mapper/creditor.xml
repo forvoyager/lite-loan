@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2019-09-30 11:51:35 -->
+<!-- time: 2019-11-06 13:27:01 -->
 <!-- description: 债权信息 数据库操作mapper -->
 <mapper namespace="com.etl.invest.mapper.CreditorMapper">
 
   <sql id="Base_Column_List">
-    `creditor_id`, `parent_creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `surplus_period`, `unpaid_capital`, `unpaid_interest`, `start_time`, `end_time`, `partion`, `create_time`, `update_time`, `version`
+    `id`, `parent_id`, `creditor_transfer_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `surplus_period`, `unpaid_capital`, `unpaid_interest`, `start_time`, `end_time`, `partion`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -17,19 +17,19 @@
   <!-- 基础查询条件，不允许修改，自定义条件在Custom_Where_Sql中添加 -->
   <sql id="Base_Where_Sql">
     <if test="idList != null and idList.size() > 0">
-      <![CDATA[ AND t.`creditor_id` IN ]]>
+      <![CDATA[ AND t.`id` IN ]]>
       <foreach collection="idList" item="item" open="(" separator="," close=")">
         <![CDATA[ #{item} ]]>
       </foreach>
     </if>
-    <if test="where_version != null">
-      <![CDATA[ AND t.`version` = #{where_version} ]]>
+    <if test="id != null">
+      <![CDATA[ AND t.`id` = #{id} ]]>
     </if>
-    <if test="creditor_id != null">
-      <![CDATA[ AND t.`creditor_id` = #{creditor_id} ]]>
+    <if test="parent_id != null">
+      <![CDATA[ AND t.`parent_id` = #{parent_id} ]]>
     </if>
-    <if test="parent_creditor_id != null">
-      <![CDATA[ AND t.`parent_creditor_id` = #{parent_creditor_id} ]]>
+    <if test="creditor_transfer_id != null">
+      <![CDATA[ AND t.`creditor_transfer_id` = #{creditor_transfer_id} ]]>
     </if>
     <if test="user_id != null">
       <![CDATA[ AND t.`user_id` = #{user_id} ]]>
@@ -73,6 +73,9 @@
     <if test="update_time != null">
       <![CDATA[ AND t.`update_time` = #{update_time} ]]>
     </if>
+    <if test="where_version != null">
+      <![CDATA[ AND t.`version` = #{where_version} ]]>
+    </if>
   </sql>
 
   <sql id="Where_Sql">
@@ -83,14 +86,17 @@
   </sql>
 
   <!-- 插入 -->
-  <insert id="insert" parameterType="com.etl.invest.common.model.CreditorModel" keyProperty="creditor_id" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.etl.invest.common.model.CreditorModel" keyProperty="id" useGeneratedKeys="true">
     <![CDATA[ INSERT INTO etl_creditor ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="creditor_id != null">
-        <![CDATA[ `creditor_id`, ]]>
+      <if test="id != null">
+        <![CDATA[ `id`, ]]>
       </if>
-      <if test="parent_creditor_id != null">
-        <![CDATA[ `parent_creditor_id`, ]]>
+      <if test="parent_id != null">
+        <![CDATA[ `parent_id`, ]]>
+      </if>
+      <if test="creditor_transfer_id != null">
+        <![CDATA[ `creditor_transfer_id`, ]]>
       </if>
       <if test="user_id != null">
         <![CDATA[ `user_id`, ]]>
@@ -140,11 +146,14 @@
     </trim>
     <![CDATA[ VALUES ]]>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="creditor_id != null">
-        <![CDATA[ #{creditor_id}, ]]>
+      <if test="id != null">
+        <![CDATA[ #{id}, ]]>
       </if>
-      <if test="parent_creditor_id != null">
-        <![CDATA[ #{parent_creditor_id}, ]]>
+      <if test="parent_id != null">
+        <![CDATA[ #{parent_id}, ]]>
+      </if>
+      <if test="creditor_transfer_id != null">
+        <![CDATA[ #{creditor_transfer_id}, ]]>
       </if>
       <if test="user_id != null">
         <![CDATA[ #{user_id}, ]]>
@@ -196,9 +205,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.invest.common.model.CreditorModel">
-    <![CDATA[ INSERT INTO etl_creditor (`creditor_id`, `parent_creditor_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `surplus_period`, `unpaid_capital`, `unpaid_interest`, `start_time`, `end_time`, `partion`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_creditor (`id`, `parent_id`, `creditor_transfer_id`, `user_id`, `borrow_id`, `status`, `capital`, `interest`, `period`, `surplus_period`, `unpaid_capital`, `unpaid_interest`, `start_time`, `end_time`, `partion`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.creditor_id}, #{item.parent_creditor_id}, #{item.user_id}, #{item.borrow_id}, #{item.status}, #{item.capital}, #{item.interest}, #{item.period}, #{item.surplus_period}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.start_time}, #{item.end_time}, #{item.partion}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.id}, #{item.parent_id}, #{item.creditor_transfer_id}, #{item.user_id}, #{item.borrow_id}, #{item.status}, #{item.capital}, #{item.interest}, #{item.period}, #{item.surplus_period}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.start_time}, #{item.end_time}, #{item.partion}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -206,8 +215,11 @@
   <update id="update" parameterType="map">
     <![CDATA[ UPDATE etl_creditor t SET t.`version` = t.`version` + 1, ]]>
     <trim suffixOverrides=",">
-      <if test="parent_creditor_id != null">
-        <![CDATA[ t.`parent_creditor_id` = #{parent_creditor_id}, ]]>
+      <if test="parent_id != null">
+        <![CDATA[ t.`parent_id` = #{parent_id}, ]]>
+      </if>
+      <if test="creditor_transfer_id != null">
+        <![CDATA[ t.`creditor_transfer_id` = #{creditor_transfer_id}, ]]>
       </if>
       <if test="user_id != null">
         <![CDATA[ t.`user_id` = #{user_id}, ]]>
@@ -250,8 +262,8 @@
       </if>
     </trim>
     <where>
-      <if test="creditor_id != null">
-        <![CDATA[ AND t.`creditor_id` = #{creditor_id} ]]>
+      <if test="id != null">
+        <![CDATA[ AND t.`id` = #{id} ]]>
       </if>
       <if test="where_version != null">
         <![CDATA[ AND t.`version` = #{where_version} ]]>

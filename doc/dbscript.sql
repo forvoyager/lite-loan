@@ -128,13 +128,13 @@ CREATE TABLE `etl_invest` (
   `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
   `version` smallint(6) NOT NULL DEFAULT '0' COMMENT '版本号，每次更新+1',
   PRIMARY KEY (`id`),
-  KEY `borrow_id` (`borrow_id`) USING BTREE,
+  KEY `biz_id` (`biz_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投资记录（投标、买债权）';
 
 CREATE TABLE `etl_creditor` (
-  `creditor_id` int(11) NOT NULL COMMENT '债权ID（invest_id，多个取最大）',
-  `parent_creditor_id` int(11) NOT NULL COMMENT '父债权ID，原生债权为0，承接债权大于0',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '债权ID',
+  `parent_id` int(11) NOT NULL COMMENT '父债权ID，原生债权为0，承接债权大于0',
   `creditor_transfer_id` int(11) NOT NULL DEFAULT '0' COMMENT '债转ID（承接债权）',
   `user_id` int(11) NOT NULL COMMENT '债权人',
   `borrow_id` int(11) NOT NULL COMMENT '标的id',
@@ -151,7 +151,7 @@ CREATE TABLE `etl_creditor` (
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
   `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
   `version` smallint(6) NOT NULL DEFAULT '0' COMMENT '版本号，每次更新+1',
-  PRIMARY KEY (`creditor_id`),
+  PRIMARY KEY (`id`),
   KEY `borrow_id` (`borrow_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='债权信息';
