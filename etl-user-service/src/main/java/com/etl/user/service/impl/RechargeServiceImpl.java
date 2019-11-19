@@ -71,7 +71,7 @@ public class RechargeServiceImpl implements IRechargeService {
     
     if(status == 1){
       // 成功 给账户加钱
-      userAccountService.changeAvailable(
+      userAccountService.incoming(
               rechargeOrder.getUser_id(), 
               rechargeOrder.getAmount(),
               FundsOperateType.recharge_online,

@@ -60,7 +60,7 @@ public class BorrowBizImpl implements IBorrowBiz {
     investService.verifyInvestorPayment(borrow_id);
 
     // 借款人账户资金入账
-    userAccountService.changeAvailable(borrow.getUser_id(), borrow.getAmount(), FundsOperateType.loan_entry, RefTable.borrow, borrow_id);
+    userAccountService.incoming(borrow.getUser_id(), borrow.getAmount(), FundsOperateType.loan_entry, RefTable.borrow, borrow_id);
 
     // TODO 发送满标终审消息
   }

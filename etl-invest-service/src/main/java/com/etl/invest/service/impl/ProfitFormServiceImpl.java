@@ -49,7 +49,7 @@ public class ProfitFormServiceImpl extends BaseServiceImpl<ProfitFormMapper, Pro
 
     // 投资人账户增加可用余额
     if(profitForm.getCapital() > 0){
-      userAccountService.changeAvailable(
+      userAccountService.incoming(
               profitForm.getUser_id(),
               profitForm.getCapital(),
               FundsOperateType.repayment_capital_entry,
@@ -58,7 +58,7 @@ public class ProfitFormServiceImpl extends BaseServiceImpl<ProfitFormMapper, Pro
       );
     }
     if(profitForm.getInterest() > 0){
-      userAccountService.changeAvailable(
+      userAccountService.incoming(
               profitForm.getUser_id(),
               profitForm.getInterest(),
               FundsOperateType.repayment_interest_entry,

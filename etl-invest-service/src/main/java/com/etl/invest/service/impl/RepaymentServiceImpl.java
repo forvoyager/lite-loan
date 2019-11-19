@@ -82,7 +82,7 @@ public class RepaymentServiceImpl implements IRepaymentService {
     userAccountService.frozen(repaymentForm.getUser_id(), repaymentAmount, FundsOperateType.repayment_frozen, RefTable.repayment_form, repaymentForm.getId());
     
     // 还款兑付（给投资人回款）
-    repaymentCash(repaymentForm.getBorrow_id(), repaymentForm.getPeriod());
+    this.repaymentCash(repaymentForm.getBorrow_id(), repaymentForm.getPeriod());
 
     // 解冻支出还款人资金
     userAccountService.unfrozen(repaymentForm.getUser_id(), repaymentAmount, FundsOperateType.repayment_unfrozen, RefTable.repayment_form, repaymentForm.getId());

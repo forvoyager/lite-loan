@@ -152,14 +152,11 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountMapper, U
 
   @Transactional
   @Override
-  public void changeAvailable(long user_id, long amount, FundsOperateType biz_type, RefTable ref_table, long ref_id) throws Exception {
+  public void incoming(long user_id, long amount, FundsOperateType biz_type, RefTable ref_table, long ref_id) throws Exception {
 
     AssertUtils.notNull(biz_type, "非法的业务操作");
     AssertUtils.notNull(ref_table, "非法的业务关联");
-    
-    if(amount == 0){
-      return;
-    }
+    AssertUtils.isTrue(amount > 0, "非法金额，入账失败。");
     
     UserAccountModel userAccount = this.selectById(user_id, Cluster.master);
     AssertUtils.notNull(userAccount, "账户不存在");
@@ -168,9 +165,6 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountMapper, U
 
     // 修改可用余额
     long current_available = userAccount.getAvailable() + amount;
-    if(current_available < 0){
-      Utils.throwsBizException("可用余额不足，扣减失败。");
-    }
     Map updateData =  Utils.newHashMap(
             UserAccountModel.USER_ID, user_id,
             UserAccountModel.AVAILABLE, current_available,
