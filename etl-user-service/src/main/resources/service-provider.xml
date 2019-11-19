@@ -11,6 +11,7 @@
 
   <!--export service-->
   <dubbo:service ref="userService" interface="com.etl.user.common.service.IUserService" version="${user.service.version}" group="${user.service.group}" filter="remoteServiceFilter" retries="0" />
+  <dubbo:service ref="userAccountBiz" interface="com.etl.user.common.service.IUserAccountBiz" version="${user.service.version}" group="${user.service.group}" filter="remoteServiceFilter" retries="0" />
   <dubbo:service ref="userAccountService" interface="com.etl.user.common.service.IUserAccountService" version="${user.service.version}" group="${user.service.group}" filter="remoteServiceFilter" retries="0" />
   <dubbo:service ref="userAccountDataService" interface="com.etl.user.common.service.IUserAccountDataService" version="${user.service.version}" group="${user.service.group}" filter="remoteServiceFilter" retries="0" />
 

@@ -13,5 +13,6 @@
 
     <!--user application-->
     <dubbo:reference id="userAccountService" interface="com.etl.user.common.service.IUserAccountService" version="${user.service.version}" group="${user.service.group}" check="false" />
+    <dubbo:reference id="userAccountBiz" interface="com.etl.user.common.service.IUserAccountBiz" version="${user.service.version}" group="${user.service.group}" check="false" />
 
 </beans>

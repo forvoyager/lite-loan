@@ -61,7 +61,7 @@ public interface IBorrowService extends IBaseService<BorrowModel> {
    * @param borrow_id
    * @throws Exception
    */
-  void verifyInitBorrowerForm(long borrow_id) throws Exception;
+  void initBorrowerForm(long borrow_id) throws Exception;
 
   /**
    * 修改标的可投金额

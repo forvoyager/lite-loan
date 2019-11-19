@@ -94,7 +94,7 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
 
   @Transactional
   @Override
-  public void verifyInitBorrowerForm(long borrow_id) throws Exception {
+  public void initBorrowerForm(long borrow_id) throws Exception {
 
     logger.info("tx_xid:{}", RootContext.getXID());
     

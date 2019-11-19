@@ -32,7 +32,8 @@ public class InvestTest {
   public void test_invest() throws Exception{
     InvestModel invest = new InvestModel();
     invest.setUser_id(1L);
-    invest.setBorrow_id(2L);
+    invest.setType(1);
+    invest.setBiz_id(2L);
     invest.setPartion(5);
     invest.setInvest_amount(invest.getPartion()*(100L*100));
     invest.setInvest_status(0);
@@ -44,7 +45,7 @@ public class InvestTest {
 
   @Test
   public void test_verifyInitInvestorForm() throws Exception{
-    investService.verifyInitInvestorForm(1L);
+    investService.initInvestorForm(1L);
   }
 
   @Test

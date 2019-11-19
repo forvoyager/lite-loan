@@ -27,13 +27,13 @@ public interface IInvestService extends IBaseService<InvestModel> {
    * @param borrow_id
    * @throws Exception
    */
-  void verifyInitInvestorForm(long borrow_id) throws Exception;
+  void initInvestorForm(long borrow_id) throws Exception;
 
   /**
-   * 满标终审 投资人账户支出
+   * 满标终审 放款（投资人账户支出、借款人账户入账）
    * @param borrow_id
    * @throws Exception
    */
-  void verifyInvestorPayment(long borrow_id) throws Exception;
+  void borrowPay(long borrow_id) throws Exception;
 
 }
