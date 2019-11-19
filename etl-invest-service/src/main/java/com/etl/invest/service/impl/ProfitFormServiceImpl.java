@@ -91,7 +91,7 @@ public class ProfitFormServiceImpl extends BaseServiceImpl<ProfitFormMapper, Pro
     );
     // 如果是最后一期还款，债权置为 结束
     if( profitForm.getPeriod().intValue() == currentCreditor.getPeriod().intValue() ){
-      updateCreditor.put(CreditorModel.STATUS, 1);
+      updateCreditor.put(CreditorModel.STATUS, -1);
       updateCreditor.put(CreditorModel.END_TIME, current);
     }
     if( 1 != creditorService.updateByMap(updateCreditor)){
