@@ -23,7 +23,7 @@ public class CreditorModel extends BaseModel {
   public static final String UNPAID_INTEREST = "unpaid_interest";
   public static final String START_TIME = "start_time";
   public static final String END_TIME = "end_time";
-  public static final String PARTION = "partion";
+  public static final String PARTITION = "partition";
 
   /**
    * 债权ID
@@ -84,7 +84,7 @@ public class CreditorModel extends BaseModel {
   /**
    * 持有份数
    */
-  private Integer partion;
+  private Integer partition;
 
   public Long getId() {
     return id;
@@ -212,12 +212,12 @@ public class CreditorModel extends BaseModel {
     return this;
   }
 
-  public Integer getPartion() {
-    return partion;
+  public Integer getPartition() {
+    return partition;
   }
 
-  public CreditorModel setPartion(Integer partion) {
-    this.partion = partion;
+  public CreditorModel setPartition(Integer partition) {
+    this.partition = partition;
     return this;
   }
 }

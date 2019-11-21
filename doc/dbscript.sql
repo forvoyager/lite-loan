@@ -77,8 +77,8 @@ CREATE TABLE `etl_borrow` (
   `amount` int(11) NOT NULL DEFAULT '0' COMMENT '借款金额（分）',
   `available_amount` int(11) NOT NULL DEFAULT '0' COMMENT '剩余可投金额（分）',
   `period` tinyint NOT NULL DEFAULT '0' COMMENT '借款期数',
-  `apr` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '利率',
-  `partion_amount` int(11) NOT NULL DEFAULT '0' COMMENT '每份金额（分）',
+  `apr` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '利率，如10.2% 存0.102',
+  `partition_amount` int(11) NOT NULL DEFAULT '0' COMMENT '每份金额（分）',
   `repayment_mode` int(11) NOT NULL DEFAULT '0' COMMENT '还款方式',
   `invest_start_time` int(11) NOT NULL DEFAULT '0' COMMENT '投标开始时间（秒）',
   `invest_end_time` int(11) NOT NULL DEFAULT '0' COMMENT '投标结束时间（秒）',
@@ -120,7 +120,7 @@ CREATE TABLE `etl_invest` (
   `type` tinyint NOT NULL DEFAULT '0' COMMENT '投资类型 1投标 2买债权',
   `biz_id` int(11) NOT NULL DEFAULT '0' COMMENT '由type确定：标的id/债转id',
   `invest_amount` int(11) NOT NULL DEFAULT '0' COMMENT '标投金额（分）',
-  `partion` int(11) NOT NULL DEFAULT '0' COMMENT '份数',
+  `partition` int(11) NOT NULL DEFAULT '0' COMMENT '份数',
   `invest_status` tinyint NOT NULL DEFAULT '0' COMMENT '投资状态 0待处理 1成功 2失败',
   `pay_status` tinyint NOT NULL DEFAULT '0' COMMENT '放款 0否 1是',
   `channel` tinyint NOT NULL DEFAULT '0' COMMENT '投资渠道',
@@ -147,7 +147,7 @@ CREATE TABLE `etl_creditor` (
   `unpaid_interest` int(11) NOT NULL DEFAULT '0' COMMENT '待回收利息（分）',
   `start_time` int(11) NOT NULL DEFAULT '0' COMMENT '债权开始日期',
   `end_time` int(11) NOT NULL DEFAULT '0' COMMENT '债权结束日期',
-  `partion` int(11) NOT NULL DEFAULT '0' COMMENT '持有份数',
+  `partition` int(11) NOT NULL DEFAULT '0' COMMENT '持有份数',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
   `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
   `version` smallint(6) NOT NULL DEFAULT '0' COMMENT '版本号，每次更新+1',
@@ -155,6 +155,28 @@ CREATE TABLE `etl_creditor` (
   KEY `borrow_id` (`borrow_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='债权信息';
+
+CREATE TABLE `etl_creditor_transfer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '债转ID',
+  `creditor_id` int(11) NOT NULL DEFAULT '0' COMMENT '债权ID',
+  `borrow_id` int(11) NOT NULL COMMENT '标的id',
+  `partition` int(11) NOT NULL DEFAULT '0' COMMENT '转让份数',
+  `frozen_partition` int(11) NOT NULL DEFAULT '0' COMMENT '冻结份数',
+  `manage` int(11) NOT NULL DEFAULT '0' COMMENT '管理费（分）',
+  `period` tinyint NOT NULL DEFAULT '0' COMMENT '总期数',
+  `surplus_period` smallint(3) NOT NULL DEFAULT '0' COMMENT '剩余期数',
+  `unpaid_capital` int(11) NOT NULL DEFAULT '0' COMMENT '待回收本金（分）',
+  `unpaid_interest` int(11) NOT NULL DEFAULT '0' COMMENT '待回收利息（分）',
+  `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态 -2已取消 -1已转让 0转让中',
+  `start_time` int(11) NOT NULL DEFAULT '0' COMMENT '债权开始日期',
+  `end_time` int(11) NOT NULL DEFAULT '0' COMMENT '债权结束日期',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间（秒）',
+  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后更新时间（秒）',
+  `version` smallint(6) NOT NULL DEFAULT '0' COMMENT '版本号，每次更新+1',
+  PRIMARY KEY (`id`),
+  KEY `borrow_id` (`borrow_id`) USING BTREE,
+  KEY `user_id` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='债权转让信息';
 
 CREATE TABLE `etl_profit_form` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '收益ID',

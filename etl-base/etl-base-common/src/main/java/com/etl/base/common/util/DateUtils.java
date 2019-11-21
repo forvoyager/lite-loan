@@ -2,12 +2,16 @@ package com.etl.base.common.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * @summary 日期工具类
+ *
+ * timestamp 格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总秒数。
+ *
  */
 public class DateUtils {
 
@@ -98,5 +102,35 @@ public class DateUtils {
     return true;
   }
 
+  /**
+   * 两个时间之间间隔多少天
+   *
+   * @param start
+   * @param end
+   * @return
+   */
+  public static long intervalDay(long start, long end){
+    return ChronoUnit.DAYS.between(toLocalDateTime(start), toLocalDateTime(end));
+  }
+
+  /**
+   * timestamp转LocalDateTime
+   * @param timestamp
+   * @return
+   */
+  public static LocalDateTime toLocalDateTime(long timestamp){
+    return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
+  }
+
+  /**
+   * LocalDateTime转timestamp
+   * @param ldt
+   * @return
+   */
+  public static long toTimestamp(LocalDateTime ldt){
+    return ldt.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+  }
+
   private DateUtils(){}
+
 }

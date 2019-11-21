@@ -17,7 +17,7 @@ public class BorrowModel extends BaseModel {
   public static final String AVAILABLE_AMOUNT = "available_amount";
   public static final String PERIOD = "period";
   public static final String APR = "apr";
-  public static final String PARTION_AMOUNT = "partion_amount";
+  public static final String PARTITION_AMOUNT = "partition_amount";
   public static final String REPAYMENT_MODE = "repayment_mode";
   public static final String INVEST_START_TIME = "invest_start_time";
   public static final String INVEST_END_TIME = "invest_end_time";
@@ -51,13 +51,13 @@ public class BorrowModel extends BaseModel {
    */
   private Integer period;
   /**
-   * 利率
+   * 利率，如10.2% 存0.102
    */
   private Double apr;
   /**
    * 每份金额（分）
    */
-  private Integer partion_amount;
+  private Integer partition_amount;
   /**
    * 还款方式
    */
@@ -135,11 +135,11 @@ public class BorrowModel extends BaseModel {
     return this;
   }
 
-  public Integer getPartion_amount() {
-    return this.partion_amount;
+  public Integer getPartition_amount() {
+    return this.partition_amount;
   }
-  public BorrowModel setPartion_amount(Integer partion_amount) {
-    this.partion_amount = partion_amount;
+  public BorrowModel setPartition_amount(Integer partition_amount) {
+    this.partition_amount = partition_amount;
     return this;
   }
 

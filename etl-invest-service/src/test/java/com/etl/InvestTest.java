@@ -34,8 +34,8 @@ public class InvestTest {
     invest.setUser_id(1L);
     invest.setType(1);
     invest.setBiz_id(2L);
-    invest.setPartion(5);
-    invest.setInvest_amount(invest.getPartion()*(100L*100));
+    invest.setPartition(5);
+    invest.setInvest_amount(invest.getPartition()*(100L*100));
     invest.setInvest_status(0);
     invest.setPay_status(0);
     invest.setChannel(AccessChannel.PC.getCode());

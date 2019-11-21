@@ -83,7 +83,7 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
     updateModel.setBorrow_id(borrow_id);
     updateModel.setStatus(BorrowStatus.IN_BID.getCode());
     updateModel.setAvailable_amount(borrowModel.getAmount());
-    updateModel.setPartion_amount(100*100); // 每份100元
+    updateModel.setPartition_amount(100*100); // 每份100元
     updateModel.setInvest_start_time(DateUtils.addDay(1)); // 下一日开始可以投标
     updateModel.setUpdate_time(DateUtils.currentTimeInSecond());
     updateModel.setWhere_version(borrowModel.getVersion());

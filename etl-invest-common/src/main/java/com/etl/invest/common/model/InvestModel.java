@@ -14,7 +14,7 @@ public class InvestModel extends BaseModel {
   public static final String TYPE = "type";
   public static final String BIZ_ID = "biz_id";
   public static final String INVEST_AMOUNT = "invest_amount";
-  public static final String PARTION = "partion";
+  public static final String PARTITION = "partition";
   public static final String INVEST_STATUS = "invest_status";
   public static final String PAY_STATUS = "pay_status";
   public static final String CHANNEL = "channel";
@@ -42,7 +42,7 @@ public class InvestModel extends BaseModel {
   /**
    * 份数
    */
-  private Integer partion;
+  private Integer partition;
   /**
    * 投资状态 0待处理 1成功 2失败
    */
@@ -101,12 +101,12 @@ public class InvestModel extends BaseModel {
     return this;
   }
 
-  public Integer getPartion() {
-    return partion;
+  public Integer getPartition() {
+    return partition;
   }
 
-  public InvestModel setPartion(Integer partion) {
-    this.partion = partion;
+  public InvestModel setPartition(Integer partition) {
+    this.partition = partition;
     return this;
   }
 

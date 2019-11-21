@@ -82,7 +82,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     invest.setType(1);
     invest.setBiz_id(borrow_id);
     invest.setInvest_amount(amount);
-    invest.setPartion((int)amount/10000); // ((amount/100)元/100)份
+    invest.setPartition((int)amount/10000); // ((amount/100)元/100)份
     invest.setChannel(channel.getCode());
     invest.setInvest_status(0); // 投资待处理
     invest.setPay_status(0); // 待放款（给借款人）
@@ -150,7 +150,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
         creditor_id = ir.getId();
       }
 
-      RepaymentDetailDto repaymentDetailDto = FeeCalcUtils.averageInterest(invest_amount/100, borrowModel.getApr()/100, borrowModel.getPeriod(), current);
+      RepaymentDetailDto repaymentDetailDto = FeeCalcUtils.averageInterest(invest_amount/100, borrowModel.getApr(), borrowModel.getPeriod(), current);
 
       creditorModel = new CreditorModel();
       creditorModel.setId(creditor_id);
@@ -166,7 +166,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
       creditorModel.setUnpaid_interest(creditorModel.getInterest());
       creditorModel.setStart_time(repaymentDetailDto.getStart_time());
       creditorModel.setEnd_time(repaymentDetailDto.getEnd_time());
-      creditorModel.setPartion((int)(invest_amount/100/100));
+      creditorModel.setPartition((int)(invest_amount/100/100));
       creditorModel.setCreate_time(current);
       creditorModel.setUpdate_time(current);
       creditorModel.setVersion(0);

@@ -6,7 +6,7 @@
 <mapper namespace="com.etl.asset.mapper.BorrowMapper">
 
   <sql id="Base_Column_List">
-    `borrow_id`, `user_id`, `title`, `status`, `amount`, `available_amount`, `period`, `apr`, `partion_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`
+    `borrow_id`, `user_id`, `title`, `status`, `amount`, `available_amount`, `period`, `apr`, `partition_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -49,8 +49,8 @@
     <if test="apr != null">
       <![CDATA[ AND t.`apr` = #{apr} ]]>
     </if>
-    <if test="partion_amount != null">
-      <![CDATA[ AND t.`partion_amount` = #{partion_amount} ]]>
+    <if test="partition_amount != null">
+      <![CDATA[ AND t.`partition_amount` = #{partition_amount} ]]>
     </if>
     <if test="repayment_mode != null">
       <![CDATA[ AND t.`repayment_mode` = #{repayment_mode} ]]>
@@ -104,8 +104,8 @@
       <if test="apr != null">
         <![CDATA[ `apr`, ]]>
       </if>
-      <if test="partion_amount != null">
-        <![CDATA[ `partion_amount`, ]]>
+      <if test="partition_amount != null">
+        <![CDATA[ `partition_amount`, ]]>
       </if>
       <if test="repayment_mode != null">
         <![CDATA[ `repayment_mode`, ]]>
@@ -152,8 +152,8 @@
       <if test="apr != null">
         <![CDATA[ #{apr}, ]]>
       </if>
-      <if test="partion_amount != null">
-        <![CDATA[ #{partion_amount}, ]]>
+      <if test="partition_amount != null">
+        <![CDATA[ #{partition_amount}, ]]>
       </if>
       <if test="repayment_mode != null">
         <![CDATA[ #{repayment_mode}, ]]>
@@ -178,9 +178,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.asset.common.model.BorrowModel">
-    <![CDATA[ INSERT INTO etl_borrow (`borrow_id`, `user_id`, `title`, `status`, `amount`, `available_amount`, `period`, `apr`, `partion_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_borrow (`borrow_id`, `user_id`, `title`, `status`, `amount`, `available_amount`, `period`, `apr`, `partition_amount`, `repayment_mode`, `invest_start_time`, `invest_end_time`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.borrow_id}, #{item.user_id}, #{item.title}, #{item.status}, #{item.amount}, #{item.available_amount}, #{item.period}, #{item.apr}, #{item.partion_amount}, #{item.repayment_mode}, #{item.invest_start_time}, #{item.invest_end_time}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.borrow_id}, #{item.user_id}, #{item.title}, #{item.status}, #{item.amount}, #{item.available_amount}, #{item.period}, #{item.apr}, #{item.partition_amount}, #{item.repayment_mode}, #{item.invest_start_time}, #{item.invest_end_time}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -212,8 +212,8 @@
       <if test="apr != null">
         <![CDATA[ t.`apr` = #{apr}, ]]>
       </if>
-      <if test="partion_amount != null">
-        <![CDATA[ t.`partion_amount` = #{partion_amount}, ]]>
+      <if test="partition_amount != null">
+        <![CDATA[ t.`partition_amount` = #{partition_amount}, ]]>
       </if>
       <if test="repayment_mode != null">
         <![CDATA[ t.`repayment_mode` = #{repayment_mode}, ]]>

@@ -26,7 +26,7 @@ public final class BorrowUtils {
   public static List<RepaymentFormModel> buildRepaymentForm(BorrowModel borrow) throws Exception {
 
     long current = DateUtils.currentTimeInSecond();
-    RepaymentDetailDto repaymentDetailDto = FeeCalcUtils.averageInterest(borrow.getAmount()/100, borrow.getApr()/100, borrow.getPeriod(), current);
+    RepaymentDetailDto repaymentDetailDto = FeeCalcUtils.averageInterest(borrow.getAmount()/100, borrow.getApr(), borrow.getPeriod(), current);
     RepaymentFormModel repaymentForm = null;
     List<RepaymentFormModel> repaymentFormModels = new ArrayList<>();
     for(RepaymentPerMonthDto plan : repaymentDetailDto.getRepaymentPlan()){

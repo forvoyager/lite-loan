@@ -6,7 +6,7 @@
 <mapper namespace="com.etl.invest.mapper.InvestMapper">
 
   <sql id="Base_Column_List">
-    `id`, `user_id`, `type`, `biz_id`, `invest_amount`, `partion`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`
+    `id`, `user_id`, `type`, `biz_id`, `invest_amount`, `partition`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -37,8 +37,8 @@
     <if test="invest_amount != null">
       <![CDATA[ AND t.`invest_amount` = #{invest_amount} ]]>
     </if>
-    <if test="partion != null">
-      <![CDATA[ AND t.`partion` = #{partion} ]]>
+    <if test="partition != null">
+      <![CDATA[ AND t.`partition` = #{partition} ]]>
     </if>
     <if test="invest_status != null">
       <![CDATA[ AND t.`invest_status` = #{invest_status} ]]>
@@ -86,8 +86,8 @@
       <if test="invest_amount != null">
         <![CDATA[ `invest_amount`, ]]>
       </if>
-      <if test="partion != null">
-        <![CDATA[ `partion`, ]]>
+      <if test="partition != null">
+        <![CDATA[ `partition`, ]]>
       </if>
       <if test="invest_status != null">
         <![CDATA[ `invest_status`, ]]>
@@ -125,8 +125,8 @@
       <if test="invest_amount != null">
         <![CDATA[ #{invest_amount}, ]]>
       </if>
-      <if test="partion != null">
-        <![CDATA[ #{partion}, ]]>
+      <if test="partition != null">
+        <![CDATA[ #{partition}, ]]>
       </if>
       <if test="invest_status != null">
         <![CDATA[ #{invest_status}, ]]>
@@ -151,9 +151,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.invest.common.model.InvestModel">
-    <![CDATA[ INSERT INTO etl_invest (`id`, `user_id`, `type`, `biz_id`, `invest_amount`, `partion`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_invest (`id`, `user_id`, `type`, `biz_id`, `invest_amount`, `partition`, `invest_status`, `pay_status`, `channel`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.user_id}, #{item.type}, #{item.biz_id}, #{item.invest_amount}, #{item.partion}, #{item.invest_status}, #{item.pay_status}, #{item.channel}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.id}, #{item.user_id}, #{item.type}, #{item.biz_id}, #{item.invest_amount}, #{item.partition}, #{item.invest_status}, #{item.pay_status}, #{item.channel}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -173,8 +173,8 @@
       <if test="invest_amount != null">
         <![CDATA[ t.`invest_amount` = #{invest_amount}, ]]>
       </if>
-      <if test="partion != null">
-        <![CDATA[ t.`partion` = #{partion}, ]]>
+      <if test="partition != null">
+        <![CDATA[ t.`partition` = #{partition}, ]]>
       </if>
       <if test="invest_status != null">
         <![CDATA[ t.`invest_status` = #{invest_status}, ]]>
