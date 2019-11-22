@@ -158,11 +158,11 @@ CREATE TABLE `etl_creditor` (
 
 CREATE TABLE `etl_creditor_transfer` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '债转ID',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '债权人ID',
   `creditor_id` int(11) NOT NULL DEFAULT '0' COMMENT '债权ID',
   `borrow_id` int(11) NOT NULL COMMENT '标的id',
   `partition` int(11) NOT NULL DEFAULT '0' COMMENT '转让份数',
   `frozen_partition` int(11) NOT NULL DEFAULT '0' COMMENT '冻结份数',
-  `manage` int(11) NOT NULL DEFAULT '0' COMMENT '管理费（分）',
   `period` tinyint NOT NULL DEFAULT '0' COMMENT '总期数',
   `surplus_period` smallint(3) NOT NULL DEFAULT '0' COMMENT '剩余期数',
   `unpaid_capital` int(11) NOT NULL DEFAULT '0' COMMENT '待回收本金（分）',
