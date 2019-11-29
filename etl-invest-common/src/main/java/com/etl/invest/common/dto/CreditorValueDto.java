@@ -70,6 +70,10 @@ public class CreditorValueDto implements Serializable {
    */
   private long fairValue;
   /**
+   * 基准价格（分）= fairValue + (fairValue*discount_apr)
+   */
+  private long base_price;
+  /**
    * 成交价格（分）
    */
   private long trade_price;
@@ -163,6 +167,15 @@ public class CreditorValueDto implements Serializable {
 
   public CreditorValueDto setFairValue(long fairValue) {
     this.fairValue = fairValue;
+    return this;
+  }
+
+  public long getBase_price() {
+    return base_price;
+  }
+
+  public CreditorValueDto setBase_price(long base_price) {
+    this.base_price = base_price;
     return this;
   }
 
