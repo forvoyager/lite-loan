@@ -109,8 +109,8 @@ public class DateUtils {
    * @param end
    * @return
    */
-  public static long intervalDay(long start, long end){
-    return ChronoUnit.DAYS.between(toLocalDateTime(start), toLocalDateTime(end));
+  public static int intervalDay(long start, long end){
+    return (int)ChronoUnit.DAYS.between(toLocalDateTime(start), toLocalDateTime(end));
   }
 
   /**

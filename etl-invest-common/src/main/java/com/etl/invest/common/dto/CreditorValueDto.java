@@ -10,16 +10,16 @@ import java.io.Serializable;
  * 债权价值衡量标准：公允价值
  * 是指在计量日发生的有序交易中，市场参与者之间出售一项资产所能收到的价格或者转移一项负债所需支付的价格。
  * <p>
+ * 公允价值 = 待收本金 + 待收利息
  * 在这个标准上，债权持有人可以折价/溢价卖出债权，折价/溢价比率称为折让率（可配置 或 按不同等级的会员设置不同折让率）。
  * <p>
- * 公允价值 = 待收本金 + 待收利息
- * 具体计算方法分如下几种情况：
+ * 备注：
  * 1、已结束（还款完毕）的债权不可转让。
- * 2、{{time}}时间点之后【已还】（提前还款），债权持有人发起转让，需要将{{time}}时间点之后的（本金+利息）划给债转承接人。
- * 3、{{time}}时间点之后【未还】（还款逾期），债权持有人发起转让，债权转让承接人需要预先支付{{time}}时间点之前未还的（本金+利息），该时间点之后的借款人还款直接还给承接人。
+ * 2、{{time}}时间点之后【已还】（提前还款），债权持有人需要将{{time}}时间点之后的（本金+利息）划给债转承接人。
+ * 3、{{time}}时间点之后【未还】（还款逾期），债权转让承接人需要预先支付{{time}}时间点之前未还的（本金+利息），借款人还款直接还给承接人。
  * <p>
- * 卖方：
  * 成交价格 = 公允价值+(公允价值*折让率)          # 成交价格可能大于、小于或等于公允价值
+ * 卖方：
  * 管理费 = 公允价值*管理费费率                  # 管理费费率可配置，归平台
  * 到账金额 = 成交价格 - 管理费
  * <p>
@@ -60,6 +60,9 @@ public class CreditorValueDto implements Serializable {
    * 小于0 表示折价
    * 等于0 表示原价
    * 大于0 表示溢价
+   * 如：
+   * 折价2%，值为-0.02
+   * 溢价3%，值为0.03
    */
   private double discount_apr;
   /**
@@ -78,6 +81,10 @@ public class CreditorValueDto implements Serializable {
    * 到账金额
    */
   private long incoming_price;
+  /**
+   * 购买价格（分）
+   */
+  private long buy_price;
   /**
    * 收益金额（分）
    */
@@ -192,6 +199,15 @@ public class CreditorValueDto implements Serializable {
 
   public CreditorValueDto setProfit_price(long profit_price) {
     this.profit_price = profit_price;
+    return this;
+  }
+
+  public long getBuy_price() {
+    return buy_price;
+  }
+
+  public CreditorValueDto setBuy_price(long buy_price) {
+    this.buy_price = buy_price;
     return this;
   }
 
