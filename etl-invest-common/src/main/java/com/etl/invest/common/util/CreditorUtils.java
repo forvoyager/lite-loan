@@ -94,8 +94,6 @@ public final class CreditorUtils {
     ProfitFormModel currentProfitForm = profitFormMap.get(currentPeriod);
     long unpaid_capital = 0;            // 待回收本金（分）
     long unpaid_interest = 0;           // 待回收利息（分）
-    long offset_capital = 0;            // 由买方代偿（逾期还款）/由卖方退回（提前还款） 的本金（分）
-    long offset_interest = 0;           // 由买方代偿（逾期还款）/由卖方退回（提前还款） 的利息（分）
 
     // 计算待回收本息
     ProfitFormModel profitForm = null;
@@ -119,54 +117,77 @@ public final class CreditorUtils {
     valueDto.setDiscount_apr(-0.02); // 默认都折价2%转让
 
     /*
-    按折/溢价率算出【基准价格】
-    在这个价格的基础上按下面不同场景（本期已还、逾期未还、提前还款），最终的交易价格会有浮动：
-    本期已还：出让人退还[当日, 当期最后一天]的利息给债权承接人
-    逾期未还：债权承接人先垫付[未还款期数第一天, 当日]的利息给出让人
-    提前还款：出让人退还[当日, 已还期数最后一天]的利息给债权承接人
+    根据 折/溢价率 算出【基准价格】
      */
-    long base_price = valueDto.getFairValue() + (long)(ArithUtils.mul(valueDto.getFairValue(), valueDto.getDiscount_apr()));
+    final long base_price = valueDto.getFairValue() + (long)(ArithUtils.mul(valueDto.getFairValue(), valueDto.getDiscount_apr()));
+
+    /*
+    默认：购买价格（购买人支出的钱）=基准价格
+    在这个价格的基础上按下面不同场景（本期已还、逾期未还、提前还款），最终的购买价格会有浮动：
+    已还：本期或后面几期已还，出让人退还[当日, 最后一期已还得最后一天]的利息给债权承接人
+    未还：前面几期或本期、后面的期数都没有还，债权承接人先垫付待收本息给出让人
+     */
+    long buy_price = base_price;
+
+    /*
+    到账金额（出让人到账金额）
+     */
+    long incoming_price = base_price;
 
     /*
     本期已还：
     债权出让人已经收到了还款
-    [当期开始, 当前日期) 这段时间的收益归债权出让人所有。
-    [当前日期, 下一期还款日之前]这段时间的收益需要转给债权承接人。
+    [当期开始, 当前日期) 这段时间的利息归债权出让人所有。
+    [当前日期, 下一期还款日之前]这段时间的利息需要转给债权承接人。
      */
-    if( repayPeriod == currentPeriod.intValue() ){
+    if( repayPeriod >= currentPeriod.intValue() ){
+      profitForm = null;
+      long offset_interest = 0;
+      // 提前还了多期
+      if(repayPeriod-currentPeriod > 1){
+        for(Integer period = currentPeriod+1; period<=repayPeriod; period++ ){
+          profitForm = profitFormMap.get(period);
+          if(profitForm.getInterest() > 0){
+            offset_interest += profitForm.getInterest();
+          }
+        }
+      }
+
       // 本期天数（本期还款时间减一个月）
       int days = DateUtils.intervalDay(
               DateUtils.addMonth(currentProfitForm.getPlan_repayment_time(), -1),
               currentProfitForm.getPlan_repayment_time());
-      // 本期债权剩余天数。
+      // 本期（债权）剩余天数
       int surplusDays = DateUtils.intervalDay(currentDate, currentProfitForm.getPlan_repayment_time());
-      // 剩余天数对应的利息（转给债权承接人）
+      // 本期剩余天数对应的利息
       long surplusDaysInterest = discount(days, currentProfitForm.getInterest(), surplusDays);
-
+      //
+      offset_interest += surplusDaysInterest;
+      // 因本期已还，本期利息已经在出让人手里了，本期剩余天数对应的利息需要退给承接人，这部分钱承接人不用出了，需减去
+      buy_price = buy_price - offset_interest;
+      // 出让人到账也相应的减去本期剩余天数对应的利息
+      incoming_price = incoming_price - offset_interest;
     }
 
     /*
     逾期未还：
     前面几期、本期、后面的期数都没有还
-    债权承接人垫付 当前日期 之前应还的本金和利息给债权出让人
-    借款人对逾期债权还款时，收益和本金都归债权承接人
      */
     if( repayPeriod < currentPeriod ){
+      // 根据公允价值计算的 基准价格 已经包含的未还部分的资金，此处无需额外处理。
+      buy_price = buy_price;
+      incoming_price = incoming_price;
     }
 
-    /*
-    提前还款：
-
-     */
-    if( repayPeriod > currentPeriod ){
-    }
-
+    // 出让人扣除管理费
     long manage = (long)(ArithUtils.round(ArithUtils.mul(valueDto.getFairValue(), 0.005), 2)*100);
+    incoming_price = incoming_price - manage;
+
     valueDto.setManage(manage);
-    valueDto.setIncoming_price(base_price - manage);
+    valueDto.setIncoming_price(incoming_price);
     valueDto.setTrade_price(base_price);
-    valueDto.setBuy_price(base_price);
-    valueDto.setProfit_price(valueDto.getBuy_price() - unpaid_capital);
+    valueDto.setBuy_price(buy_price);
+    valueDto.setProfit_price(buy_price - unpaid_capital);
 
     double apr = ArithUtils.round(ArithUtils.div((12*valueDto.getProfit_price()), (unpaid_capital*(totalPeriod-repayPeriod))), 3);
     valueDto.setApr(apr);
