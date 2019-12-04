@@ -77,7 +77,7 @@ CREATE TABLE `etl_borrow` (
   `amount` int(11) NOT NULL DEFAULT '0' COMMENT '借款金额（分）',
   `available_amount` int(11) NOT NULL DEFAULT '0' COMMENT '剩余可投金额（分）',
   `period` tinyint NOT NULL DEFAULT '0' COMMENT '借款期数',
-  `apr` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '利率，如10.2% 存0.102',
+  `apr` decimal(5,3) NOT NULL DEFAULT '0.00' COMMENT '利率，如10.2% 存0.102',
   `partition_amount` int(11) NOT NULL DEFAULT '0' COMMENT '每份金额（分）',
   `repayment_mode` int(11) NOT NULL DEFAULT '0' COMMENT '还款方式',
   `invest_start_time` int(11) NOT NULL DEFAULT '0' COMMENT '投标开始时间（秒）',
@@ -115,7 +115,7 @@ CREATE TABLE `etl_repayment_form` (
 
 -- invest
 CREATE TABLE `etl_invest` (
-  `id` int(11) NOT NULL COMMENT '编号',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '标资人id',
   `type` tinyint NOT NULL DEFAULT '0' COMMENT '投资类型 1投标 2买债权',
   `biz_id` int(11) NOT NULL DEFAULT '0' COMMENT '由type确定：标的id/债转id',

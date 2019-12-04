@@ -100,6 +100,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     // TODO 发送投资成功消息
   }
 
+  @GlobalTransactional
   @Transactional
   @Override
   public void initInvestorForm(long borrow_id) throws Exception {
@@ -155,6 +156,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
       creditorModel = new CreditorModel();
       creditorModel.setId(creditor_id);
       creditorModel.setParent_id(0L);
+      creditorModel.setCreditor_transfer_id(0L);
       creditorModel.setUser_id(user_id);
       creditorModel.setBorrow_id(borrow_id);
       creditorModel.setStatus(0);

@@ -14,6 +14,7 @@ import com.etl.asset.common.service.IBorrowService;
 import com.etl.asset.common.util.BorrowUtils;
 import com.etl.asset.mapper.BorrowMapper;
 import io.seata.core.context.RootContext;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,6 +93,7 @@ public class BorrowServiceImpl extends BaseServiceImpl<BorrowMapper, BorrowModel
     }
   }
 
+  @GlobalTransactional
   @Transactional
   @Override
   public void initBorrowerForm(long borrow_id) throws Exception {

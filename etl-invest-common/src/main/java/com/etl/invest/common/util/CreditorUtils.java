@@ -65,7 +65,7 @@ public final class CreditorUtils {
 
     int totalPeriod = profitForms.size();   // 总期数
     Integer currentPeriod = null;           // 当期
-    Integer repayPeriod = null;             // 已还期数
+    Integer repayPeriod = 0;             // 已还期数
     Integer lastPeriod = null;              // 最后一期
 
     // 期数与收益报表 Map<期数, 收益报表>
@@ -180,16 +180,16 @@ public final class CreditorUtils {
     }
 
     // 出让人扣除管理费
-    long manage = (long)(ArithUtils.round(ArithUtils.mul(valueDto.getFairValue(), 0.005), 2)*100);
+    long manage = (long)(valueDto.getFairValue()*0.005);
     incoming_price = incoming_price - manage;
 
+    valueDto.setBase_price(base_price);
     valueDto.setManage(manage);
     valueDto.setIncoming_price(incoming_price);
-    valueDto.setTrade_price(base_price);
     valueDto.setBuy_price(buy_price);
-    valueDto.setProfit_price(buy_price - unpaid_capital);
+    valueDto.setProfit_price(unpaid_interest);
 
-    double apr = ArithUtils.round(ArithUtils.div((12*valueDto.getProfit_price()), (unpaid_capital*(totalPeriod-repayPeriod))), 3);
+    double apr = ArithUtils.round(ArithUtils.div((12*valueDto.getProfit_price()), (buy_price*(totalPeriod-repayPeriod))), 3);
     valueDto.setApr(apr);
 
     return valueDto;
@@ -206,7 +206,7 @@ public final class CreditorUtils {
    * @return b_
    */
   private static long discount(long a, long a_, long b){
-    return (long)(ArithUtils.div((b * a_), a, 2)*100);
+    return (long)(ArithUtils.div((b * a_), a, 2));
   }
 
   public static void main(String[] args) {

@@ -25,7 +25,7 @@ import java.io.Serializable;
  * <p>
  * 买方：
  * 购买价格 = 成交价格
- * 收益金额 = 购买价格 - 待收本金
+ * 收益金额 = 待收利息
  * 收益率（不同还款方式计算方法可能不一样），如下：
  * 每月付息到期还本：年化收益率 = [(12*收益金额)/(待收本金*期数)]*100%
  */
@@ -73,10 +73,6 @@ public class CreditorValueDto implements Serializable {
    * 基准价格（分）= fairValue + (fairValue*discount_apr)
    */
   private long base_price;
-  /**
-   * 成交价格（分）
-   */
-  private long trade_price;
   /**
    * 管理费（分）
    */
@@ -176,15 +172,6 @@ public class CreditorValueDto implements Serializable {
 
   public CreditorValueDto setBase_price(long base_price) {
     this.base_price = base_price;
-    return this;
-  }
-
-  public long getTrade_price() {
-    return trade_price;
-  }
-
-  public CreditorValueDto setTrade_price(long trade_price) {
-    this.trade_price = trade_price;
     return this;
   }
 

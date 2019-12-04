@@ -27,20 +27,10 @@ public class InvestTest {
 
   @Resource
   private IRepaymentService repaymentService;
-  
+
   @Test
-  public void test_invest() throws Exception{
-    InvestModel invest = new InvestModel();
-    invest.setUser_id(1L);
-    invest.setType(1);
-    invest.setBiz_id(2L);
-    invest.setPartition(5);
-    invest.setInvest_amount(invest.getPartition()*(100L*100));
-    invest.setInvest_status(0);
-    invest.setPay_status(0);
-    invest.setChannel(AccessChannel.PC.getCode());
-    invest = investService.insert(invest);
-    System.out.println(JsonUtils.parseJson(invest));
+  public void test_apply() throws Exception{
+    investService.apply(3, 4, 10000*100, AccessChannel.ANDROID);
   }
 
   @Test
@@ -48,11 +38,6 @@ public class InvestTest {
     investService.initInvestorForm(1L);
   }
 
-  @Test
-  public void test_apply() throws Exception{
-    investService.apply(11, 1, 930000, AccessChannel.ANDROID);
-  }
-  
   @Test
   public void test_repayment() throws Exception{
     repaymentService.repayment(2039);

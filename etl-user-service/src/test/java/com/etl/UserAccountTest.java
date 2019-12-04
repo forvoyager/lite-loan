@@ -1,5 +1,6 @@
 package com.etl;
 
+import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.common.enums.RefTable;
 import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.JsonUtils;
@@ -57,8 +58,8 @@ public class UserAccountTest {
 
   @Test
   public void test_recharge_initOrder() throws Exception{
-//    long order_id = rechargeService.initOrder(11, 50000*100, AccessChannel.ANDROID);
-    rechargeService.callback(5, 2, "T"+System.currentTimeMillis());
+    long order_id = rechargeService.initOrder(4, 30000*100, AccessChannel.ANDROID);
+    rechargeService.callback(order_id, 1, "T"+System.currentTimeMillis());
   }
   
 }

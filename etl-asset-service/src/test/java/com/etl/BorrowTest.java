@@ -36,7 +36,7 @@ public class BorrowTest {
     borrowModel.setTitle("借款测试_"+System.currentTimeMillis());
     borrowModel.setAmount(1000000L*100); // 分
     borrowModel.setPeriod(12);
-    borrowModel.setApr(10.2);
+    borrowModel.setApr(0.102);
     borrowModel.setRepayment_mode(RepaymentMode.AVERGE_INEREST.getCode());
     borrowModel = borrowService.apply(borrowModel);
     System.out.println(JsonUtils.parseJson(borrowModel));
@@ -45,18 +45,18 @@ public class BorrowTest {
   @Test
   public void test_check() throws Exception{
     // 借款审核
-    borrowService.check(3);
+    borrowService.check(4);
   }
 
   @Test
   public void test_release() throws Exception{
     // 发布标的
-    borrowService.release(3);
+    borrowService.release(4);
   }
 
   @Test
   public void test_verify() throws Exception{
     // 满标终审
-    borrowBiz.verify(1);
+    borrowBiz.verify(4);
   }
 }
