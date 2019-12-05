@@ -41,7 +41,7 @@ public class CreditorTest {
             ProfitFormModel.CREDITOR_ID, creditor_id
     ), Cluster.master);
 
-    System.out.println(JsonUtils.parseJson(CreditorUtils.valueDto(creditorModel, profitForms)));
+    System.out.println(JsonUtils.parseJson(CreditorUtils.valueDto(creditorModel, profitForms, 5)));
 
   }
 
