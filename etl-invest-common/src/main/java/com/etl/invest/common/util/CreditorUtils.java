@@ -5,7 +5,7 @@ import com.etl.base.common.util.AssertUtils;
 import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.Utils;
 import com.etl.invest.common.dto.CreditorValueDto;
-import com.etl.invest.common.model.CreditorModel;
+import com.etl.invest.common.model.CreditorTransferModel;
 import com.etl.invest.common.model.ProfitFormModel;
 
 import java.util.HashMap;
@@ -22,30 +22,29 @@ public final class CreditorUtils {
   /**
    * 计算债权当前时间的价值信息
    *
-   * @param creditor    债权信息
+   * @param transfer    债转信息
    * @param profitForms 债权对应的收益报表信息（保证有序，按期数升序）
    * @return
    * @throws Exception
    */
-  public static CreditorValueDto valueDto(CreditorModel creditor, List<ProfitFormModel> profitForms) throws Exception {
+  public static CreditorValueDto valueDto(CreditorTransferModel transfer, List<ProfitFormModel> profitForms) throws Exception {
     // 默认全部转让
-    return valueDto(creditor, profitForms, creditor.getPartition());
+    return valueDto(transfer, profitForms, transfer.getTransfer_partition());
   }
 
   /**
    * 计算债权当前时间的价值信息
    *
-   * @param creditor    债权信息
+   * @param transfer    债转信息
    * @param profitForms 债权对应的收益报表信息（保证有序，按期数升序）
    * @param partition   转让份数
    * @return
    * @throws Exception
    */
-  public static CreditorValueDto valueDto(CreditorModel creditor, List<ProfitFormModel> profitForms, int partition) throws Exception {
-    AssertUtils.notNull(creditor, "债权信息不完整");
+  public static CreditorValueDto valueDto(CreditorTransferModel transfer, List<ProfitFormModel> profitForms, int partition) throws Exception {
+    AssertUtils.notNull(transfer, "债转信息不完整");
     AssertUtils.notEmpty(profitForms, "收益报表不完整");
-    AssertUtils.isTrue(creditor.getPeriod().intValue() == profitForms.size(), "收益报表不完整");
-    if (partition < 1 || partition > creditor.getPartition()) {
+    if (partition < 1 || partition > transfer.getTransfer_partition()) {
       Utils.throwsBizException("转让份数不正确");
     }
 
@@ -54,16 +53,14 @@ public final class CreditorUtils {
     long currentDate = DateUtils.currentDateInSecond();
 
     CreditorValueDto valueDto = new CreditorValueDto();
-    valueDto.setCreditor_id(creditor.getId());
+    valueDto.setCreditor_id(transfer.getCreditor_id());
     valueDto.setTime(currentTime);
 
-    int creditor_status = creditor.getStatus().intValue();
-    if (creditor_status == -2 || creditor_status == -1) {
-      // 已结束的债权，各种值都为0
+    if (transfer.getStatus().intValue() != 0) {
+      // 已结束的债转，各种值都为0
       return valueDto;
     }
 
-    int totalPeriod = profitForms.size();   // 总期数
     Integer firstPeriod = null;           // 第一期
     Integer currentPeriod = null;           // 当期
     Integer repayPeriod = 0;             // 已还期数
@@ -95,32 +92,16 @@ public final class CreditorUtils {
 
     AssertUtils.notNull(currentPeriod, "本期债权信息有误");
 
-    ProfitFormModel currentProfitForm = profitFormMap.get(currentPeriod);
-    long unpaid_capital = 0;            // 待回收本金（分）
-    long unpaid_interest = 0;           // 待回收利息（分）
-
-    // 计算待回收本息
-    ProfitFormModel profitForm = null;
-    for(Integer period = repayPeriod+1; period<=lastPeriod; period++ ){
-      profitForm = profitFormMap.get(period);
-      if(profitForm.getCapital() > 0){
-        unpaid_capital += profitForm.getCapital();
-      }
-      if(profitForm.getInterest() > 0){
-        unpaid_interest += profitForm.getInterest();
-      }
-    }
-
     // 按份数partition折算后的待回收本金、利息
-    long part_unpaid_capital = discount(creditor.getPartition(), unpaid_capital, partition);
-    long part_unpaid_interest = discount(creditor.getPartition(), unpaid_interest, partition);
+    long part_unpaid_capital = (long)ArithUtils.discount(transfer.getTransfer_partition(), transfer.getUnpaid_capital(), partition);
+    long part_unpaid_interest = (long)ArithUtils.discount(transfer.getTransfer_partition(), transfer.getUnpaid_interest(), partition);
 
     valueDto.setPartition(partition);
     valueDto.setUnpaid_capital(part_unpaid_capital);
     valueDto.setUnpaid_interest(part_unpaid_interest);
     valueDto.setFairValue(valueDto.getUnpaid_capital() + valueDto.getUnpaid_interest());
     valueDto.setSurplus_days(DateUtils.intervalDay(currentTime, profitFormMap.get(lastPeriod).getPlan_repayment_time()));
-    valueDto.setDiscount_apr(-0.02); // 默认都折价2%转让
+    valueDto.setDiscount_apr(transfer.getDiscount_apr());
 
     /*
     根据 折/溢价率 算出【基准价格】
@@ -141,7 +122,7 @@ public final class CreditorUtils {
     [当日, 下一期还款日之前]这段时间的利息归承接人所有。
      */
     if( repayPeriod >= currentPeriod.intValue() ){
-      profitForm = null;
+      ProfitFormModel profitForm = null;
       // 提前还款，需要退回给承接人的利息
       long offset_interest = 0;
       // 提前还了多期
@@ -149,22 +130,25 @@ public final class CreditorUtils {
         for(Integer period = currentPeriod+1; period<=repayPeriod; period++ ){
           profitForm = profitFormMap.get(period);
           if(profitForm.getInterest() > 0){
-            // 按份数partition折算后的利息
-            offset_interest += discount(creditor.getPartition(), profitForm.getInterest(), partition);
+            offset_interest += profitForm.getInterest();
           }
         }
       }
 
+      // 按份数partition折算后的利息
+      offset_interest = (long)ArithUtils.discount(transfer.getOrigin_partition(), offset_interest, partition);
+
       // 本期天数（本期还款时间减一个月）
+      ProfitFormModel currentProfitForm = profitFormMap.get(currentPeriod);
       int days = DateUtils.intervalDay(
               DateUtils.addMonth(currentProfitForm.getPlan_repayment_time(), -1),
               currentProfitForm.getPlan_repayment_time());
       // 本期（债权）剩余天数
       int surplusDays = DateUtils.intervalDay(currentDate, currentProfitForm.getPlan_repayment_time());
       // 本期剩余天数对应的利息
-      long surplusDaysInterest = discount(days, currentProfitForm.getInterest(), surplusDays);
+      long surplusDaysInterest = (long)ArithUtils.discount(days, currentProfitForm.getInterest(), surplusDays);
       // 按份数折算
-      surplusDaysInterest = discount(creditor.getPartition(), surplusDaysInterest, partition);
+      surplusDaysInterest = (long)ArithUtils.discount(transfer.getOrigin_partition(), surplusDaysInterest, partition);
       offset_interest += surplusDaysInterest;
 
       // 退回利息，承接人少出一部分钱
@@ -215,7 +199,7 @@ public final class CreditorUtils {
     valueDto.setManage(manage);
     valueDto.setIncoming_price(incoming_price);
     valueDto.setBuy_price(buy_price);
-    valueDto.setProfit_price(part_unpaid_interest);
+    valueDto.setProfit_price(valueDto.getUnpaid_interest());
 
     /*
     根据承接人投入的本金和收益，计算收益率
@@ -227,20 +211,6 @@ public final class CreditorUtils {
     valueDto.setApr(apr);
 
     return valueDto;
-  }
-
-  /**
-   * 折算
-   * a/a_ = b/b_
-   * 已知 a, a_, b 求b_ = (b*a_)/a
-   *
-   * @param a
-   * @param a_
-   * @param b
-   * @return b_
-   */
-  private static long discount(long a, long a_, long b){
-    return (long)(ArithUtils.div((b * a_), a, 2));
   }
 
 }

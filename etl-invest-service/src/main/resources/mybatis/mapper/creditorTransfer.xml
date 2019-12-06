@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2019-12-06 11:12:38 -->
+<!-- time: 2019-12-06 14:20:51 -->
 <!-- description: 债权转让信息 数据库操作mapper -->
 <mapper namespace="com.etl.invest.mapper.CreditorTransferMapper">
 
   <sql id="Base_Column_List">
-    `id`, `user_id`, `creditor_id`, `borrow_id`, `partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `start_time`, `end_time`, `create_time`, `update_time`, `version`
+    `id`, `user_id`, `creditor_id`, `borrow_id`, `origin_partition`, `transfer_partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -34,8 +34,11 @@
     <if test="borrow_id != null">
       <![CDATA[ AND t.`borrow_id` = #{borrow_id} ]]>
     </if>
-    <if test="partition != null">
-      <![CDATA[ AND t.`partition` = #{partition} ]]>
+    <if test="origin_partition != null">
+      <![CDATA[ AND t.`origin_partition` = #{origin_partition} ]]>
+    </if>
+    <if test="transfer_partition != null">
+      <![CDATA[ AND t.`transfer_partition` = #{transfer_partition} ]]>
     </if>
     <if test="frozen_partition != null">
       <![CDATA[ AND t.`frozen_partition` = #{frozen_partition} ]]>
@@ -51,12 +54,6 @@
     </if>
     <if test="status != null">
       <![CDATA[ AND t.`status` = #{status} ]]>
-    </if>
-    <if test="start_time != null">
-      <![CDATA[ AND t.`start_time` = #{start_time} ]]>
-    </if>
-    <if test="end_time != null">
-      <![CDATA[ AND t.`end_time` = #{end_time} ]]>
     </if>
     <if test="create_time != null">
       <![CDATA[ AND t.`create_time` = #{create_time} ]]>
@@ -92,8 +89,11 @@
       <if test="borrow_id != null">
         <![CDATA[ `borrow_id`, ]]>
       </if>
-      <if test="partition != null">
-        <![CDATA[ `partition`, ]]>
+      <if test="origin_partition != null">
+        <![CDATA[ `origin_partition`, ]]>
+      </if>
+      <if test="transfer_partition != null">
+        <![CDATA[ `transfer_partition`, ]]>
       </if>
       <if test="frozen_partition != null">
         <![CDATA[ `frozen_partition`, ]]>
@@ -109,12 +109,6 @@
       </if>
       <if test="status != null">
         <![CDATA[ `status`, ]]>
-      </if>
-      <if test="start_time != null">
-        <![CDATA[ `start_time`, ]]>
-      </if>
-      <if test="end_time != null">
-        <![CDATA[ `end_time`, ]]>
       </if>
       <if test="create_time != null">
         <![CDATA[ `create_time`, ]]>
@@ -140,8 +134,11 @@
       <if test="borrow_id != null">
         <![CDATA[ #{borrow_id}, ]]>
       </if>
-      <if test="partition != null">
-        <![CDATA[ #{partition}, ]]>
+      <if test="origin_partition != null">
+        <![CDATA[ #{origin_partition}, ]]>
+      </if>
+      <if test="transfer_partition != null">
+        <![CDATA[ #{transfer_partition}, ]]>
       </if>
       <if test="frozen_partition != null">
         <![CDATA[ #{frozen_partition}, ]]>
@@ -158,12 +155,6 @@
       <if test="status != null">
         <![CDATA[ #{status}, ]]>
       </if>
-      <if test="start_time != null">
-        <![CDATA[ #{start_time}, ]]>
-      </if>
-      <if test="end_time != null">
-        <![CDATA[ #{end_time}, ]]>
-      </if>
       <if test="create_time != null">
         <![CDATA[ #{create_time}, ]]>
       </if>
@@ -178,9 +169,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.invest.common.model.CreditorTransferModel">
-    <![CDATA[ INSERT INTO etl_creditor_transfer (`id`, `user_id`, `creditor_id`, `borrow_id`, `partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `start_time`, `end_time`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_creditor_transfer (`id`, `user_id`, `creditor_id`, `borrow_id`, `origin_partition`, `transfer_partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.user_id}, #{item.creditor_id}, #{item.borrow_id}, #{item.partition}, #{item.frozen_partition}, #{item.discount_apr}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.status}, #{item.start_time}, #{item.end_time}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.id}, #{item.user_id}, #{item.creditor_id}, #{item.borrow_id}, #{item.origin_partition}, #{item.transfer_partition}, #{item.frozen_partition}, #{item.discount_apr}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.status}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -197,8 +188,11 @@
       <if test="borrow_id != null">
         <![CDATA[ t.`borrow_id` = #{borrow_id}, ]]>
       </if>
-      <if test="partition != null">
-        <![CDATA[ t.`partition` = #{partition}, ]]>
+      <if test="origin_partition != null">
+        <![CDATA[ t.`origin_partition` = #{origin_partition}, ]]>
+      </if>
+      <if test="transfer_partition != null">
+        <![CDATA[ t.`transfer_partition` = #{transfer_partition}, ]]>
       </if>
       <if test="frozen_partition != null">
         <![CDATA[ t.`frozen_partition` = #{frozen_partition}, ]]>
@@ -214,12 +208,6 @@
       </if>
       <if test="status != null">
         <![CDATA[ t.`status` = #{status}, ]]>
-      </if>
-      <if test="start_time != null">
-        <![CDATA[ t.`start_time` = #{start_time}, ]]>
-      </if>
-      <if test="end_time != null">
-        <![CDATA[ t.`end_time` = #{end_time}, ]]>
       </if>
       <if test="update_time != null">
         <![CDATA[ t.`update_time` = #{update_time}, ]]>

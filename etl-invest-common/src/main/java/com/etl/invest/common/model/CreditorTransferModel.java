@@ -4,7 +4,7 @@ import com.etl.base.common.model.BaseModel;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2019-12-06 11:12:38 <br>
+ * <b>time</b>: 2019-12-06 14:20:51 <br>
  * <b>description</b>: 债权转让信息 模型 <br>
  */
 public class CreditorTransferModel extends BaseModel {
@@ -13,14 +13,13 @@ public class CreditorTransferModel extends BaseModel {
   public static final String USER_ID = "user_id";
   public static final String CREDITOR_ID = "creditor_id";
   public static final String BORROW_ID = "borrow_id";
-  public static final String PARTITION = "partition";
+  public static final String ORIGIN_PARTITION = "origin_partition";
+  public static final String TRANSFER_PARTITION = "transfer_partition";
   public static final String FROZEN_PARTITION = "frozen_partition";
   public static final String DISCOUNT_APR = "discount_apr";
   public static final String UNPAID_CAPITAL = "unpaid_capital";
   public static final String UNPAID_INTEREST = "unpaid_interest";
   public static final String STATUS = "status";
-  public static final String START_TIME = "start_time";
-  public static final String END_TIME = "end_time";
 
   /**
    * 债转ID
@@ -39,9 +38,13 @@ public class CreditorTransferModel extends BaseModel {
    */
   private Long borrow_id;
   /**
+   * 原债权份数
+   */
+  private Integer origin_partition;
+  /**
    * 转让份数
    */
-  private Integer partition;
+  private Integer transfer_partition;
   /**
    * 冻结份数
    */
@@ -51,25 +54,17 @@ public class CreditorTransferModel extends BaseModel {
    */
   private Double discount_apr;
   /**
-   * 待回收本金（分）
+   * 按转让份数计算的待回收本金（分）
    */
   private Long unpaid_capital;
   /**
-   * 待回收利息（分）
+   * 按转让份数计算的待回收利息（分）
    */
   private Long unpaid_interest;
   /**
    * 状态 -2已取消 -1已转让 0转让中
    */
   private Integer status;
-  /**
-   * 债权开始日期
-   */
-  private Long start_time;
-  /**
-   * 债权结束日期
-   */
-  private Long end_time;
 
   public Long getId() {
     return id;
@@ -103,12 +98,20 @@ public class CreditorTransferModel extends BaseModel {
     this.borrow_id = borrow_id;
   }
 
-  public Integer getPartition() {
-    return partition;
+  public Integer getOrigin_partition() {
+    return origin_partition;
   }
 
-  public void setPartition(Integer partition) {
-    this.partition = partition;
+  public void setOrigin_partition(Integer origin_partition) {
+    this.origin_partition = origin_partition;
+  }
+
+  public Integer getTransfer_partition() {
+    return transfer_partition;
+  }
+
+  public void setTransfer_partition(Integer transfer_partition) {
+    this.transfer_partition = transfer_partition;
   }
 
   public Integer getFrozen_partition() {
@@ -149,22 +152,6 @@ public class CreditorTransferModel extends BaseModel {
 
   public void setStatus(Integer status) {
     this.status = status;
-  }
-
-  public Long getStart_time() {
-    return start_time;
-  }
-
-  public void setStart_time(Long start_time) {
-    this.start_time = start_time;
-  }
-
-  public Long getEnd_time() {
-    return end_time;
-  }
-
-  public void setEnd_time(Long end_time) {
-    this.end_time = end_time;
   }
 }
 

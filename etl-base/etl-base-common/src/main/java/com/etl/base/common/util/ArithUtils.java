@@ -127,4 +127,17 @@ public class ArithUtils {
     return b.divide(one, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
   }
 
+  /**
+   * 折算
+   * a/a_ = b/b_
+   * 已知 a, a_, b 求b_ = (b*a_)/a
+   *
+   * @param a
+   * @param a_
+   * @param b
+   * @return b_ 保留2位精度
+   */
+  public static double discount(double a, double a_, double b){
+    return ArithUtils.div((b * a_), a, 2);
+  }
 }

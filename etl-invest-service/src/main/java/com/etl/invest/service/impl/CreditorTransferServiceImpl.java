@@ -1,6 +1,7 @@
 package com.etl.invest.service.impl;
 
 import com.etl.base.common.enums.Cluster;
+import com.etl.base.common.util.ArithUtils;
 import com.etl.base.common.util.AssertUtils;
 import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.Utils;
@@ -32,13 +33,13 @@ public class CreditorTransferServiceImpl extends BaseServiceImpl<CreditorTransfe
 
   @Transactional
   @Override
-  public void apply(long creditor_id, int partition) throws Exception {
-    AssertUtils.isTrue(partition > 0, "无效的转让份数");
+  public long apply(long creditor_id, int transfer_partition) throws Exception {
+    AssertUtils.isTrue(transfer_partition > 0, "无效的转让份数");
 
     CreditorModel creditor = creditorService.selectById(creditor_id, Cluster.slave);
     AssertUtils.notNull(creditor, "债权不存在");
     AssertUtils.isTrue(creditor.getStatus().intValue() == 0, "债权不可转让"); // 0有效状态
-    AssertUtils.isTrue(partition <= creditor.getPartition(), "无效的转让份数");
+    AssertUtils.isTrue(transfer_partition <= creditor.getPartition(), "无效的转让份数");
 
     List<ProfitFormModel> unpaidForm = profitFormService.selectList(Utils.newHashMap(
             ProfitFormModel.CREDITOR_ID, creditor.getId(),
@@ -46,12 +47,17 @@ public class CreditorTransferServiceImpl extends BaseServiceImpl<CreditorTransfe
     ), Cluster.slave);
     AssertUtils.notEmpty(unpaidForm, "收益报表信息不正确");
 
+    // 计算待回收本息
     Long unpaid_capital = 0L;
     Long unpaid_interest = 0L;
     for(ProfitFormModel pfm : unpaidForm){
       unpaid_capital += pfm.getCapital();
       unpaid_interest += pfm.getInterest();
     }
+
+    // 按份数partition折算
+    unpaid_capital = (long)ArithUtils.discount(creditor.getPartition(), unpaid_capital, transfer_partition);
+    unpaid_interest = (long)ArithUtils.discount(creditor.getPartition(), unpaid_interest, transfer_partition);
 
     long current = DateUtils.currentTimeInSecond();
     CreditorModel updateCreditor = new CreditorModel();
@@ -68,17 +74,18 @@ public class CreditorTransferServiceImpl extends BaseServiceImpl<CreditorTransfe
     transfer.setUser_id(creditor.getUser_id());
     transfer.setCreditor_id(creditor.getId());
     transfer.setBorrow_id(creditor.getBorrow_id());
-    transfer.setPartition(partition);
+    transfer.setOrigin_partition(creditor.getPartition());
+    transfer.setTransfer_partition(transfer_partition);
     transfer.setFrozen_partition(0);
-    transfer.setDiscount_apr(-0.02); // 默认都折价2%转让
+    transfer.setDiscount_apr(-0.02); // 默认都折价2%转让 TODO 后面调整为可配
     transfer.setUnpaid_capital(unpaid_capital);
     transfer.setUnpaid_interest(unpaid_interest);
     transfer.setStatus(0);
-    transfer.setStart_time(current);
     transfer.setCreate_time(current);
     transfer.setUpdate_time(current);
     transfer.setVersion(0);
-    this.insert(transfer);
+    transfer = this.insert(transfer);
+    return transfer.getId();
   }
 
   @Resource

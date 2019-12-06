@@ -13,9 +13,10 @@ public interface ICreditorTransferService extends IBaseService<CreditorTransferM
   /**
    * 申请债权转让
    * @param creditor_id 债权id
-   * @param partition 转出份数
+   * @param transfer_partition 转出份数
+   * @return 债转id
    * @throws Exception
    */
-  void apply(long creditor_id, int partition) throws Exception;
+  long apply(long creditor_id, int transfer_partition) throws Exception;
 
 }
