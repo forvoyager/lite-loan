@@ -31,10 +31,6 @@ public class ProfitFormModel extends BaseModel {
    */
   private Long user_id;
   /**
-   * 标的id
-   */
-  private Long borrow_id;
-  /**
    * 状态 -1无效 0未还 1已还
    */
   private Integer status;
@@ -76,14 +72,6 @@ public class ProfitFormModel extends BaseModel {
   }
   public ProfitFormModel setUser_id(Long user_id) {
     this.user_id = user_id;
-    return this;
-  }
-
-  public Long getBorrow_id() {
-    return this.borrow_id;
-  }
-  public ProfitFormModel setBorrow_id(Long borrow_id) {
-    this.borrow_id = borrow_id;
     return this;
   }
 

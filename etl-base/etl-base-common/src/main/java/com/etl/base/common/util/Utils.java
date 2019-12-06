@@ -15,15 +15,6 @@ public final class Utils {
 
   private static final char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-  /**
-   * 抛出系统异常
-   * @param message
-   * @throws Exception
-   */
-  public static void throwsBaseException(String message) throws Exception {
-    throw new BaseException(ResultCodeEnum.SYSTEM_ERROR, message);
-  }
-
   public static void throwsBizException(String message) throws Exception {
     throw new BaseException(ResultCodeEnum.ILLEGAL_STATUS, message);
   }

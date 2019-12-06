@@ -163,8 +163,7 @@ CREATE TABLE `etl_creditor_transfer` (
   `borrow_id` int(11) NOT NULL COMMENT '标的id',
   `partition` int(11) NOT NULL DEFAULT '0' COMMENT '转让份数',
   `frozen_partition` int(11) NOT NULL DEFAULT '0' COMMENT '冻结份数',
-  `period` tinyint NOT NULL DEFAULT '0' COMMENT '总期数',
-  `surplus_period` smallint(3) NOT NULL DEFAULT '0' COMMENT '剩余期数',
+  `discount_apr` decimal(5,3) NOT NULL DEFAULT '0.00' COMMENT '折价率，小于0表示折价，等于0表示原价，大于0表示溢价。如-0.02表示折价2%，0.03表示溢价3%',
   `unpaid_capital` int(11) NOT NULL DEFAULT '0' COMMENT '待回收本金（分）',
   `unpaid_interest` int(11) NOT NULL DEFAULT '0' COMMENT '待回收利息（分）',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态 -2已取消 -1已转让 0转让中',
@@ -182,7 +181,6 @@ CREATE TABLE `etl_profit_form` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '收益ID',
   `creditor_id` int(11) NOT NULL COMMENT '债权ID',
   `user_id` int(11) NOT NULL COMMENT '债权人',
-  `borrow_id` int(11) NOT NULL COMMENT '标的id',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态 -1无效 0未还 1已还',
   `capital` int(11) NOT NULL DEFAULT '0' COMMENT '本金（分）',
   `interest` int(11) NOT NULL DEFAULT '0' COMMENT '利息（分）',
@@ -193,7 +191,6 @@ CREATE TABLE `etl_profit_form` (
   `version` smallint(6) NOT NULL DEFAULT '0' COMMENT '版本号，每次更新+1',
   PRIMARY KEY (`id`),
   KEY `creditor_id` (`creditor_id`) USING BTREE,
-  KEY `borrow_id` (`borrow_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投资人收益报表';
 

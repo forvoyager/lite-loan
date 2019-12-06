@@ -110,7 +110,8 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     List<InvestModel> allInvest = investService.selectList(Utils.newHashMap(
             InvestModel.TYPE, 1,
             InvestModel.BIZ_ID, borrow_id,
-            InvestModel.INVEST_STATUS, 0
+            InvestModel.INVEST_STATUS, 0,
+            "sort","id asc"
     ), Cluster.master);
     AssertUtils.notEmpty(allInvest, "投资记录不正确，标的："+borrow_id);
 
@@ -178,7 +179,6 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
         profitFormModel = new ProfitFormModel();
         profitFormModel.setCreditor_id(creditor_id); // 等初始化债权有再更新债权id
         profitFormModel.setUser_id(user_id);
-        profitFormModel.setBorrow_id(borrow_id);
         profitFormModel.setStatus(0);
         profitFormModel.setCapital((long)(plan.getCapital()*100));
         profitFormModel.setInterest((long)(plan.getInterest()*100));
