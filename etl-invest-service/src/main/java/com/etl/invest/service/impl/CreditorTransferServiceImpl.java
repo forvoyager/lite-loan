@@ -47,17 +47,9 @@ public class CreditorTransferServiceImpl extends BaseServiceImpl<CreditorTransfe
     ), Cluster.slave);
     AssertUtils.notEmpty(unpaidForm, "收益报表信息不正确");
 
-    // 计算待回收本息
-    Long unpaid_capital = 0L;
-    Long unpaid_interest = 0L;
-    for(ProfitFormModel pfm : unpaidForm){
-      unpaid_capital += pfm.getCapital();
-      unpaid_interest += pfm.getInterest();
-    }
-
     // 按份数partition折算
-    unpaid_capital = (long)ArithUtils.discount(creditor.getPartition(), unpaid_capital, transfer_partition);
-    unpaid_interest = (long)ArithUtils.discount(creditor.getPartition(), unpaid_interest, transfer_partition);
+    long unpaid_capital = (long)ArithUtils.discount(creditor.getPartition(), creditor.getUnpaid_capital(), transfer_partition);
+    long unpaid_interest = (long)ArithUtils.discount(creditor.getPartition(), creditor.getUnpaid_interest(), transfer_partition);
 
     long current = DateUtils.currentTimeInSecond();
     CreditorModel updateCreditor = new CreditorModel();
@@ -74,8 +66,7 @@ public class CreditorTransferServiceImpl extends BaseServiceImpl<CreditorTransfe
     transfer.setUser_id(creditor.getUser_id());
     transfer.setCreditor_id(creditor.getId());
     transfer.setBorrow_id(creditor.getBorrow_id());
-    transfer.setOrigin_partition(creditor.getPartition());
-    transfer.setTransfer_partition(transfer_partition);
+    transfer.setPartition(transfer_partition);
     transfer.setFrozen_partition(0);
     transfer.setDiscount_apr(-0.02); // 默认都折价2%转让 TODO 后面调整为可配
     transfer.setUnpaid_capital(unpaid_capital);

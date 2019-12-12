@@ -6,7 +6,7 @@
 <mapper namespace="com.etl.invest.mapper.CreditorTransferMapper">
 
   <sql id="Base_Column_List">
-    `id`, `user_id`, `creditor_id`, `borrow_id`, `origin_partition`, `transfer_partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `create_time`, `update_time`, `version`
+    `id`, `user_id`, `creditor_id`, `borrow_id`, `partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -34,11 +34,8 @@
     <if test="borrow_id != null">
       <![CDATA[ AND t.`borrow_id` = #{borrow_id} ]]>
     </if>
-    <if test="origin_partition != null">
-      <![CDATA[ AND t.`origin_partition` = #{origin_partition} ]]>
-    </if>
-    <if test="transfer_partition != null">
-      <![CDATA[ AND t.`transfer_partition` = #{transfer_partition} ]]>
+    <if test="partition != null">
+      <![CDATA[ AND t.`partition` = #{partition} ]]>
     </if>
     <if test="frozen_partition != null">
       <![CDATA[ AND t.`frozen_partition` = #{frozen_partition} ]]>
@@ -89,11 +86,8 @@
       <if test="borrow_id != null">
         <![CDATA[ `borrow_id`, ]]>
       </if>
-      <if test="origin_partition != null">
-        <![CDATA[ `origin_partition`, ]]>
-      </if>
-      <if test="transfer_partition != null">
-        <![CDATA[ `transfer_partition`, ]]>
+      <if test="partition != null">
+        <![CDATA[ `partition`, ]]>
       </if>
       <if test="frozen_partition != null">
         <![CDATA[ `frozen_partition`, ]]>
@@ -134,11 +128,8 @@
       <if test="borrow_id != null">
         <![CDATA[ #{borrow_id}, ]]>
       </if>
-      <if test="origin_partition != null">
-        <![CDATA[ #{origin_partition}, ]]>
-      </if>
-      <if test="transfer_partition != null">
-        <![CDATA[ #{transfer_partition}, ]]>
+      <if test="partition != null">
+        <![CDATA[ #{partition}, ]]>
       </if>
       <if test="frozen_partition != null">
         <![CDATA[ #{frozen_partition}, ]]>
@@ -169,9 +160,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.invest.common.model.CreditorTransferModel">
-    <![CDATA[ INSERT INTO etl_creditor_transfer (`id`, `user_id`, `creditor_id`, `borrow_id`, `origin_partition`, `transfer_partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_creditor_transfer (`id`, `user_id`, `creditor_id`, `borrow_id`, `partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.user_id}, #{item.creditor_id}, #{item.borrow_id}, #{item.origin_partition}, #{item.transfer_partition}, #{item.frozen_partition}, #{item.discount_apr}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.status}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.id}, #{item.user_id}, #{item.creditor_id}, #{item.borrow_id}, #{item.partition}, #{item.frozen_partition}, #{item.discount_apr}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.status}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -188,11 +179,8 @@
       <if test="borrow_id != null">
         <![CDATA[ t.`borrow_id` = #{borrow_id}, ]]>
       </if>
-      <if test="origin_partition != null">
-        <![CDATA[ t.`origin_partition` = #{origin_partition}, ]]>
-      </if>
-      <if test="transfer_partition != null">
-        <![CDATA[ t.`transfer_partition` = #{transfer_partition}, ]]>
+      <if test="partition != null">
+        <![CDATA[ t.`partition` = #{partition}, ]]>
       </if>
       <if test="frozen_partition != null">
         <![CDATA[ t.`frozen_partition` = #{frozen_partition}, ]]>

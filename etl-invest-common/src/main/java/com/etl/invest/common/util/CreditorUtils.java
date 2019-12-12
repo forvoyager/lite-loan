@@ -29,7 +29,7 @@ public final class CreditorUtils {
    */
   public static CreditorValueDto valueDto(CreditorTransferModel transfer, List<ProfitFormModel> profitForms) throws Exception {
     // 默认全部转让
-    return valueDto(transfer, profitForms, transfer.getTransfer_partition());
+    return valueDto(transfer, profitForms, transfer.getPartition());
   }
 
   /**
@@ -44,7 +44,7 @@ public final class CreditorUtils {
   public static CreditorValueDto valueDto(CreditorTransferModel transfer, List<ProfitFormModel> profitForms, int partition) throws Exception {
     AssertUtils.notNull(transfer, "债转信息不完整");
     AssertUtils.notEmpty(profitForms, "收益报表不完整");
-    if (partition < 1 || partition > transfer.getTransfer_partition()) {
+    if (partition < 1 || partition > transfer.getPartition()) {
       Utils.throwsBizException("转让份数不正确");
     }
 
@@ -93,8 +93,8 @@ public final class CreditorUtils {
     AssertUtils.notNull(currentPeriod, "本期债权信息有误");
 
     // 按份数partition折算后的待回收本金、利息
-    long part_unpaid_capital = (long)ArithUtils.discount(transfer.getTransfer_partition(), transfer.getUnpaid_capital(), partition);
-    long part_unpaid_interest = (long)ArithUtils.discount(transfer.getTransfer_partition(), transfer.getUnpaid_interest(), partition);
+    long part_unpaid_capital = (long)ArithUtils.discount(transfer.getPartition(), transfer.getUnpaid_capital(), partition);
+    long part_unpaid_interest = (long)ArithUtils.discount(transfer.getPartition(), transfer.getUnpaid_interest(), partition);
 
     valueDto.setPartition(partition);
     valueDto.setUnpaid_capital(part_unpaid_capital);
@@ -134,7 +134,7 @@ public final class CreditorUtils {
       }
 
       // 按份数partition折算后的利息
-      offset_interest = (long)ArithUtils.discount(transfer.getOrigin_partition(), offset_interest, partition);
+      offset_interest = (long)ArithUtils.discount(transfer.getPartition(), offset_interest, partition);
 
       // 本期天数（本期还款时间减一个月）
       int days = DateUtils.intervalDay(
@@ -145,7 +145,7 @@ public final class CreditorUtils {
       // 本期剩余天数对应的利息
       long surplusDaysInterest = (long)ArithUtils.discount(days, currentProfitForm.getInterest(), surplusDays);
       // 按份数折算
-      surplusDaysInterest = (long)ArithUtils.discount(transfer.getOrigin_partition(), surplusDaysInterest, partition);
+      surplusDaysInterest = (long)ArithUtils.discount(transfer.getPartition(), surplusDaysInterest, partition);
       offset_interest += surplusDaysInterest;
 
       // 退回利息，承接人少出一部分钱
@@ -169,7 +169,7 @@ public final class CreditorUtils {
         }
       }
       // 按份数partition折算后的利息
-      offset_interest = (long)ArithUtils.discount(transfer.getOrigin_partition(), offset_interest, partition);
+      offset_interest = (long)ArithUtils.discount(transfer.getPartition(), offset_interest, partition);
 
       // 本期天数（本期还款时间减一个月）
       long currentProfitFormStartTime = DateUtils.addMonth(currentProfitForm.getPlan_repayment_time(), -1);
@@ -179,7 +179,7 @@ public final class CreditorUtils {
       // 本期持有天数对应的利息
       long holdDaysInterest = (long)ArithUtils.discount(days, currentProfitForm.getInterest(), holdDays);
       // 按份数折算
-      holdDaysInterest = (long)ArithUtils.discount(transfer.getOrigin_partition(), holdDaysInterest, partition);
+      holdDaysInterest = (long)ArithUtils.discount(transfer.getPartition(), holdDaysInterest, partition);
       // 垫付的利息 = 未还期数的利息 + 本期出让人持有天数对应的利息
       offset_interest += holdDaysInterest;
 

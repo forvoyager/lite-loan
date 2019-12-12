@@ -13,8 +13,7 @@ public class CreditorTransferModel extends BaseModel {
   public static final String USER_ID = "user_id";
   public static final String CREDITOR_ID = "creditor_id";
   public static final String BORROW_ID = "borrow_id";
-  public static final String ORIGIN_PARTITION = "origin_partition";
-  public static final String TRANSFER_PARTITION = "transfer_partition";
+  public static final String PARTITION = "partition";
   public static final String FROZEN_PARTITION = "frozen_partition";
   public static final String DISCOUNT_APR = "discount_apr";
   public static final String UNPAID_CAPITAL = "unpaid_capital";
@@ -38,13 +37,9 @@ public class CreditorTransferModel extends BaseModel {
    */
   private Long borrow_id;
   /**
-   * 原债权份数
-   */
-  private Integer origin_partition;
-  /**
    * 转让份数
    */
-  private Integer transfer_partition;
+  private Integer partition;
   /**
    * 冻结份数
    */
@@ -98,20 +93,12 @@ public class CreditorTransferModel extends BaseModel {
     this.borrow_id = borrow_id;
   }
 
-  public Integer getOrigin_partition() {
-    return origin_partition;
+  public Integer getPartition() {
+    return partition;
   }
 
-  public void setOrigin_partition(Integer origin_partition) {
-    this.origin_partition = origin_partition;
-  }
-
-  public Integer getTransfer_partition() {
-    return transfer_partition;
-  }
-
-  public void setTransfer_partition(Integer transfer_partition) {
-    this.transfer_partition = transfer_partition;
+  public void setPartition(Integer partition) {
+    this.partition = partition;
   }
 
   public Integer getFrozen_partition() {
