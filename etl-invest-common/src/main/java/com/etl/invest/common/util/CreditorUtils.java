@@ -61,9 +61,9 @@ public final class CreditorUtils {
       return valueDto;
     }
 
-    Integer firstPeriod = null;           // 第一期
+    Integer firstPeriod = null;             // 第一期
     Integer currentPeriod = null;           // 当期
-    Integer repayPeriod = 0;             // 已还期数
+    Integer repayPeriod = 0;                // 已还期数
     Integer lastPeriod = null;              // 最后一期
 
     // 期数与收益报表 Map<期数, 收益报表>
@@ -99,7 +99,7 @@ public final class CreditorUtils {
     valueDto.setPartition(partition);
     valueDto.setUnpaid_capital(part_unpaid_capital);
     valueDto.setUnpaid_interest(part_unpaid_interest);
-    valueDto.setFairValue(valueDto.getUnpaid_capital() + valueDto.getUnpaid_interest());
+    valueDto.setFairValue(valueDto.getUnpaid_capital());
     valueDto.setSurplus_days(DateUtils.intervalDay(currentTime, profitFormMap.get(lastPeriod).getPlan_repayment_time()));
     valueDto.setDiscount_apr(transfer.getDiscount_apr());
 
@@ -115,6 +115,8 @@ public final class CreditorUtils {
      */
     long buy_price = base_price;
     long incoming_price = base_price;
+    ProfitFormModel currentProfitForm = profitFormMap.get(currentPeriod);
+
     /*
     已还：
     债权出让人已经收到了还款。
@@ -122,16 +124,12 @@ public final class CreditorUtils {
     [当日, 下一期还款日之前]这段时间的利息归承接人所有。
      */
     if( repayPeriod >= currentPeriod.intValue() ){
-      ProfitFormModel profitForm = null;
       // 提前还款，需要退回给承接人的利息
       long offset_interest = 0;
       // 提前还了多期
       if(repayPeriod - currentPeriod > 1){
         for(Integer period = currentPeriod+1; period<=repayPeriod; period++ ){
-          profitForm = profitFormMap.get(period);
-          if(profitForm.getInterest() > 0){
-            offset_interest += profitForm.getInterest();
-          }
+          offset_interest += profitFormMap.get(period).getInterest();
         }
       }
 
@@ -139,7 +137,6 @@ public final class CreditorUtils {
       offset_interest = (long)ArithUtils.discount(transfer.getOrigin_partition(), offset_interest, partition);
 
       // 本期天数（本期还款时间减一个月）
-      ProfitFormModel currentProfitForm = profitFormMap.get(currentPeriod);
       int days = DateUtils.intervalDay(
               DateUtils.addMonth(currentProfitForm.getPlan_repayment_time(), -1),
               currentProfitForm.getPlan_repayment_time());
@@ -162,33 +159,33 @@ public final class CreditorUtils {
     此时发起债转，相当于把未还的债权进行折价后卖出。
     未还的金额已经折算在基准价格里，无需额外计算。
      */
-    if(repayPeriod < currentPeriod && currentTime > profitFormMap.get(firstPeriod).getPlan_repayment_time()){
-//      profitForm = null;
-//      // 未还，需要承接人垫付的利息
-//      long offset_interest = 0;
-//      // 多期逾期
-//      if(currentPeriod - repayPeriod > 1){
-//        // 按份数partition折算后的利息
-//        offset_interest += discount(creditor.getPartition(), profitForm.getInterest(), partition);
-//      }
-//
-//      // 本期天数（本期还款时间减一个月）
-//      int days = DateUtils.intervalDay(
-//              DateUtils.addMonth(currentProfitForm.getPlan_repayment_time(), -1),
-//              currentProfitForm.getPlan_repayment_time());
-//      // 本期（债权）剩余天数
-//      int surplusDays = DateUtils.intervalDay(currentDate, currentProfitForm.getPlan_repayment_time());
-//      // 本期剩余天数对应的利息
-//      long surplusDaysInterest = discount(days, currentProfitForm.getInterest(), surplusDays);
-//      // 本期出让人持有天数对应的利息
-//      surplusDaysInterest = (currentProfitForm.getInterest() - surplusDaysInterest);
-//      // 按份数折算
-//      surplusDaysInterest = discount(creditor.getPartition(), surplusDaysInterest, partition);
-//      // 垫付的利息 = 未还期数的利息 + 本期出让人持有天数对应的利息
-//      offset_interest += surplusDaysInterest;
-//      // 按折价率折算垫付的利息
-//      offset_interest = offset_interest + (long)(ArithUtils.mul(offset_interest, valueDto.getDiscount_apr()));
+    else {
+      // 未还，需要承接人垫付的利息
+      long offset_interest = 0;
+      // 多期逾期
+      if(currentPeriod - repayPeriod > 1){
+        for(Integer period = repayPeriod+1; period<currentPeriod; period++ ){
+          offset_interest += profitFormMap.get(period).getInterest();
+        }
+      }
+      // 按份数partition折算后的利息
+      offset_interest = (long)ArithUtils.discount(transfer.getOrigin_partition(), offset_interest, partition);
 
+      // 本期天数（本期还款时间减一个月）
+      long currentProfitFormStartTime = DateUtils.addMonth(currentProfitForm.getPlan_repayment_time(), -1);
+      int days = DateUtils.intervalDay(currentProfitFormStartTime, currentProfitForm.getPlan_repayment_time());
+      // 本期（债权）持有天数
+      int holdDays = DateUtils.intervalDay(currentProfitFormStartTime, currentDate);
+      // 本期持有天数对应的利息
+      long holdDaysInterest = (long)ArithUtils.discount(days, currentProfitForm.getInterest(), holdDays);
+      // 按份数折算
+      holdDaysInterest = (long)ArithUtils.discount(transfer.getOrigin_partition(), holdDaysInterest, partition);
+      // 垫付的利息 = 未还期数的利息 + 本期出让人持有天数对应的利息
+      offset_interest += holdDaysInterest;
+
+      // 退回利息，承接人少出一部分钱
+      buy_price += offset_interest;
+      incoming_price += offset_interest;
     }
 
     // 出让人扣除管理费
@@ -203,11 +200,10 @@ public final class CreditorUtils {
 
     /*
     根据承接人投入的本金和收益，计算收益率
-    本金=待收本金*折价率
+    本金=购买价格
     收益=待收收益
      */
-    long capital = valueDto.getUnpaid_capital() + (long)(ArithUtils.mul(valueDto.getUnpaid_capital(), valueDto.getDiscount_apr()));
-    double apr = ArithUtils.round(ArithUtils.div((365*valueDto.getProfit_price()), (capital*valueDto.getSurplus_days())), 3);
+    double apr = ArithUtils.round(ArithUtils.div((365*valueDto.getProfit_price()), (buy_price*valueDto.getSurplus_days())), 3);
     valueDto.setApr(apr);
 
     return valueDto;
