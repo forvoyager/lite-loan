@@ -58,7 +58,7 @@ public class EtlDataSourceAutoConfiguration {
     sessionFactory.setConfigLocation(new ClassPathResource("/mybatis/mybatis-config.xml"));
 
     // set mapper xml location
-    Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath*:mybatis/mapper/*.xml");
+    Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath*:mybatis/mapper/**/*.xml");
     sessionFactory.setMapperLocations(resources);
 
     // set tx manager
