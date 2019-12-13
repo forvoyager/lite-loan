@@ -1,9 +1,7 @@
 package com.etl;
 
 import com.etl.base.common.enums.AccessChannel;
-import com.etl.base.common.util.JsonUtils;
 import com.etl.invest.InvestServiceApplication;
-import com.etl.invest.common.model.InvestModel;
 import com.etl.invest.common.service.IInvestService;
 import com.etl.invest.common.service.IRepaymentService;
 import org.junit.Test;
@@ -29,8 +27,8 @@ public class InvestTest {
   private IRepaymentService repaymentService;
 
   @Test
-  public void test_apply() throws Exception{
-    investService.apply(3, 4, 10000*100, AccessChannel.ANDROID);
+  public void test_investBid() throws Exception{
+    investService.investBid(3, 4, 10000*100, AccessChannel.ANDROID);
   }
 
   @Test
@@ -41,5 +39,10 @@ public class InvestTest {
   @Test
   public void test_repayment() throws Exception{
     repaymentService.repayment(2039);
+  }
+
+  @Test
+  public void test_investCreditor() throws Exception{
+    investService.investCreditor(3L, 1L, 2, AccessChannel.IOS);
   }
 }

@@ -14,20 +14,28 @@ package com.etl.user.common.enums;
  */
 public enum FundsOperateType {
 
-  loan_entry(99, 1, "借款入账"),
+  // 1xx 投标相关
+  invest_bid_frozen(100, -1, "投标冻结"),
+  invest_bid_unfrozen(101, 1, "投标解冻"),
+  invest_bid_pay(102, -1, "投标支出"),
 
-  invest_frozen(100, -1, "投标冻结"),
-  invest_unfrozen(101, 1, "投标解冻"),
-  invest_pay(102, -1, "投标支出"),
+  // 2xx 债权相关
+  invest_creditor_frozen(200, -1, "购买债权冻结"),
+  invest_creditor_unfrozen(201, 1, "购买债权解冻"),
+  invest_creditor_pay(202, -1, "购买债权支出"),
 
-  recharge_online(103, 1, "在线充值"),
+  // 3xx 借款/还款相关
+  loan_entry(300, 1, "借款入账"),
+  repayment_frozen(301, -1, "还款冻结"),
+  repayment_unfrozen(302, 1, "还款解冻"),
+  repayment_pay(303, -1, "还款支出"),
+  repayment_capital_entry(304, 1, "还款收到本金"),
+  repayment_interest_entry(305, 1, "还款收到利息"),
 
-  repayment_frozen(104, -1, "还款冻结"),
-  repayment_unfrozen(105, 1, "还款解冻"),
-  repayment_pay(106, -1, "还款支出"),
+  // 4xx 充值相关
+  recharge_online(400, 1, "在线充值"),
 
-  repayment_capital_entry(107, 1, "还款收到本金"),
-  repayment_interest_entry(108, 1, "还款收到利息"),
+  // 5xx
 
   ;
 

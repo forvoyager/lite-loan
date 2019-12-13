@@ -29,10 +29,10 @@ public class UserAccountBizImpl implements IUserAccountBiz {
     // 投资人账户 冻结（投标时已冻结）
 
     // 投资人账户 解冻
-    userAccountService.unfrozen(investor, amount, FundsOperateType.invest_unfrozen, RefTable.invest_record, invest_id);
+    userAccountService.unfrozen(investor, amount, FundsOperateType.invest_bid_unfrozen, RefTable.invest_record, invest_id);
 
     // 投资人资金 支出
-    userAccountService.pay(investor, amount, FundsOperateType.invest_pay, RefTable.invest_record, invest_id);
+    userAccountService.pay(investor, amount, FundsOperateType.invest_bid_pay, RefTable.invest_record, invest_id);
 
     // 借款人账户 入账
     userAccountService.incoming(borrower, amount, FundsOperateType.loan_entry, RefTable.invest_record, invest_id);

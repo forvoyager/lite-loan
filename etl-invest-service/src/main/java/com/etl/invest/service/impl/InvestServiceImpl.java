@@ -13,12 +13,16 @@ import com.etl.base.common.util.DateUtils;
 import com.etl.base.common.util.FeeCalcUtils;
 import com.etl.base.common.util.Utils;
 import com.etl.base.jdbc.service.impl.BaseServiceImpl;
+import com.etl.invest.common.dto.CreditorValueDto;
 import com.etl.invest.common.model.CreditorModel;
+import com.etl.invest.common.model.CreditorTransferModel;
 import com.etl.invest.common.model.InvestModel;
 import com.etl.invest.common.model.ProfitFormModel;
 import com.etl.invest.common.service.ICreditorService;
+import com.etl.invest.common.service.ICreditorTransferService;
 import com.etl.invest.common.service.IInvestService;
 import com.etl.invest.common.service.IProfitFormService;
+import com.etl.invest.common.util.CreditorUtils;
 import com.etl.invest.mapper.InvestMapper;
 import com.etl.user.common.enums.FundsOperateType;
 import com.etl.user.common.model.UserAccountModel;
@@ -50,7 +54,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
 
   @GlobalTransactional
   @Override
-  public void apply(long user_id, long borrow_id, long amount, AccessChannel channel) throws Exception {
+  public void investBid(long user_id, long borrow_id, long amount, AccessChannel channel) throws Exception {
 
     // 信息验证
     AssertUtils.isTrue(amount > 0, "金额不合法");
@@ -95,9 +99,67 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     borrowService.changeAvailableAmount(borrow_id, -amount);
 
     // 资金冻结
-    userAccountService.frozen(user_id, amount, FundsOperateType.invest_frozen, RefTable.invest_record, invest.getId());
+    userAccountService.frozen(user_id, amount, FundsOperateType.invest_bid_frozen, RefTable.invest_record, invest.getId());
 
     // TODO 发送投资成功消息
+  }
+
+  @GlobalTransactional
+  @Override
+  public void investCreditor(long user_id, long transfer_id, int partition, AccessChannel channel) throws Exception {
+    AssertUtils.isTrue(partition > 0, "购买份数不合法");
+
+    CreditorTransferModel transferModel = creditorTransferService.selectById(transfer_id, Cluster.master);
+    AssertUtils.notNull(transferModel, "债转不存在");
+    AssertUtils.isTrue(transferModel.getStatus().intValue() == 0, "手慢，被别人买了！");
+    AssertUtils.isTrue(partition <= transferModel.getAvailable_partition(), "最大可购买份数："+transferModel.getAvailable_partition() );
+
+    long current = DateUtils.currentTimeInSecond();
+
+    // 冻结购买份数 可购买份数--
+    CreditorTransferModel updateTransfer = new CreditorTransferModel();
+    updateTransfer.setId(transferModel.getId());
+    updateTransfer.setWhere_version(transferModel.getVersion());
+    updateTransfer.setUpdate_time(current);
+    updateTransfer.setAvailable_partition(transferModel.getAvailable_partition() - partition);
+    if(updateTransfer.getAvailable_partition().intValue() == 0){
+      updateTransfer.setStatus(-1); // 转让完毕
+    }
+    if(creditorTransferService.update(updateTransfer) != 1){
+      Utils.throwsBizException("冻结购买份数失败");
+    }
+
+    // 用户资金验证
+    List<ProfitFormModel> profitForms = profitFormService.selectList(Utils.newHashMap(
+            ProfitFormModel.CREDITOR_ID, transferModel.getCreditor_id()
+    ), Cluster.master);
+    CreditorValueDto creditorValue = CreditorUtils.valueDto(transferModel, profitForms, 1);
+    AssertUtils.isTrue(creditorValue.getBuy_price()>0, "债权信息不正确，稍后重试。");
+    UserAccountModel userAccount = userAccountService.selectById(user_id, Cluster.master);
+    if(userAccount.getAvailable() < creditorValue.getBuy_price()){
+      Utils.throwsBizException("账户余额不足");
+    }
+
+    // 生成投资记录信息
+    InvestModel invest = new InvestModel();
+    invest.setUser_id(user_id);
+    invest.setType(2);
+    invest.setBiz_id(transferModel.getId());
+    invest.setInvest_amount(creditorValue.getBuy_price());
+    invest.setPartition(partition);
+    invest.setChannel(channel.getCode());
+    invest.setInvest_status(0); // 投资待处理
+    invest.setPay_status(0); // 待放款（给借款人）
+    invest.setCreate_time(current);
+    invest.setUpdate_time(current);
+    invest.setVersion(0);
+    invest = investService.insert(invest);
+
+    // 冻结用户资金
+    userAccountService.frozen(user_id, creditorValue.getBuy_price(), FundsOperateType.invest_creditor_frozen, RefTable.invest_record, invest.getId());
+
+    // TODO 投递购买债权消息
+
   }
 
   @GlobalTransactional
@@ -239,6 +301,9 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
 
   @Resource
   private ICreditorService creditorService;
+
+  @Resource
+  private ICreditorTransferService creditorTransferService;
 
   @Resource
   private IProfitFormService profitFormService;

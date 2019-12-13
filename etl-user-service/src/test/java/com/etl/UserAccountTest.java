@@ -43,17 +43,17 @@ public class UserAccountTest {
   
   @Test
   public void test_frozen() throws Exception{
-    userAccountService.frozen(11, 100*100, FundsOperateType.invest_frozen, RefTable.invest_record, 10);
+    userAccountService.frozen(11, 100*100, FundsOperateType.invest_bid_frozen, RefTable.invest_record, 10);
   }
 
   @Test
   public void test_unfrozen() throws Exception{
-    userAccountService.unfrozen(11, 100*100, FundsOperateType.invest_unfrozen, RefTable.invest_record, 10);
+    userAccountService.unfrozen(11, 100*100, FundsOperateType.invest_bid_unfrozen, RefTable.invest_record, 10);
   }
 
   @Test
   public void test_pay() throws Exception{
-    userAccountService.pay(11, 100*100, FundsOperateType.invest_pay, RefTable.invest_record, 10);
+    userAccountService.pay(11, 100*100, FundsOperateType.invest_bid_pay, RefTable.invest_record, 10);
   }
 
   @Test
