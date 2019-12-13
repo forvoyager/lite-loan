@@ -66,11 +66,10 @@ public class CreditorTransferServiceImpl extends BaseServiceImpl<CreditorTransfe
     transfer.setUser_id(creditor.getUser_id());
     transfer.setCreditor_id(creditor.getId());
     transfer.setBorrow_id(creditor.getBorrow_id());
-    transfer.setPartition(transfer_partition);
-    transfer.setFrozen_partition(0);
+    transfer.setOriginal_partition(creditor.getPartition());
+    transfer.setTransfer_partition(transfer_partition);
+    transfer.setAvailable_partition(transfer_partition);
     transfer.setDiscount_apr(-0.02); // 默认都折价2%转让 TODO 后面调整为可配
-    transfer.setUnpaid_capital(unpaid_capital);
-    transfer.setUnpaid_interest(unpaid_interest);
     transfer.setStatus(0);
     transfer.setCreate_time(current);
     transfer.setUpdate_time(current);

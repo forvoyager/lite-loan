@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2019-12-06 14:20:51 -->
+<!-- time: 2019-12-13 16:59:43 -->
 <!-- description: 债权转让信息 数据库操作mapper -->
 <mapper namespace="com.etl.invest.mapper.CreditorTransferMapper">
 
   <sql id="Base_Column_List">
-    `id`, `user_id`, `creditor_id`, `borrow_id`, `partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `create_time`, `update_time`, `version`
+    `id`, `user_id`, `creditor_id`, `borrow_id`, `original_partition`, `transfer_partition`, `available_partition`, `discount_apr`, `status`, `create_time`, `update_time`, `version`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -34,20 +34,17 @@
     <if test="borrow_id != null">
       <![CDATA[ AND t.`borrow_id` = #{borrow_id} ]]>
     </if>
-    <if test="partition != null">
-      <![CDATA[ AND t.`partition` = #{partition} ]]>
+    <if test="original_partition != null">
+      <![CDATA[ AND t.`original_partition` = #{original_partition} ]]>
     </if>
-    <if test="frozen_partition != null">
-      <![CDATA[ AND t.`frozen_partition` = #{frozen_partition} ]]>
+    <if test="transfer_partition != null">
+      <![CDATA[ AND t.`transfer_partition` = #{transfer_partition} ]]>
+    </if>
+    <if test="available_partition != null">
+      <![CDATA[ AND t.`available_partition` = #{available_partition} ]]>
     </if>
     <if test="discount_apr != null">
       <![CDATA[ AND t.`discount_apr` = #{discount_apr} ]]>
-    </if>
-    <if test="unpaid_capital != null">
-      <![CDATA[ AND t.`unpaid_capital` = #{unpaid_capital} ]]>
-    </if>
-    <if test="unpaid_interest != null">
-      <![CDATA[ AND t.`unpaid_interest` = #{unpaid_interest} ]]>
     </if>
     <if test="status != null">
       <![CDATA[ AND t.`status` = #{status} ]]>
@@ -86,20 +83,17 @@
       <if test="borrow_id != null">
         <![CDATA[ `borrow_id`, ]]>
       </if>
-      <if test="partition != null">
-        <![CDATA[ `partition`, ]]>
+      <if test="original_partition != null">
+        <![CDATA[ `original_partition`, ]]>
       </if>
-      <if test="frozen_partition != null">
-        <![CDATA[ `frozen_partition`, ]]>
+      <if test="transfer_partition != null">
+        <![CDATA[ `transfer_partition`, ]]>
+      </if>
+      <if test="available_partition != null">
+        <![CDATA[ `available_partition`, ]]>
       </if>
       <if test="discount_apr != null">
         <![CDATA[ `discount_apr`, ]]>
-      </if>
-      <if test="unpaid_capital != null">
-        <![CDATA[ `unpaid_capital`, ]]>
-      </if>
-      <if test="unpaid_interest != null">
-        <![CDATA[ `unpaid_interest`, ]]>
       </if>
       <if test="status != null">
         <![CDATA[ `status`, ]]>
@@ -128,20 +122,17 @@
       <if test="borrow_id != null">
         <![CDATA[ #{borrow_id}, ]]>
       </if>
-      <if test="partition != null">
-        <![CDATA[ #{partition}, ]]>
+      <if test="original_partition != null">
+        <![CDATA[ #{original_partition}, ]]>
       </if>
-      <if test="frozen_partition != null">
-        <![CDATA[ #{frozen_partition}, ]]>
+      <if test="transfer_partition != null">
+        <![CDATA[ #{transfer_partition}, ]]>
+      </if>
+      <if test="available_partition != null">
+        <![CDATA[ #{available_partition}, ]]>
       </if>
       <if test="discount_apr != null">
         <![CDATA[ #{discount_apr}, ]]>
-      </if>
-      <if test="unpaid_capital != null">
-        <![CDATA[ #{unpaid_capital}, ]]>
-      </if>
-      <if test="unpaid_interest != null">
-        <![CDATA[ #{unpaid_interest}, ]]>
       </if>
       <if test="status != null">
         <![CDATA[ #{status}, ]]>
@@ -160,9 +151,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.etl.invest.common.model.CreditorTransferModel">
-    <![CDATA[ INSERT INTO etl_creditor_transfer (`id`, `user_id`, `creditor_id`, `borrow_id`, `partition`, `frozen_partition`, `discount_apr`, `unpaid_capital`, `unpaid_interest`, `status`, `create_time`, `update_time`, `version`) VALUES ]]>
+    <![CDATA[ INSERT INTO etl_creditor_transfer (`id`, `user_id`, `creditor_id`, `borrow_id`, `original_partition`, `transfer_partition`, `available_partition`, `discount_apr`, `status`, `create_time`, `update_time`, `version`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.user_id}, #{item.creditor_id}, #{item.borrow_id}, #{item.partition}, #{item.frozen_partition}, #{item.discount_apr}, #{item.unpaid_capital}, #{item.unpaid_interest}, #{item.status}, #{item.create_time}, #{item.update_time}, #{item.version})
+      (#{item.id}, #{item.user_id}, #{item.creditor_id}, #{item.borrow_id}, #{item.original_partition}, #{item.transfer_partition}, #{item.available_partition}, #{item.discount_apr}, #{item.status}, #{item.create_time}, #{item.update_time}, #{item.version})
     </foreach>
   </insert>
 
@@ -179,20 +170,17 @@
       <if test="borrow_id != null">
         <![CDATA[ t.`borrow_id` = #{borrow_id}, ]]>
       </if>
-      <if test="partition != null">
-        <![CDATA[ t.`partition` = #{partition}, ]]>
+      <if test="original_partition != null">
+        <![CDATA[ t.`original_partition` = #{original_partition}, ]]>
       </if>
-      <if test="frozen_partition != null">
-        <![CDATA[ t.`frozen_partition` = #{frozen_partition}, ]]>
+      <if test="transfer_partition != null">
+        <![CDATA[ t.`transfer_partition` = #{transfer_partition}, ]]>
+      </if>
+      <if test="available_partition != null">
+        <![CDATA[ t.`available_partition` = #{available_partition}, ]]>
       </if>
       <if test="discount_apr != null">
         <![CDATA[ t.`discount_apr` = #{discount_apr}, ]]>
-      </if>
-      <if test="unpaid_capital != null">
-        <![CDATA[ t.`unpaid_capital` = #{unpaid_capital}, ]]>
-      </if>
-      <if test="unpaid_interest != null">
-        <![CDATA[ t.`unpaid_interest` = #{unpaid_interest}, ]]>
       </if>
       <if test="status != null">
         <![CDATA[ t.`status` = #{status}, ]]>

@@ -4,7 +4,7 @@ import com.etl.base.common.model.BaseModel;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2019-12-06 14:20:51 <br>
+ * <b>time</b>: 2019-12-13 16:59:43 <br>
  * <b>description</b>: 债权转让信息 模型 <br>
  */
 public class CreditorTransferModel extends BaseModel {
@@ -13,11 +13,10 @@ public class CreditorTransferModel extends BaseModel {
   public static final String USER_ID = "user_id";
   public static final String CREDITOR_ID = "creditor_id";
   public static final String BORROW_ID = "borrow_id";
-  public static final String PARTITION = "partition";
-  public static final String FROZEN_PARTITION = "frozen_partition";
+  public static final String ORIGINAL_PARTITION = "original_partition";
+  public static final String TRANSFER_PARTITION = "transfer_partition";
+  public static final String AVAILABLE_PARTITION = "available_partition";
   public static final String DISCOUNT_APR = "discount_apr";
-  public static final String UNPAID_CAPITAL = "unpaid_capital";
-  public static final String UNPAID_INTEREST = "unpaid_interest";
   public static final String STATUS = "status";
 
   /**
@@ -37,25 +36,21 @@ public class CreditorTransferModel extends BaseModel {
    */
   private Long borrow_id;
   /**
+   * 原始债权份数
+   */
+  private Integer original_partition;
+  /**
    * 转让份数
    */
-  private Integer partition;
+  private Integer transfer_partition;
   /**
-   * 冻结份数
+   * 可购买份数
    */
-  private Integer frozen_partition;
+  private Integer available_partition;
   /**
    * 折价率，小于0表示折价，等于0表示原价，大于0表示溢价。如-0.02表示折价2%，0.03表示溢价3%
    */
   private Double discount_apr;
-  /**
-   * 按转让份数计算的待回收本金（分）
-   */
-  private Long unpaid_capital;
-  /**
-   * 按转让份数计算的待回收利息（分）
-   */
-  private Long unpaid_interest;
   /**
    * 状态 -2已取消 -1已转让 0转让中
    */
@@ -65,80 +60,81 @@ public class CreditorTransferModel extends BaseModel {
     return id;
   }
 
-  public void setId(Long id) {
+  public CreditorTransferModel setId(Long id) {
     this.id = id;
+    return this;
   }
 
   public Long getUser_id() {
     return user_id;
   }
 
-  public void setUser_id(Long user_id) {
+  public CreditorTransferModel setUser_id(Long user_id) {
     this.user_id = user_id;
+    return this;
   }
 
   public Long getCreditor_id() {
     return creditor_id;
   }
 
-  public void setCreditor_id(Long creditor_id) {
+  public CreditorTransferModel setCreditor_id(Long creditor_id) {
     this.creditor_id = creditor_id;
+    return this;
   }
 
   public Long getBorrow_id() {
     return borrow_id;
   }
 
-  public void setBorrow_id(Long borrow_id) {
+  public CreditorTransferModel setBorrow_id(Long borrow_id) {
     this.borrow_id = borrow_id;
+    return this;
   }
 
-  public Integer getPartition() {
-    return partition;
+  public Integer getOriginal_partition() {
+    return original_partition;
   }
 
-  public void setPartition(Integer partition) {
-    this.partition = partition;
+  public CreditorTransferModel setOriginal_partition(Integer original_partition) {
+    this.original_partition = original_partition;
+    return this;
   }
 
-  public Integer getFrozen_partition() {
-    return frozen_partition;
+  public Integer getTransfer_partition() {
+    return transfer_partition;
   }
 
-  public void setFrozen_partition(Integer frozen_partition) {
-    this.frozen_partition = frozen_partition;
+  public CreditorTransferModel setTransfer_partition(Integer transfer_partition) {
+    this.transfer_partition = transfer_partition;
+    return this;
+  }
+
+  public Integer getAvailable_partition() {
+    return available_partition;
+  }
+
+  public CreditorTransferModel setAvailable_partition(Integer available_partition) {
+    this.available_partition = available_partition;
+    return this;
   }
 
   public Double getDiscount_apr() {
     return discount_apr;
   }
 
-  public void setDiscount_apr(Double discount_apr) {
+  public CreditorTransferModel setDiscount_apr(Double discount_apr) {
     this.discount_apr = discount_apr;
-  }
-
-  public Long getUnpaid_capital() {
-    return unpaid_capital;
-  }
-
-  public void setUnpaid_capital(Long unpaid_capital) {
-    this.unpaid_capital = unpaid_capital;
-  }
-
-  public Long getUnpaid_interest() {
-    return unpaid_interest;
-  }
-
-  public void setUnpaid_interest(Long unpaid_interest) {
-    this.unpaid_interest = unpaid_interest;
+    return this;
   }
 
   public Integer getStatus() {
     return status;
   }
 
-  public void setStatus(Integer status) {
+  public CreditorTransferModel setStatus(Integer status) {
     this.status = status;
+    return this;
   }
 }
 
