@@ -28,7 +28,7 @@ public class InvestTest {
 
   @Test
   public void test_investBid() throws Exception{
-    investService.investBid(3, 4, 10000*100, AccessChannel.ANDROID);
+    investService.bid(3, 4, 10000*100, AccessChannel.ANDROID);
   }
 
   @Test
@@ -43,6 +43,6 @@ public class InvestTest {
 
   @Test
   public void test_investCreditor() throws Exception{
-    investService.investCreditor(3L, 1L, 2, AccessChannel.IOS);
+    investService.creditorRight(3L, 1L, 2, AccessChannel.IOS);
   }
 }

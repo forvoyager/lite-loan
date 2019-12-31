@@ -15,6 +15,7 @@
   <modules>
     <module>etl-base-jdbc</module>
     <module>etl-base-common</module>
+    <module>etl-base-web</module>
   </modules>
 
   <build>

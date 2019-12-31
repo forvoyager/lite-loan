@@ -23,7 +23,7 @@ public class JsonUtils {
 
     static {
 //      JACKSON_OBJECT_MAPPER.configure(SerializationFeature.INDENT_OUTPUT, true); // format json
-      JACKSON_OBJECT_MAPPER.setSerializationInclusion(Include.NON_EMPTY);
+      JACKSON_OBJECT_MAPPER.setSerializationInclusion(Include.ALWAYS);
 
       // 忽略目标对象没有的属性
       JACKSON_OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

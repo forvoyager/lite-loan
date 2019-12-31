@@ -16,6 +16,7 @@
     <module>etl-asset-service</module>
     <module>etl-invest-common</module>
     <module>etl-invest-service</module>
+    <module>etl-api</module>
   </modules>
   <packaging>pom</packaging>
   <name>lite-loan Maven Webapp</name>
@@ -211,6 +212,11 @@
         <version>1.2</version>
       </dependency>
 
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>19.0</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

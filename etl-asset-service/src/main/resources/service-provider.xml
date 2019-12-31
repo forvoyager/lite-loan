@@ -12,7 +12,7 @@
   <dubbo:protocol name="dubbo" server="netty" port="30001"/>
 
   <!--export service-->
-  <dubbo:service ref="borrowService" interface="com.etl.asset.common.service.IBorrowService" version="${borrow.service.version}" group="${borrow.service.group}" filter="remoteServiceFilter" retries="0" />
-  <dubbo:service ref="repaymentFormService" interface="com.etl.asset.common.service.IRepaymentFormService" version="${borrow.service.version}" group="${borrow.service.group}" filter="remoteServiceFilter" retries="0" />
+  <dubbo:service ref="borrowService" interface="com.etl.asset.common.service.IBorrowService" version="${asset.service.version}" group="${asset.service.group}" filter="remoteServiceFilter" retries="0" />
+  <dubbo:service ref="repaymentFormService" interface="com.etl.asset.common.service.IRepaymentFormService" version="${asset.service.version}" group="${asset.service.group}" filter="remoteServiceFilter" retries="0" />
 
 </beans>

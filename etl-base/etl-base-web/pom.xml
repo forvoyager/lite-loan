@@ -8,11 +8,15 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>etl-base-jdbc</artifactId>
-  <name>etl-base-jdbc</name>
+
+  <groupId>com.xr</groupId>
+  <artifactId>etl-base-web</artifactId>
   <packaging>jar</packaging>
 
+  <name>base-web Maven Webapp</name>
+
   <dependencies>
+
     <dependency>
       <groupId>com.etl</groupId>
       <artifactId>etl-base-common</artifactId>
@@ -21,35 +25,34 @@
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jdbc</artifactId>
+      <artifactId>spring-boot</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>druid</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.mybatis</groupId>
-      <artifactId>mybatis</artifactId>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.mybatis</groupId>
-      <artifactId>mybatis-spring</artifactId>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>io.seata</groupId>
-      <artifactId>seata-all</artifactId>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
     </dependency>
   </dependencies>
 
   <build>
+    <finalName>ms-base-web</finalName>
   </build>
 </project>

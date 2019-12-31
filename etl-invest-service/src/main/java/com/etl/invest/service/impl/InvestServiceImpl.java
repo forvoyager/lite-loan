@@ -54,7 +54,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
 
   @GlobalTransactional
   @Override
-  public void investBid(long user_id, long borrow_id, long amount, AccessChannel channel) throws Exception {
+  public void bid(long user_id, long borrow_id, long amount, AccessChannel channel) throws Exception {
 
     // 信息验证
     AssertUtils.isTrue(amount > 0, "金额不合法");
@@ -106,7 +106,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
 
   @GlobalTransactional
   @Override
-  public void investCreditor(long user_id, long transfer_id, int partition, AccessChannel channel) throws Exception {
+  public void creditorRight(long user_id, long transfer_id, int partition, AccessChannel channel) throws Exception {
     AssertUtils.isTrue(partition > 0, "购买份数不合法");
 
     CreditorTransferModel transferModel = creditorTransferService.selectById(transfer_id, Cluster.master);
