@@ -13,7 +13,7 @@ public interface IUserService extends IBaseService<UserModel> {
 
   /**
    * 注册
-   * @param user_role
+   * @param user_role 0-出借人 1-借款人 2-担保人
    * @param mobileNumber
    * @param pwd
    * @param channel

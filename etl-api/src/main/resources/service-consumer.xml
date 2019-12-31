@@ -7,6 +7,9 @@
     <!--<dubbo:application name="${spring.application.name}"/>-->
     <dubbo:registry address="zookeeper://127.0.0.1:2181" client="curator"/>
 
+    <!--user application-->
+    <dubbo:reference id="userService" interface="com.etl.user.common.service.IUserService" version="${user.service.version}" group="${user.service.group}" check="false" />
+
     <!--invest application-->
 <!--    <dubbo:reference id="investService" interface="com.etl.invest.common.service.IInvestService" version="${invest.service.version}" group="${invest.service.group}" check="false" />-->
 

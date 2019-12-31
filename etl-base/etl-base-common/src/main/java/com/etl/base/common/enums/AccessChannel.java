@@ -23,17 +23,21 @@ public enum AccessChannel {
     return code;
   }
 
-  public AccessChannel setCode(int code) {
-    this.code = code;
-    return this;
-  }
-
   public String getDescription() {
     return description;
   }
 
-  public AccessChannel setDescription(String description) {
-    this.description = description;
-    return this;
+  public static AccessChannel parse(String code) throws Exception{
+    for(AccessChannel ac:values()){
+      if(String.valueOf(ac.getCode()).equals(code)){
+        return ac;
+      }
+    }
+
+    throw new IllegalArgumentException("非法的访问渠道");
+  }
+
+  public static AccessChannel parse(int code) throws Exception{
+    return parse(String.valueOf(code));
   }
 }
