@@ -29,16 +29,16 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> impl
   }
 
   @Override
-  public UserModel signUp(int user_role, long mobileNumber, String pwd, AccessChannel channel) throws Exception {
+  public UserModel signUp(int user_role, long mobileNo, String pwd, AccessChannel channel) throws Exception {
     // 默认
     if (channel == null) { channel = AccessChannel.PC; }
 
     AssertUtils.notEmpty(pwd, "密码不能为空");
-    if(String.valueOf(mobileNumber).length() != 11){
+    if(String.valueOf(mobileNo).length() != 11){
       Utils.throwsBizException("非法的手机号");
     }
 
-    UserModel user = this.selectOne(Utils.newHashMap(UserModel.MOBILE_NUMBER, mobileNumber), Cluster.master);
+    UserModel user = this.selectOne(Utils.newHashMap(UserModel.MOBILE_NUMBER, mobileNo), Cluster.master);
     AssertUtils.isNull(user, "手机号已被注册");
 
     long current = DateUtils.currentTimeInSecond();
@@ -47,7 +47,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> impl
     user.setRegistry_channel(channel.getCode());
     user.setEncrypt_salt(RandomUtils.netLetterString(6));
     user.setPassword(Utils.md5(pwd + user.getEncrypt_salt()));
-    user.setMobile_number(mobileNumber);
+    user.setMobile_number(mobileNo);
     user.setUser_name("ETL_" + System.currentTimeMillis());
     user.setUser_role(user_role);
     user.setLast_signin_time(current);
@@ -72,11 +72,11 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> impl
   }
 
   @Override
-  public UserModel signIn(long mobileNumber, String pwd) throws Exception {
+  public UserModel signIn(long mobileNo, String pwd, AccessChannel channel) throws Exception {
     
     AssertUtils.notEmpty(pwd, "请输入密码");
 
-    UserModel user = this.selectOne(Utils.newHashMap(UserModel.MOBILE_NUMBER, mobileNumber), Cluster.master);
+    UserModel user = this.selectOne(Utils.newHashMap(UserModel.MOBILE_NUMBER, mobileNo), Cluster.master);
     if(user != null){
       if( Utils.md5(pwd + user.getEncrypt_salt()).equals(user.getPassword())){
         
@@ -86,7 +86,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> impl
         updateUser.setUser_id(user.getUser_id());
         updateUser.setLast_signin_time(current);
         updateUser.setUpdate_time(current);
-        updateUser.setWhere_version(user.getVersion());
         if(1 != this.update(updateUser)){
           Utils.throwsBizException("登录失败，请稍后重试。");
         }
@@ -96,7 +95,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> impl
     }
     
     Utils.throwsBizException("帐号或密码不正确");
-    return user;
+    return null;
   }
 
   @Override

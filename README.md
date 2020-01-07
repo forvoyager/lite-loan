@@ -38,6 +38,12 @@ P2P借款撮合系统。
   - [x] 购买债权
   - [x] 发起债权转让
 
+# 运行
+
+- 启动zookeepre，作用：服务注册。
+- 启动seata，作用：分布式事务处理。
+- 
+
 # 技术栈
 - mysql 8.0
 - springboot 2.1.8.RELEASE

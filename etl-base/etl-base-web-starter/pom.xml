@@ -10,10 +10,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.xr</groupId>
-  <artifactId>etl-base-web</artifactId>
+  <artifactId>etl-base-web-starter</artifactId>
   <packaging>jar</packaging>
-
-  <name>base-web Maven Webapp</name>
 
   <dependencies>
 

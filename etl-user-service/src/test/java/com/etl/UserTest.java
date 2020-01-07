@@ -39,7 +39,7 @@ public class UserTest {
 
   @Test
   public void test_signIn() throws Exception {
-    UserModel user = userService.signIn(15870180319L, Utils.md5("123456"));
+    UserModel user = userService.signIn(15870180319L, Utils.md5("123456"), AccessChannel.ANDROID);
     System.out.println(JsonUtils.parseJson(user));
   }
 }

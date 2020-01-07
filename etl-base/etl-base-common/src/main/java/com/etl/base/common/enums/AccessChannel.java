@@ -40,4 +40,19 @@ public enum AccessChannel {
   public static AccessChannel parse(int code) throws Exception{
     return parse(String.valueOf(code));
   }
+
+  /**
+   * 是否是移动端
+   *
+   * @param channel
+   * @return
+   * @throws Exception
+   */
+  public static boolean isApp(AccessChannel channel) throws Exception{
+    if(channel == AccessChannel.ANDROID || channel == AccessChannel.IOS){
+      return true;
+    }
+
+    return false;
+  }
 }

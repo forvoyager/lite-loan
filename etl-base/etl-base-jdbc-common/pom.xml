@@ -3,31 +3,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>lite-loan</artifactId>
+    <artifactId>etl-base</artifactId>
     <groupId>com.etl</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>etl-user-common</artifactId>
-  <name>etl-user-common</name>
+  <artifactId>etl-base-jdbc-common</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
     <dependency>
       <groupId>com.etl</groupId>
       <artifactId>etl-base-common</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.etl</groupId>
-      <artifactId>etl-base-jdbc-common</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>provided</scope>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 
   <build>
-    <finalName>etl-user-common</finalName>
   </build>
 </project>

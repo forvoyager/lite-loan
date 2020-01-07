@@ -30,8 +30,14 @@
     </dependency>
 
     <dependency>
+      <groupId>com.etl</groupId>
+      <artifactId>etl-base-jdbc-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.xr</groupId>
-      <artifactId>etl-base-web</artifactId>
+      <artifactId>etl-base-web-starter</artifactId>
       <version>${project.version}</version>
     </dependency>
 

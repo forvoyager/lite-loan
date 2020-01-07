@@ -14,22 +14,22 @@ public interface IUserService extends IBaseService<UserModel> {
   /**
    * 注册
    * @param user_role 0-出借人 1-借款人 2-担保人
-   * @param mobileNumber
+   * @param mobileNo
    * @param pwd
    * @param channel
    * @return
    * @throws Exception
    */
-  UserModel signUp(int user_role, long mobileNumber, String pwd, AccessChannel channel) throws Exception;
+  UserModel signUp(int user_role, long mobileNo, String pwd, AccessChannel channel) throws Exception;
 
   /**
    * 登录
-   * @param mobileNumber
+   * @param mobileNo
    * @param pwd
    * @return
    * @throws Exception
    */
-  UserModel signIn(long mobileNumber, String pwd) throws Exception;
+  UserModel signIn(long mobileNo, String pwd, AccessChannel channel) throws Exception;
 
   /**
    * 退出

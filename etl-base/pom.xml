@@ -13,9 +13,10 @@
   <name>etl-base</name>
   
   <modules>
-    <module>etl-base-jdbc</module>
     <module>etl-base-common</module>
-    <module>etl-base-web</module>
+    <module>etl-base-jdbc-common</module>
+    <module>etl-base-jdbc-starter</module>
+    <module>etl-base-web-starter</module>
   </modules>
 
   <build>
