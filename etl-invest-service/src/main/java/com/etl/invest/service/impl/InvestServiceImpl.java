@@ -62,6 +62,7 @@ public class InvestServiceImpl extends BaseServiceImpl<InvestMapper, InvestModel
     long current = DateUtils.currentTimeInSecond();
 
     BorrowModel borrow = borrowService.selectById(borrow_id, Cluster.master);
+    AssertUtils.notNull(borrow, "标的不存在");
     if(
             current < borrow.getInvest_start_time() ||
                     BorrowStatus.parse(borrow.getStatus()) != BorrowStatus.IN_BID ||

@@ -41,7 +41,7 @@ public class SigninInterceptor extends HandlerInterceptorAdapter{
       // 访问渠道，详见AccessChannel
       AccessChannel accessChannel = AccessChannel.parse(request.getParameter(Constants.CHANNEL));
       // 版本信息
-      String cv = request.getParameter(Constants.VERSION);
+      String cv = request.getParameter(Constants.CHANNEL_VERSION);
 
       String user_id_str = request.getParameter(Constants.USER_ID);
       String token = request.getParameter(Constants.TOKEN);

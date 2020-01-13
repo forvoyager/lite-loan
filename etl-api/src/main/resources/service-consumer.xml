@@ -12,13 +12,13 @@
   <dubbo:registry address="zookeeper://127.0.0.1:2181" client="curator"/>
 
   <!--user application-->
-  <dubbo:reference id="userService" interface="com.etl.user.common.service.IUserService"
-                   version="${user.service.version}" group="${user.service.group}" check="false"/>
+  <dubbo:reference id="userService" interface="com.etl.user.common.service.IUserService" version="${user.service.version}" group="${user.service.group}" check="false"/>
+  <dubbo:reference id="userAccountService" interface="com.etl.user.common.service.IUserAccountService" version="${user.service.version}" group="${user.service.group}" check="false" />
 
   <!--invest application-->
-  <!--  <dubbo:reference id="investService" interface="com.etl.invest.common.service.IInvestService" version="${invest.service.version}" group="${invest.service.group}" check="false" />-->
+  <dubbo:reference id="investService" interface="com.etl.invest.common.service.IInvestService" version="${invest.service.version}" group="${invest.service.group}" check="false" />
 
-  <!--user application-->
-  <!--  <dubbo:reference id="userAccountService" interface="com.etl.user.common.service.IUserAccountService" version="${user.service.version}" group="${user.service.group}" check="false" />-->
+  <!--asset application-->
+  <dubbo:reference id="borrowService" interface="com.etl.asset.common.service.IBorrowService" version="${asset.service.version}" group="${asset.service.group}" check="false" />
 
 </beans>

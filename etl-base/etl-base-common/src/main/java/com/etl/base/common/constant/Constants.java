@@ -16,8 +16,8 @@ public final class Constants {
   public static final String TOKEN = "token";
   // 访问渠道，详见AccessChannel
   public static final String CHANNEL = "c";
-  // 客户端版本号
-  public static final String VERSION = "cv";
+  // 渠道版本号
+  public static final String CHANNEL_VERSION = "cv";
 
   private Constants(){}
 }

@@ -89,7 +89,8 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> impl
         if(1 != this.update(updateUser)){
           Utils.throwsBizException("登录失败，请稍后重试。");
         }
-        
+
+        user.setLast_signin_time(current);
         return user;
       }
     }
