@@ -1,5 +1,6 @@
 package com.xr.base.web.controller;
 
+import com.etl.base.common.constant.Constants;
 import com.etl.base.common.enums.AccessChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,6 @@ public abstract class BaseController {
    * @throws Exception
    */
   protected AccessChannel getAccessChannel() throws Exception{
-    return AccessChannel.parse(request.getParameter("c"));
+    return AccessChannel.parse(request.getParameter(Constants.CHANNEL));
   }
 }

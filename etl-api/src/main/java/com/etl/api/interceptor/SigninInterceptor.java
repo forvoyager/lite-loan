@@ -1,5 +1,6 @@
 package com.etl.api.interceptor;
 
+import com.etl.base.common.constant.Constants;
 import com.etl.base.common.enums.AccessChannel;
 import com.etl.base.common.enums.Cluster;
 import com.etl.base.common.util.StringUtils;
@@ -38,12 +39,12 @@ public class SigninInterceptor extends HandlerInterceptorAdapter{
     if(isNeedSingin(uri)){
 
       // 访问渠道，详见AccessChannel
-      AccessChannel accessChannel = AccessChannel.parse(request.getParameter("c"));
+      AccessChannel accessChannel = AccessChannel.parse(request.getParameter(Constants.CHANNEL));
       // 版本信息
-      String v = request.getParameter("v");
+      String cv = request.getParameter(Constants.VERSION);
 
-      String user_id_str = request.getParameter("user_id");
-      String token = request.getParameter("token");
+      String user_id_str = request.getParameter(Constants.USER_ID);
+      String token = request.getParameter(Constants.TOKEN);
       if(StringUtils.isEmpty(user_id_str) || StringUtils.isEmpty(token) ){
         Utils.throwsBizException("请先登录");
       }
@@ -54,7 +55,7 @@ public class SigninInterceptor extends HandlerInterceptorAdapter{
         Utils.throwsBizException("用户名或密码错误");
       }
 
-      request.setAttribute("LOGIN_USER", siginUser);
+      request.setAttribute(Constants.LOGIN_USER, siginUser);
     }
 
     return true;

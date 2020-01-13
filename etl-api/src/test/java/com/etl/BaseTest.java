@@ -15,10 +15,10 @@ public class BaseTest {
 
   // 通用参数
   private Map allParams = Utils.newHashMap(
-          "c", AccessChannel.ANDROID.getCode(),
-          "v", "",
           "user_id", "",
-          "token", ""
+          "token", "",
+          "c", AccessChannel.ANDROID.getCode(),
+          "cv", ""
   );
 
   // 自定义参数
