@@ -101,7 +101,15 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> impl
 
   @Override
   public void signOut(long user_id) throws Exception {
-    // TODO: 2019/9/29  
+    // 更新一下最后登陆时间，让token失效
+    long current = DateUtils.currentTimeInSecond();
+    UserModel updateUser = new UserModel();
+    updateUser.setUser_id(user_id);
+    updateUser.setLast_signin_time(current);
+    updateUser.setUpdate_time(current);
+    if(1 != this.update(updateUser)){
+      Utils.throwsBizException("登录失败，请稍后重试。");
+    }
   }
   
   @Resource
