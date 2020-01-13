@@ -74,7 +74,7 @@ public class DateUtils {
     return new SimpleDateFormat(pattern).format(new Date(timeInSecond * 1000));
   }
 
-  public static Date timeStrToDate(String timeStr, String pattern) throws ParseException {
+  public static Date timeStrToDate(String timeStr, String pattern) throws Exception {
     if(timeStr == null){ return null;}
 
     AssertUtils.notEmpty(timeStr, "时间字符串不合法");
@@ -82,7 +82,7 @@ public class DateUtils {
     return new SimpleDateFormat(pattern).parse(timeStr);
   }
 
-  public static Date timeStrToDate(String timeStr) throws ParseException {
+  public static Date timeStrToDate(String timeStr) throws Exception {
     return timeStrToDate(timeStr, DEFAULT_PATTERN);
   }
 

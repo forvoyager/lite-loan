@@ -60,8 +60,12 @@ public class ResultDto<T> implements Serializable{
   }
 
   public static ResultDto failure(String msg, Object data) {
+    return failure(msg, data, ResultCodeEnum.SYSTEM_ERROR.getCode());
+  }
+
+  public static ResultDto failure(String msg, Object data, String code) {
     ResultDto result = new ResultDto();
-    result.setCode(ResultCodeEnum.SYSTEM_ERROR.getCode());
+    result.setCode(code);
     result.setMessage(msg);
     result.setTime(DateUtils.currentTimeInSecond());
     result.setData(data);

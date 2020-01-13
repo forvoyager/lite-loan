@@ -27,7 +27,7 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
 
       if (error instanceof BaseException) {
         BaseException e = (BaseException) error;
-        result = ResultDto.failure(e.getMessage(), null);
+        result = ResultDto.failure(e.getMessage(), null, e.getCode());
       } else {
         result = ResultDto.failure(error.getMessage());
       }
