@@ -80,7 +80,7 @@ public class JsonUtils {
    * @return
    * @throws IOException
    */
-  public static Map parseObject(String json, TypeReference typeReference) throws IOException {
+  public static <T> T parseObject(String json, TypeReference typeReference) throws IOException {
     return ObjectMapperHolder.getMapper().readValue(json, typeReference);
   }
 
